@@ -2,8 +2,7 @@
 # 期末考试（含个人信息）
 C51/期末考试/
 
-# 实验报告（docx涉及隐私）
-C51/报告/
+
 
 # ===== 版权保护 =====
 # C51学习资料（需二创后才能提交）
@@ -35,8 +34,31 @@ C51/学习/
 *.OBJ
 *.LST
 *.SBR
+*.MAP
 Objects/
 Listings/
+
+# Keil编译产物（无后缀二进制）
+helloc51
+project
+liushuideng
+cong1
+cong2
+ISIS.dmp
+1
+2
+9
+10
+11
+12
+841
+851
+951
+961
+551
+5.3.1
+5.7.1
+65
 
 # ===== Keil工程文件 =====
 *.uvopt
@@ -68,8 +90,10 @@ Listings/
 *.PWI
 *.DSN
 *.SDF
+*.SEC
 *.workspace
 Project Backups/
+ISIS.dmp
 
 # ===== ESP-IDF构建 =====
 build/
