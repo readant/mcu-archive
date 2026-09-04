@@ -60,7 +60,8 @@ ISIS.dmp
 5.7.1
 65
 
-# ===== Keil工程文件 =====
+# ===== Keil工程文件（版本绑定，不提交） =====
+*.uvproj
 *.uvopt
 *.uvopt.bak
 *.uvgui.*
@@ -84,6 +85,7 @@ ISIS.dmp
 *.dp2
 *.lis
 *.SRC
+*.A51
 
 # ===== Proteus备份 =====
 *.DBK
