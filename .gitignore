@@ -1,0 +1,91 @@
+# ===== 隐私保护 =====
+# 期末考试（含个人信息）
+C51/期末考试/
+
+# 实验报告（docx涉及隐私）
+C51/报告/
+
+# ===== 版权保护 =====
+# C51学习资料（需二创后才能提交）
+C51/学习/
+
+# ===== 文档类型 =====
+*.docx
+*.doc
+*.pptx
+*.ppt
+*.pdf
+
+# ===== 压缩包 =====
+*.zip
+*.rar
+*.7z
+
+# ===== 编译产物 =====
+*.obj
+*.o
+*.a
+*.elf
+*.hex
+*.bin
+*.map
+*.lst
+*.lnp
+*.M51
+*.OBJ
+*.LST
+*.SBR
+
+# ===== Keil工程文件 =====
+*.uvopt
+*.uvopt.bak
+*.uvgui.*
+*.plg
+*.build_log.htm
+*.dep
+*.d
+*.crf
+*.axf
+*.tra
+*.htm
+*.sct
+
+# ===== Proteus备份 =====
+*.DBK
+*.PWI
+*.DSN
+Project Backups/
+
+# ===== ESP-IDF构建 =====
+build/
+sdkconfig
+sdkconfig.old
+managed_components/
+dependencies.lock
+
+# ===== Arduino =====
+.cache/
+*.list
+*.lss
+*.eep
+*.sym
+
+# ===== IDE =====
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# ===== 系统文件 =====
+Thumbs.db
+.DS_Store
+Desktop.ini
+
+# ===== 临时文件 =====
+*.tmp
+*.bak
+*.old
+
+# ===== 临时文件（Office） =====
+~$*
