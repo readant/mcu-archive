@@ -35,8 +35,6 @@ C51/学习/
 *.OBJ
 *.LST
 *.SBR
-Objects/
-Listings/
 
 # ===== Keil工程文件 =====
 *.uvopt
@@ -51,24 +49,11 @@ Listings/
 *.tra
 *.htm
 *.sct
-*.cof
-*.dbg
-*.lk
-*.mak
-*.mp
-*.prj
-*._h
-*._c
-*.dp2
-*.lis
-*.SRC
 
 # ===== Proteus备份 =====
 *.DBK
 *.PWI
 *.DSN
-*.SDF
-*.workspace
 Project Backups/
 
 # ===== ESP-IDF构建 =====
