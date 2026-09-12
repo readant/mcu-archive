@@ -1,21 +1,21 @@
 /*------------------------------------------------
-  åŠŸèƒ½ï¼šUARTæ³¢ç‰¹ç‡å¯è°ƒ
-  ç¡¬ä»¶ï¼šP3.0=RXDï¼ŒP3.1=TXDï¼ŒP2.0~P2.3æ¥æŒ‰é”®
-  è¯´æ˜ï¼šé€šè¿‡æŒ‰é”®åˆ‡æ¢æ³¢ç‰¹ç‡ï¼š9600/4800/19200/115200
+  ¹¦ÄÜ£ºUART²¨ÌØÂÊ¿Éµ÷
+  Ó²¼ş£ºP3.0=RXD£¬P3.1=TXD£¬P2.0~P2.3½Ó°´¼ü
+  ËµÃ÷£ºÍ¨¹ı°´¼üÇĞ»»²¨ÌØÂÊ£º9600/4800/19200/115200
 ------------------------------------------------*/
 #include <reg51.h>
 
 sbit KEY = P2^0;
 
-// å¸¸ç”¨æ³¢ç‰¹ç‡çš„å®šæ—¶å™¨é‡è£…å€¼ï¼ˆ11.0592MHzï¼‰
+// ³£ÓÃ²¨ÌØÂÊµÄ¶¨Ê±Æ÷ÖØ×°Öµ£¨11.0592MHz£©
 unsigned char code baudrate_tab[] = {
     0xFD,   // 9600bps
     0xFA,   // 4800bps
-    0xF8,   // 19200bps (è¿‘ä¼¼)
-    0xFF    // 115200bps (è¿‘ä¼¼)
+    0xF8,   // 19200bps (½üËÆ)
+    0xFF    // 115200bps (½üËÆ)
 };
 
-unsigned char baud_index = 0;  // é»˜è®¤9600
+unsigned char baud_index = 0;  // Ä¬ÈÏ9600
 
 void InitUART(void)
 {
@@ -50,7 +50,7 @@ void UART_isr(void) interrupt 4
     if (RI)
     {
         RI = 0;
-        SendByte(SBUF);  // å›æ˜¾
+        SendByte(SBUF);  // »ØÏÔ
     }
 }
 
@@ -68,7 +68,7 @@ void main(void)
                 baud_index++;
                 if (baud_index >= 4) baud_index = 0;
 
-                // åˆ‡æ¢æ³¢ç‰¹ç‡
+                // ÇĞ»»²¨ÌØÂÊ
                 TR1 = 0;
                 TH1 = baudrate_tab[baud_index];
                 TL1 = baudrate_tab[baud_index];

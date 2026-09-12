@@ -1,7 +1,7 @@
 /*------------------------------------------------
-  åŠŸèƒ½ï¼šLCD12864åŸºç¡€æ˜¾ç¤º
-  ç¡¬ä»¶ï¼šP0å£æ¥æ•°æ®å£ï¼ŒP2.5=RSï¼ŒP2.6=RWï¼ŒP2.7=Eï¼ŒP2.3=PSB
-  è¯´æ˜ï¼šLCD12864æ˜¾ç¤ºä¸­æ–‡å’Œå›¾å½¢
+  ¹¦ÄÜ£ºLCD12864»ù´¡ÏÔÊ¾
+  Ó²¼ş£ºP0¿Ú½ÓÊı¾İ¿Ú£¬P2.5=RS£¬P2.6=RW£¬P2.7=E£¬P2.3=PSB
+  ËµÃ÷£ºLCD12864ÏÔÊ¾ÖĞÎÄºÍÍ¼ĞÎ
 ------------------------------------------------*/
 #include <reg51.h>
 
@@ -35,11 +35,11 @@ void WriteData(unsigned char dat)
 
 void InitLCD12864(void)
 {
-    PSB = 1;            // å¹¶å£æ¨¡å¼
+    PSB = 1;            // ²¢¿ÚÄ£Ê½
     Delay(5000);
-    WriteCmd(0x30);     // åŸºæœ¬æŒ‡ä»¤é›†
-    WriteCmd(0x0C);     // æ˜¾ç¤ºå¼€
-    WriteCmd(0x01);     // æ¸…å±
+    WriteCmd(0x30);     // »ù±¾Ö¸Áî¼¯
+    WriteCmd(0x0C);     // ÏÔÊ¾¿ª
+    WriteCmd(0x01);     // ÇåÆÁ
     Delay(5000);
 }
 
@@ -56,7 +56,7 @@ void SetPosition(unsigned char row, unsigned char col)
     WriteCmd(addr);
 }
 
-// æ˜¾ç¤ºä¸­æ–‡ï¼ˆGBç¼–ç çš„é«˜ä½å­—èŠ‚ï¼‰
+// ÏÔÊ¾ÖĞÎÄ£¨GB±àÂëµÄ¸ßÎ»×Ö½Ú£©
 void ShowChinese(unsigned char row, unsigned char col, unsigned char high, unsigned char low)
 {
     SetPosition(row, col);
@@ -68,14 +68,14 @@ void main(void)
 {
     InitLCD12864();
 
-    // ç¬¬ä¸€è¡Œï¼šæ˜¾ç¤ºä¸­æ–‡ï¼ˆç¤ºä¾‹ç¼–ç ï¼‰
+    // µÚÒ»ĞĞ£ºÏÔÊ¾ÖĞÎÄ£¨Ê¾Àı±àÂë£©
     SetPosition(0, 0);
     WriteData(0xCE);
-    WriteData(0xD2);  // "ä½ "
+    WriteData(0xD2);  // "Äã"
     WriteData(0xBA);
-    WriteData(0xC3);  // "å¥½"
+    WriteData(0xC3);  // "ºÃ"
 
-    // ç¬¬äºŒè¡Œï¼šæ˜¾ç¤ºè‹±æ–‡
+    // µÚ¶şĞĞ£ºÏÔÊ¾Ó¢ÎÄ
     SetPosition(1, 0);
     WriteData('H');
     WriteData('e');

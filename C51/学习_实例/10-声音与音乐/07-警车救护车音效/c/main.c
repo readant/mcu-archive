@@ -1,11 +1,11 @@
 /*
- * 警车/救护车/消防车音效
- * 功能：通过蜂鸣器模拟多种报警音效
- * 硬件：P1.0接有源蜂鸣器（或P1.0接无源蜂鸣器+驱动电路）
- * 说明：不同报警器的音效频率和节奏不同
- *       警车：高低交替（频率变化快）
- *       救护车：高低交替（频率变化慢）
- *       消防车：长鸣+间歇
+ * ����/�Ȼ���/��������Ч
+ * ���ܣ�ͨ��������ģ����ֱ�����Ч
+ * Ӳ����P1.0����Դ����������P1.0����Դ������+������·��
+ * ˵������ͬ����������ЧƵ�ʺͽ��಻ͬ
+ *       �������ߵͽ��棨Ƶ�ʱ仯�죩
+ *       �Ȼ������ߵͽ��棨Ƶ�ʱ仯����
+ *       ������������+��Ъ
  */
 #include <reg51.h>
 
@@ -19,9 +19,9 @@ void delay_ms(unsigned int ms)
 }
 
 /*
- * 蜂鸣器发声
- * freq: 频率（Hz）
- * ms:   持续时间（ms）
+ * ����������
+ * freq: Ƶ�ʣ�Hz��
+ * ms:   ����ʱ�䣨ms��
  */
 void buzzer_tone(unsigned int freq, unsigned int ms)
 {
@@ -40,7 +40,7 @@ void buzzer_tone(unsigned int freq, unsigned int ms)
 }
 
 /*
- * 警车音效
+ * ������Ч
  */
 void police_siren(void)
 {
@@ -53,7 +53,7 @@ void police_siren(void)
 }
 
 /*
- * 救护车音效
+ * �Ȼ�����Ч
  */
 void ambulance_siren(void)
 {
@@ -66,7 +66,7 @@ void ambulance_siren(void)
 }
 
 /*
- * 消防车音效
+ * ��������Ч
  */
 void fire_truck_siren(void)
 {

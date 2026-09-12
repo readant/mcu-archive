@@ -1,17 +1,17 @@
 /*
- * DS1621 æ¸©åº¦ä¼ æ„Ÿå™¨
- * åŠŸèƒ½ï¼šé€šè¿‡I2Cæ€»çº¿è¯»å–DS1621æ¸©åº¦ä¼ æ„Ÿå™¨æ•°æ®
- * ç¡¬ä»¶ï¼šP2.0-SCL, P2.1-SDA, DS1621åœ°å€0x90(å†™)/0x91(è¯»)
- * è¯´æ˜ï¼šDS1621æ˜¯Dallaså…¬å¸çš„I2Cæ¸©åº¦ä¼ æ„Ÿå™¨
- *       ç²¾åº¦0.5â„ƒï¼Œæµ‹é‡èŒƒå›´-55~125â„ƒ
- *       ä¸DS18B20ï¼ˆå•æ€»çº¿ï¼‰å½¢æˆå¯¹æ¯”ï¼Œé€‚åˆç†è§£ä¸åŒæ€»çº¿åè®®
+ * DS1621 ÎÂ¶È´«¸ĞÆ÷
+ * ¹¦ÄÜ£ºÍ¨¹ıI2C×ÜÏß¶ÁÈ¡DS1621ÎÂ¶È´«¸ĞÆ÷Êı¾İ
+ * Ó²¼ş£ºP2.0-SCL, P2.1-SDA, DS1621µØÖ·0x90(Ğ´)/0x91(¶Á)
+ * ËµÃ÷£ºDS1621ÊÇDallas¹«Ë¾µÄI2CÎÂ¶È´«¸ĞÆ÷
+ *       ¾«¶È0.5¡æ£¬²âÁ¿·¶Î§-55~125¡æ
+ *       ÓëDS18B20£¨µ¥×ÜÏß£©ĞÎ³É¶Ô±È£¬ÊÊºÏÀí½â²»Í¬×ÜÏßĞ­Òé
  */
 #include <reg51.h>
 
 sbit SCL = P2^0;
 sbit SDA = P2^1;
 
-#define DS1621_ADDR  0x90  // DS1621 I2Cåœ°å€
+#define DS1621_ADDR  0x90  // DS1621 I2CµØÖ·
 
 void delay_us(unsigned char us)
 {
@@ -63,29 +63,29 @@ unsigned char i2c_read_byte(void)
 }
 
 /*
- * å¯åŠ¨DS1621æ¸©åº¦è½¬æ¢
+ * Æô¶¯DS1621ÎÂ¶È×ª»»
  */
 void ds1621_start_convert(void)
 {
     i2c_start();
-    i2c_write_byte(DS1621_ADDR);     // è®¾å¤‡åœ°å€+å†™
-    i2c_write_byte(0xEE);            // å¯åŠ¨è½¬æ¢å‘½ä»¤
+    i2c_write_byte(DS1621_ADDR);     // Éè±¸µØÖ·+Ğ´
+    i2c_write_byte(0xEE);            // Æô¶¯×ª»»ÃüÁî
     i2c_stop();
 }
 
 /*
- * è¯»å–DS1621æ¸©åº¦å€¼
- * è¿”å›ï¼šæ¸©åº¦å€¼ï¼ˆæœ‰ç¬¦å·ï¼Œå•ä½0.5â„ƒï¼‰
+ * ¶ÁÈ¡DS1621ÎÂ¶ÈÖµ
+ * ·µ»Ø£ºÎÂ¶ÈÖµ£¨ÓĞ·ûºÅ£¬µ¥Î»0.5¡æ£©
  */
 signed char ds1621_read_temp(void)
 {
     signed char temp;
     i2c_start();
-    i2c_write_byte(DS1621_ADDR);     // è®¾å¤‡åœ°å€+å†™
-    i2c_write_byte(0xAA);            // è¯»æ¸©åº¦å‘½ä»¤
-    i2c_start();                     // é‡å¤èµ·å§‹
-    i2c_write_byte(DS1621_ADDR | 0x01); // è®¾å¤‡åœ°å€+è¯»
-    temp = i2c_read_byte();          // è¯»é«˜å­—èŠ‚
+    i2c_write_byte(DS1621_ADDR);     // Éè±¸µØÖ·+Ğ´
+    i2c_write_byte(0xAA);            // ¶ÁÎÂ¶ÈÃüÁî
+    i2c_start();                     // ÖØ¸´ÆğÊ¼
+    i2c_write_byte(DS1621_ADDR | 0x01); // Éè±¸µØÖ·+¶Á
+    temp = i2c_read_byte();          // ¶Á¸ß×Ö½Ú
     i2c_stop();
     return temp;
 }
@@ -112,7 +112,7 @@ void display_temp(signed char temp)
 
     P2 = 0xFE; P0 = SEG_TABLE[sig]; delay_ms(2);
     P2 = 0xFD; P0 = SEG_TABLE[ten]; delay_ms(2);
-    P2 = 0xFB; P0 = SEG_TABLE[one] | 0x80; delay_ms(2);  // å°æ•°ç‚¹
+    P2 = 0xFB; P0 = SEG_TABLE[one] | 0x80; delay_ms(2);  // Ğ¡Êıµã
 }
 
 void main(void)
@@ -120,13 +120,13 @@ void main(void)
     signed char temperature;
 
     ds1621_start_convert();
-    delay_ms(500);  // ç­‰å¾…è½¬æ¢å®Œæˆ
+    delay_ms(500);  // µÈ´ı×ª»»Íê³É
 
     while (1)
     {
         temperature = ds1621_read_temp();
         display_temp(temperature);
-        P0 = temperature;  // åŒæ—¶è¾“å‡ºåˆ°P0å£
+        P0 = temperature;  // Í¬Ê±Êä³öµ½P0¿Ú
         delay_ms(500);
     }
 }

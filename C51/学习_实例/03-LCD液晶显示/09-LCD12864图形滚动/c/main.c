@@ -1,9 +1,9 @@
 /*
- * LCD12864 图形滚动显示
- * 功能：在LCD12864上实现图形滚动显示效果
- * 硬件：P0口接数据总线，P2.0-RS, P2.1-RW, P2.2-EN
- * 说明：LCD12864支持图形模式，可显示任意像素图形
- *       通过修改显存地址实现滚动效果
+ * LCD12864 ͼ�ι�����ʾ
+ * ���ܣ���LCD12864��ʵ��ͼ�ι�����ʾЧ��
+ * Ӳ����P0�ڽ��������ߣ�P2.0-RS, P2.1-RW, P2.2-EN
+ * ˵����LCD12864֧��ͼ��ģʽ������ʾ��������ͼ��
+ *       ͨ���޸��Դ��ַʵ�ֹ���Ч��
  */
 #include <reg51.h>
 
@@ -34,15 +34,15 @@ void lcd_write_data(unsigned char dat)
 
 void lcd_init(void)
 {
-    lcd_write_cmd(0x38);  // 8位数据，2行
-    lcd_write_cmd(0x0C);  // 显示开，光标关
-    lcd_write_cmd(0x06);  // 写入后地址+1
-    lcd_write_cmd(0x01);  // 清屏
+    lcd_write_cmd(0x38);  // 8λ���ݣ�2��
+    lcd_write_cmd(0x0C);  // ��ʾ��������
+    lcd_write_cmd(0x06);  // д����ַ+1
+    lcd_write_cmd(0x01);  // ����
     delay_ms(5);
 }
 
 /*
- * 设置图形显示坐标
+ * ����ͼ����ʾ����
  */
 void lcd_set_pos(unsigned char x, unsigned char y)
 {
@@ -57,8 +57,8 @@ void main(void)
 
     while (1)
     {
-        /* 滚动显示数字0-9 */
-        lcd_write_cmd(0x01);  // 清屏
+        /* ������ʾ����0-9 */
+        lcd_write_cmd(0x01);  // ����
         for (i = 0; i < 16; i++)
         {
             lcd_set_pos(i, 0);

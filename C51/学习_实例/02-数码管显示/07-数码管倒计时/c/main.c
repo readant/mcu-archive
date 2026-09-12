@@ -1,7 +1,7 @@
 /*------------------------------------------------
-  功能：数码管倒计时（99→00）
-  硬件：2位数码管，P0口接段选
-  说明：从99开始倒计时，到00后停止
+  ���ܣ�����ܵ���ʱ��99��00��
+  Ӳ����2λ����ܣ�P0�ڽӶ�ѡ
+  ˵������99��ʼ����ʱ����00��ֹͣ
 ------------------------------------------------*/
 #include <reg51.h>
 
@@ -25,7 +25,7 @@ void Display(unsigned char num)
     unsigned char ge = num % 10;
     unsigned char shi = num / 10;
 
-    // 十位
+    // ʮλ
     P0 = 0x00;
     LATCH1 = 1; LATCH1 = 0;
     P0 = weima[0];
@@ -34,7 +34,7 @@ void Display(unsigned char num)
     LATCH1 = 1; LATCH1 = 0;
     Delay(5);
 
-    // 个位
+    // ��λ
     P0 = 0x00;
     LATCH1 = 1; LATCH1 = 0;
     P0 = weima[1];
@@ -56,7 +56,7 @@ void main(void)
         if (count > 0)
         {
             timer++;
-            if (timer >= 5000)  // 约1秒
+            if (timer >= 5000)  // Լ1��
             {
                 timer = 0;
                 count--;

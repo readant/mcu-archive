@@ -1,7 +1,7 @@
 /*------------------------------------------------
-  功能：数码管0~99自动计数
-  硬件：2位数码管，P0口接段选
-  说明：每秒加1，从00显示到99后归零
+  ���ܣ������0~99�Զ�����
+  Ӳ����2λ����ܣ�P0�ڽӶ�ѡ
+  ˵����ÿ���1����00��ʾ��99�����
 ------------------------------------------------*/
 #include <reg51.h>
 
@@ -15,7 +15,7 @@ unsigned char code duanma[] = {
 
 unsigned char code weima[] = {0xFE, 0xFD};
 
-unsigned char count = 0;  // 计数值
+unsigned char count = 0;  // ����ֵ
 
 void Delay(unsigned int t)
 {
@@ -24,10 +24,10 @@ void Delay(unsigned int t)
 
 void Display(unsigned char num)
 {
-    unsigned char ge = num % 10;   // 个位
-    unsigned char shi = num / 10;  // 十位
+    unsigned char ge = num % 10;   // ��λ
+    unsigned char shi = num / 10;  // ʮλ
 
-    // 显示十位
+    // ��ʾʮλ
     P0 = 0x00;
     LATCH1 = 1; LATCH1 = 0;
     P0 = weima[0];
@@ -36,7 +36,7 @@ void Display(unsigned char num)
     LATCH1 = 1; LATCH1 = 0;
     Delay(5);
 
-    // 显示个位
+    // ��ʾ��λ
     P0 = 0x00;
     LATCH1 = 1; LATCH1 = 0;
     P0 = weima[1];
@@ -55,7 +55,7 @@ void main(void)
         Display(count);
         timer++;
 
-        if (timer >= 5000)  // 约1秒
+        if (timer >= 5000)  // Լ1��
         {
             timer = 0;
             count++;

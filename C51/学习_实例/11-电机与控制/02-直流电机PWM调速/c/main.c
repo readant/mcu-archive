@@ -1,7 +1,7 @@
 /*------------------------------------------------
-  åŠŸèƒ½ï¼šç›´æµç”µæœºPWMè°ƒé€Ÿ
-  ç¡¬ä»¶ï¼šL298N IN1=P1.0, IN2=P1.1, ENA=P1.2
-  è¯´æ˜ï¼šé€šè¿‡PWMè°ƒèŠ‚ç”µæœºè½¬é€Ÿ
+  ¹¦ÄÜ£ºÖ±Á÷µç»úPWMµ÷ËÙ
+  Ó²¼ş£ºL298N IN1=P1.0, IN2=P1.1, ENA=P1.2
+  ËµÃ÷£ºÍ¨¹ıPWMµ÷½Úµç»ú×ªËÙ
 ------------------------------------------------*/
 #include <reg51.h>
 
@@ -14,13 +14,13 @@ void Delay(unsigned int t)
     while (--t);
 }
 
-// PWMè¾“å‡º
+// PWMÊä³ö
 void PWM_Output(unsigned char duty)
 {
     unsigned char period = 100;
     unsigned char i;
 
-    for (i = 0; i < 50; i++)  // é‡å¤50æ¬¡è®©è½¬é€Ÿç¨³å®š
+    for (i = 0; i < 50; i++)  // ÖØ¸´50´ÎÈÃ×ªËÙÎÈ¶¨
     {
         ENA = 1;
         Delay(duty);
@@ -31,13 +31,13 @@ void PWM_Output(unsigned char duty)
 
 void main(void)
 {
-    IN1 = 1; IN2 = 0;  // æ­£è½¬æ–¹å‘
+    IN1 = 1; IN2 = 0;  // Õı×ª·½Ïò
 
     while (1)
     {
-        PWM_Output(20);   // 20%é€Ÿåº¦
-        PWM_Output(50);   // 50%é€Ÿåº¦
-        PWM_Output(80);   // 80%é€Ÿåº¦
-        PWM_Output(100);  // å…¨é€Ÿ
+        PWM_Output(20);   // 20%ËÙ¶È
+        PWM_Output(50);   // 50%ËÙ¶È
+        PWM_Output(80);   // 80%ËÙ¶È
+        PWM_Output(100);  // È«ËÙ
     }
 }

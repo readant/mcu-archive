@@ -1,7 +1,7 @@
 /*------------------------------------------------
-  åŠŸèƒ½ï¼šLCD1602æ˜¾ç¤ºæ•°å­—
-  ç¡¬ä»¶ï¼šP0å£æ¥æ•°æ®å£
-  è¯´æ˜ï¼šå°†æ•´æ•°è½¬æ¢ä¸ºå­—ç¬¦ä¸²æ˜¾ç¤ºåœ¨LCDä¸Š
+  ¹¦ÄÜ£ºLCD1602ÏÔÊ¾Êı×Ö
+  Ó²¼ş£ºP0¿Ú½ÓÊı¾İ¿Ú
+  ËµÃ÷£º½«ÕûÊı×ª»»Îª×Ö·û´®ÏÔÊ¾ÔÚLCDÉÏ
 ------------------------------------------------*/
 #include <reg51.h>
 
@@ -49,7 +49,7 @@ void ShowString(unsigned char row, unsigned char col, char *str)
     while (*str) WriteData(*str++);
 }
 
-// æ•´æ•°è½¬å­—ç¬¦ä¸²ï¼ˆæ”¯æŒè´Ÿæ•°ï¼‰
+// ÕûÊı×ª×Ö·û´®£¨Ö§³Ö¸ºÊı£©
 void IntToString(int num, char *str)
 {
     unsigned char i = 0;
@@ -81,7 +81,7 @@ void main(void)
     while (1)
     {
         IntToString(count, buf);
-        ShowString(1, 0, "        ");  // æ¸…é™¤æ—§æ•°æ®
+        ShowString(1, 0, "        ");  // Çå³ı¾ÉÊı¾İ
         ShowString(1, 0, buf);
 
         count++;

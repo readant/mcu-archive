@@ -1,15 +1,15 @@
 /*
- * 双色点阵显示
- * 功能：8x8双色LED点阵显示不同颜色的图形
- * 硬件：P0口接行线，P2口接列线，额外引脚控制颜色
- * 说明：双色点阵有红绿两种颜色
- *       通过控制颜色引脚可以显示红、绿、橙（红+绿）三种颜色
- *       与单色点阵相比增加了色彩表现力
+ * ˫ɫ������ʾ
+ * ���ܣ�8x8˫ɫLED������ʾ��ͬ��ɫ��ͼ��
+ * Ӳ����P0�ڽ����ߣ�P2�ڽ����ߣ��������ſ�����ɫ
+ * ˵����˫ɫ�����к���������ɫ
+ *       ͨ��������ɫ���ſ�����ʾ�졢�̡��ȣ���+�̣�������ɫ
+ *       �뵥ɫ�������������ɫ�ʱ�����
  */
 #include <reg51.h>
 
-sbit COLOR_R = P3^0;  // 红色使能
-sbit COLOR_G = P3^1;  // 绿色使能
+sbit COLOR_R = P3^0;  // ��ɫʹ��
+sbit COLOR_G = P3^1;  // ��ɫʹ��
 
 unsigned char code RED_HEART[] = {
     0x00, 0x66, 0xFF, 0xFF, 0xFF, 0x7E, 0x3C, 0x18
@@ -35,20 +35,20 @@ void display_symbol(unsigned char *pattern, unsigned char color, unsigned int du
     {
         for (i = 0; i < 8; i++)
         {
-            P0 = 0xFF;  // 先消隐
-            P2 = ~(0x01 << i);  // 扫描行
+            P0 = 0xFF;  // ������
+            P2 = ~(0x01 << i);  // ɨ����
 
-            if (color == 0)  // 红色
+            if (color == 0)  // ��ɫ
             {
                 COLOR_R = 0; COLOR_G = 1;
                 P0 = pattern[i];
             }
-            else if (color == 1)  // 绿色
+            else if (color == 1)  // ��ɫ
             {
                 COLOR_R = 1; COLOR_G = 0;
                 P0 = pattern[i];
             }
-            else  // 橙色（红+绿）
+            else  // ��ɫ����+�̣�
             {
                 COLOR_R = 0; COLOR_G = 0;
                 P0 = pattern[i];
@@ -58,7 +58,7 @@ void display_symbol(unsigned char *pattern, unsigned char color, unsigned int du
         }
     }
 
-    COLOR_R = 1; COLOR_G = 1;  // 关闭
+    COLOR_R = 1; COLOR_G = 1;  // �ر�
 }
 
 void main(void)
@@ -67,8 +67,8 @@ void main(void)
 
     while (1)
     {
-        display_symbol(RED_HEART, 0, 500);   // 红色爱心
-        display_symbol(GREEN_STAR, 1, 500);  // 绿色星星
-        display_symbol(RED_HEART, 2, 500);   // 橙色爱心
+        display_symbol(RED_HEART, 0, 500);   // ��ɫ����
+        display_symbol(GREEN_STAR, 1, 500);  // ��ɫ����
+        display_symbol(RED_HEART, 2, 500);   // ��ɫ����
     }
 }

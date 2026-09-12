@@ -1,6 +1,6 @@
 #include <reg52.h>
 
-//====================å¼•è„šå®šä¹‰====================
+//====================Òı½Å¶¨Òå====================
 #define LCD_DataPort P0
 sbit LCD_RW = P2^5;
 sbit LCD_RS = P2^6;
@@ -10,14 +10,14 @@ sbit DS1302_IO   = P3^4;
 sbit DS1302_RST  = P3^5;
 sbit DS1302_SCLK = P3^6;
 
-sbit KEY_SET    = P3^0;   // K1 è¿›å…¥/é€€å‡ºè®¾ç½®å¹¶ä¿å­˜
-sbit KEY_SHIFT  = P3^1;   // K2 ç§»ä½åˆ‡æ¢é€‰é¡¹
-sbit KEY_INC    = P3^2;   // K3 åŠ 
-sbit KEY_DEC    = P3^3;   // K4 å‡
+sbit KEY_SET    = P3^0;   // K1 ½øÈë/ÍË³öÉèÖÃ²¢±£´æ
+sbit KEY_SHIFT  = P3^1;   // K2 ÒÆÎ»ÇĞ»»Ñ¡Ïî
+sbit KEY_INC    = P3^2;   // K3 ¼Ó
+sbit KEY_DEC    = P3^3;   // K4 ¼õ
 
-sbit DS18B20_DQ = P3^7;   // DS18B20 æ•°æ®çº¿
+sbit DS18B20_DQ = P3^7;   // DS18B20 Êı¾İÏß
 
-//DS1302å¯„å­˜å™¨åœ°å€
+//DS1302¼Ä´æÆ÷µØÖ·
 #define DS1302_SEC_WR   0x80
 #define DS1302_MIN_WR   0x82
 #define DS1302_HOUR_WR  0x84
@@ -34,36 +34,36 @@ sbit DS18B20_DQ = P3^7;   // DS18B20 æ•°æ®çº¿
 #define DS1302_MON_RD   0x89
 #define DS1302_YEAR_RD  0x8D
 
-//DS18B20 å‘½ä»¤
+//DS18B20 ÃüÁî
 #define DS18B20_SKIP_ROM     0xCC
 #define DS18B20_CONVERT_T    0x44
 #define DS18B20_READ_SCRATCH 0xBE
 
-//====================é»˜è®¤åˆå§‹æ—¶é—´ï¼ˆ2026-08-18 00:00:00ï¼‰====================
-#define DEFAULT_YEAR  26    // åä¸¤ä½å¹´ä»½
+//====================Ä¬ÈÏ³õÊ¼Ê±¼ä£¨2026-08-18 00:00:00£©====================
+#define DEFAULT_YEAR  26    // ºóÁ½Î»Äê·İ
 #define DEFAULT_MONTH 8
 #define DEFAULT_DAY   18
 #define DEFAULT_HOUR  0
 #define DEFAULT_MIN   0
 #define DEFAULT_SEC   0
 
-//å…¨å±€æ—¶é—´æ•°ç»„ï¼š0ç§’ 1åˆ† 2æ—¶ 3æ—¥ 4æœˆ 5å¹´(åä¸¤ä½)
+//È«¾ÖÊ±¼äÊı×é£º0Ãë 1·Ö 2Ê± 3ÈÕ 4ÔÂ 5Äê(ºóÁ½Î»)
 unsigned char time_buf[6] = {DEFAULT_SEC, DEFAULT_MIN, DEFAULT_HOUR, DEFAULT_DAY, DEFAULT_MONTH, DEFAULT_YEAR};
-unsigned char set_mode = 0;   //0æ­£å¸¸æ˜¾ç¤ºï¼Œ1è®¾ç½®æ¨¡å¼
-unsigned char set_sel  = 0;   //é€‰ä¸­é¡¹ï¼š0ç§’ 1åˆ† 2æ—¶ 3æ—¥ 4æœˆ 5å¹´
+unsigned char set_mode = 0;   //0Õı³£ÏÔÊ¾£¬1ÉèÖÃÄ£Ê½
+unsigned char set_sel  = 0;   //Ñ¡ÖĞÏî£º0Ãë 1·Ö 2Ê± 3ÈÕ 4ÔÂ 5Äê
 
-//æ¸©åº¦å˜é‡ï¼ˆæ”¾å¤§10å€ï¼Œä¾‹å¦‚255è¡¨ç¤º25.5â„ƒï¼‰
+//ÎÂ¶È±äÁ¿£¨·Å´ó10±¶£¬ÀıÈç255±íÊ¾25.5¡æ£©
 int temperature = 0;
 
-//DS18B20 çŠ¶æ€æœºå˜é‡
-unsigned char ds18b20_state = 0; // 0=ç©ºé—²ï¼Œ1=è½¬æ¢ä¸­ï¼Œ2=è½¬æ¢å®Œæˆå¾…è¯»å–
+//DS18B20 ×´Ì¬»ú±äÁ¿
+unsigned char ds18b20_state = 0; // 0=¿ÕÏĞ£¬1=×ª»»ÖĞ£¬2=×ª»»Íê³É´ı¶ÁÈ¡
 unsigned int  ds18b20_wait  = 0;
-unsigned int  ds18b20_timer = 0; // å®šæ—¶è§¦å‘è½¬æ¢
+unsigned int  ds18b20_timer = 0; // ¶¨Ê±´¥·¢×ª»»
 
-//å…‰æ ‡ä½ç½®è¡¨ï¼šä¸æ˜¾ç¤ºä½ç½®å¯¹åº”ï¼ˆç§’ã€åˆ†ã€æ—¶ã€æ—¥ã€æœˆã€å¹´ï¼‰
+//¹â±êÎ»ÖÃ±í£ºÓëÏÔÊ¾Î»ÖÃ¶ÔÓ¦£¨Ãë¡¢·Ö¡¢Ê±¡¢ÈÕ¡¢ÔÂ¡¢Äê£©
 unsigned char code pos_table[] = {6, 3, 0, 8, 5, 2};
 
-//====================å»¶æ—¶å‡½æ•°====================
+//====================ÑÓÊ±º¯Êı====================
 void DelayMs(unsigned int ms)
 {
     unsigned int i, j;
@@ -71,7 +71,7 @@ void DelayMs(unsigned int ms)
         for(j = 110; j > 0; j--);
 }
 
-//10å¾®ç§’å»¶æ—¶ï¼ˆç”¨äºDS18B20ï¼Œ12MHzæ™¶æŒ¯ï¼‰
+//10Î¢ÃëÑÓÊ±£¨ÓÃÓÚDS18B20£¬12MHz¾§Õñ£©
 void Delay10us(unsigned char us)
 {
     unsigned char i;
@@ -81,7 +81,7 @@ void Delay10us(unsigned char us)
     }
 }
 
-//====================LCD1602é©±åŠ¨====================
+//====================LCD1602Çı¶¯====================
 void LCD1602_WriteCmd(unsigned char cmd)
 {
     LCD_EN = 0;
@@ -125,7 +125,7 @@ void LCD1602_SetPos(unsigned char line, unsigned char col)
         LCD1602_WriteCmd(0x80 + 0x40 + col);
 }
 
-//åœ¨æŒ‡å®šè¡Œã€åˆ—æ˜¾ç¤º2ä½æ•°å­—
+//ÔÚÖ¸¶¨ĞĞ¡¢ÁĞÏÔÊ¾2Î»Êı×Ö
 void LCD_ShowNum2(unsigned char line, unsigned char col, unsigned char num)
 {
     LCD1602_SetPos(line, col);
@@ -133,7 +133,7 @@ void LCD_ShowNum2(unsigned char line, unsigned char col, unsigned char num)
     LCD1602_WriteData(num % 10 + '0');
 }
 
-//====================DS1302é©±åŠ¨====================
+//====================DS1302Çı¶¯====================
 unsigned char BCD_TO_DEC(unsigned char bcd)
 {
     return ((bcd >> 4) * 10) + (bcd & 0x0F);
@@ -191,14 +191,14 @@ unsigned char DS1302_Read(unsigned char addr)
     return dat;
 }
 
-//DS1302çªå‘è¯»å–ï¼šä»0xBFå¼€å§‹è¿ç»­è¯»8ä¸ªå¯„å­˜å™¨
+//DS1302Í»·¢¶ÁÈ¡£º´Ó0xBF¿ªÊ¼Á¬Ğø¶Á8¸ö¼Ä´æÆ÷
 void DS1302_ReadBurst(unsigned char *buf)
 {
     unsigned char i;
     DS1302_RST = 0;
     DS1302_SCLK = 0;
     DS1302_RST = 1;
-    DS1302_WriteByte(0xBF);  // çªå‘è¯»å‘½ä»¤
+    DS1302_WriteByte(0xBF);  // Í»·¢¶ÁÃüÁî
     for(i = 0; i < 8; i++)
     {
         buf[i] = DS1302_ReadByte();
@@ -206,8 +206,8 @@ void DS1302_ReadBurst(unsigned char *buf)
     DS1302_RST = 0;
 }
 
-//====================æ˜ŸæœŸä¸å¤©æ•°è®¡ç®—====================
-//è”¡å‹’å…¬å¼ï¼šè¿”å›0~6ï¼Œ0ä¸ºæ˜ŸæœŸæ—¥
+//====================ĞÇÆÚÓëÌìÊı¼ÆËã====================
+//²ÌÀÕ¹«Ê½£º·µ»Ø0~6£¬0ÎªĞÇÆÚÈÕ
 unsigned char GetWeekday(unsigned char year, unsigned char month, unsigned char day)
 {
     unsigned int y = 2000 + year;
@@ -220,7 +220,7 @@ unsigned char GetWeekday(unsigned char year, unsigned char month, unsigned char 
     return (day + 2*m + 3*(m+1)/5 + y + y/4 - y/100 + y/400 + 1) % 7;
 }
 
-//è®¡ç®—æŸæœˆæœ€å¤§å¤©æ•°ï¼Œæ”¯æŒé—°å¹´
+//¼ÆËãÄ³ÔÂ×î´óÌìÊı£¬Ö§³ÖÈòÄê
 unsigned char GetMaxDay(unsigned char month, unsigned char year)
 {
     unsigned int full_year = 2000 + year;
@@ -236,7 +236,7 @@ unsigned char GetMaxDay(unsigned char month, unsigned char year)
     return 31;
 }
 
-//====================DS1302æ—¶é—´è¯»å†™====================
+//====================DS1302Ê±¼ä¶ÁĞ´====================
 void DS1302_ReadTime(void)
 {
     unsigned char buf1[8], buf2[8];
@@ -247,23 +247,23 @@ void DS1302_ReadTime(void)
         DS1302_ReadBurst(buf1);
         DS1302_ReadBurst(buf2);
 
-        // ä¸¤æ¬¡è¯»å–å®Œå…¨ä¸€è‡´æ‰è®¤ä¸ºæ•°æ®æœ‰æ•ˆï¼Œå¦åˆ™é‡è¯•
+        // Á½´Î¶ÁÈ¡ÍêÈ«Ò»ÖÂ²ÅÈÏÎªÊı¾İÓĞĞ§£¬·ñÔòÖØÊÔ
         for(i = 0; i < 8; i++)
         {
             if(buf1[i] != buf2[i])
                 break;
         }
-        if(i == 8)  // å…¨éƒ¨ç›¸ç­‰ï¼Œè·³å‡ºé‡è¯•
+        if(i == 8)  // È«²¿ÏàµÈ£¬Ìø³öÖØÊÔ
             break;
     }
 
-    // çªå‘è¯»å–å¯„å­˜å™¨é¡ºåºï¼šç§’ã€åˆ†ã€æ—¶ã€æ—¥ã€æœˆã€æ˜ŸæœŸã€å¹´ã€å†™ä¿æŠ¤
-    time_buf[0] = BCD_TO_DEC(buf1[0] & 0x7F); // ç§’ï¼Œå»æ‰CHä½
-    time_buf[1] = BCD_TO_DEC(buf1[1]);        // åˆ†
-    time_buf[2] = BCD_TO_DEC(buf1[2]);        // æ—¶
-    time_buf[3] = BCD_TO_DEC(buf1[3]);        // æ—¥
-    time_buf[4] = BCD_TO_DEC(buf1[4]);        // æœˆ
-    time_buf[5] = BCD_TO_DEC(buf1[6]);        // å¹´ï¼ˆç´¢å¼•6æ˜¯å¹´ï¼Œ5æ˜¯æ˜ŸæœŸï¼‰
+    // Í»·¢¶ÁÈ¡¼Ä´æÆ÷Ë³Ğò£ºÃë¡¢·Ö¡¢Ê±¡¢ÈÕ¡¢ÔÂ¡¢ĞÇÆÚ¡¢Äê¡¢Ğ´±£»¤
+    time_buf[0] = BCD_TO_DEC(buf1[0] & 0x7F); // Ãë£¬È¥µôCHÎ»
+    time_buf[1] = BCD_TO_DEC(buf1[1]);        // ·Ö
+    time_buf[2] = BCD_TO_DEC(buf1[2]);        // Ê±
+    time_buf[3] = BCD_TO_DEC(buf1[3]);        // ÈÕ
+    time_buf[4] = BCD_TO_DEC(buf1[4]);        // ÔÂ
+    time_buf[5] = BCD_TO_DEC(buf1[6]);        // Äê£¨Ë÷Òı6ÊÇÄê£¬5ÊÇĞÇÆÚ£©
 }
 
 void DS1302_SaveTime(void)
@@ -271,10 +271,10 @@ void DS1302_SaveTime(void)
     unsigned char sec_bcd;
     unsigned char wd;
 
-    DS1302_Write(DS1302_WP, 0x00); //å…³é—­å†™ä¿æŠ¤
+    DS1302_Write(DS1302_WP, 0x00); //¹Ø±ÕĞ´±£»¤
 
     sec_bcd = DEC_TO_BCD(time_buf[0]);
-    sec_bcd &= 0x7F;               //æ¸…é™¤CHä½ï¼Œå¯åŠ¨æ—¶é’Ÿ
+    sec_bcd &= 0x7F;               //Çå³ıCHÎ»£¬Æô¶¯Ê±ÖÓ
     DS1302_Write(DS1302_SEC_WR, sec_bcd);
 
     DS1302_Write(DS1302_MIN_WR,  DEC_TO_BCD(time_buf[1]));
@@ -282,18 +282,18 @@ void DS1302_SaveTime(void)
     DS1302_Write(DS1302_DAY_WR,  DEC_TO_BCD(time_buf[3]));
     DS1302_Write(DS1302_MON_WR,  DEC_TO_BCD(time_buf[4]));
 
-    wd = GetWeekday(time_buf[5], time_buf[4], time_buf[3]) + 1; //DS1302æ˜ŸæœŸå¯„å­˜å™¨ï¼š1=å‘¨æ—¥ï¼Œ2=å‘¨ä¸€...
+    wd = GetWeekday(time_buf[5], time_buf[4], time_buf[3]) + 1; //DS1302ĞÇÆÚ¼Ä´æÆ÷£º1=ÖÜÈÕ£¬2=ÖÜÒ»...
     DS1302_Write(DS1302_WEEK_WR, DEC_TO_BCD(wd));
 
     DS1302_Write(DS1302_YEAR_WR, DEC_TO_BCD(time_buf[5]));
 
-    DS1302_Write(DS1302_WP, 0x80); //æ‰“å¼€å†™ä¿æŠ¤
+    DS1302_Write(DS1302_WP, 0x80); //´ò¿ªĞ´±£»¤
 }
 
-//ä¸Šç”µæ£€æŸ¥DS1302æ˜¯å¦å¯åŠ¨ï¼Œè‹¥CH=1åˆ™è½½å…¥é»˜è®¤æ—¶é—´
+//ÉÏµç¼ì²éDS1302ÊÇ·ñÆô¶¯£¬ÈôCH=1ÔòÔØÈëÄ¬ÈÏÊ±¼ä
 void RTC_InitCheck(void)
 {
-    if(DS1302_Read(DS1302_SEC_RD) & 0x80) //æ—¶é’Ÿåœæ­¢
+    if(DS1302_Read(DS1302_SEC_RD) & 0x80) //Ê±ÖÓÍ£Ö¹
     {
         time_buf[0] = DEFAULT_SEC;
         time_buf[1] = DEFAULT_MIN;
@@ -309,23 +309,23 @@ void RTC_InitCheck(void)
     }
 }
 
-//====================DS18B20æ¸©åº¦ä¼ æ„Ÿå™¨é©±åŠ¨====================
-//åˆå§‹åŒ–DS18B20ï¼Œè¿”å›å­˜åœ¨è„‰å†²ï¼ˆ0=å­˜åœ¨ï¼Œ1=ä¸å­˜åœ¨ï¼‰
+//====================DS18B20ÎÂ¶È´«¸ĞÆ÷Çı¶¯====================
+//³õÊ¼»¯DS18B20£¬·µ»Ø´æÔÚÂö³å£¨0=´æÔÚ£¬1=²»´æÔÚ£©
 bit DS18B20_Init(void)
 {
     bit ack;
     DS18B20_DQ = 1;
     Delay10us(2);
     DS18B20_DQ = 0;
-    Delay10us(48);      // æ‹‰ä½480usä»¥ä¸Š
+    Delay10us(48);      // À­µÍ480usÒÔÉÏ
     DS18B20_DQ = 1;
-    Delay10us(6);       // ç­‰å¾…15-60us
-    ack = DS18B20_DQ;   // è¯»å–å­˜åœ¨è„‰å†²
-    Delay10us(20);      // ç­‰å¾…å‰©ä½™æ—¶é—´
+    Delay10us(6);       // µÈ´ı15-60us
+    ack = DS18B20_DQ;   // ¶ÁÈ¡´æÔÚÂö³å
+    Delay10us(20);      // µÈ´ıÊ£ÓàÊ±¼ä
     return ack;
 }
 
-//å†™ä¸€ä¸ªå­—èŠ‚
+//Ğ´Ò»¸ö×Ö½Ú
 void DS18B20_WriteByte(unsigned char dat)
 {
     unsigned char i;
@@ -333,13 +333,13 @@ void DS18B20_WriteByte(unsigned char dat)
     {
         DS18B20_DQ = 0;
         DS18B20_DQ = dat & 0x01;
-        Delay10us(4);   // å†™æ—¶åºæ€»æ—¶é—´çº¦40us
+        Delay10us(4);   // Ğ´Ê±Ğò×ÜÊ±¼äÔ¼40us
         DS18B20_DQ = 1;
         dat >>= 1;
     }
 }
 
-//è¯»ä¸€ä¸ªå­—èŠ‚
+//¶ÁÒ»¸ö×Ö½Ú
 unsigned char DS18B20_ReadByte(void)
 {
     unsigned char i, dat = 0;
@@ -347,17 +347,17 @@ unsigned char DS18B20_ReadByte(void)
     {
         dat >>= 1;
         DS18B20_DQ = 0;
-        Delay10us(1);   // æ‹‰ä½1us
+        Delay10us(1);   // À­µÍ1us
         DS18B20_DQ = 1;
-        Delay10us(1);   // é‡Šæ”¾ï¼Œç­‰å¾…é‡‡æ ·
+        Delay10us(1);   // ÊÍ·Å£¬µÈ´ı²ÉÑù
         if(DS18B20_DQ)
             dat |= 0x80;
-        Delay10us(4);   // è¯»æ—¶åºå‰©ä½™æ—¶é—´
+        Delay10us(4);   // ¶ÁÊ±ĞòÊ£ÓàÊ±¼ä
     }
     return dat;
 }
 
-//å¯åŠ¨æ¸©åº¦è½¬æ¢
+//Æô¶¯ÎÂ¶È×ª»»
 void DS18B20_StartConvert(void)
 {
     DS18B20_Init();
@@ -365,7 +365,7 @@ void DS18B20_StartConvert(void)
     DS18B20_WriteByte(DS18B20_CONVERT_T);
 }
 
-//è¯»å–æ¸©åº¦åŸå§‹å€¼å¹¶è®¡ç®—æ”¾å¤§10å€çš„æ¸©åº¦
+//¶ÁÈ¡ÎÂ¶ÈÔ­Ê¼Öµ²¢¼ÆËã·Å´ó10±¶µÄÎÂ¶È
 int DS18B20_ReadTemp(void)
 {
     unsigned char temp_low, temp_high;
@@ -380,7 +380,7 @@ int DS18B20_ReadTemp(void)
 
     temp_raw = (temp_high << 8) | temp_low;
 
-    if(temp_raw & 0x8000) // è´Ÿæ¸©åº¦
+    if(temp_raw & 0x8000) // ¸ºÎÂ¶È
     {
         temp_raw = (~temp_raw) + 1;
         temp = -(temp_raw * 10 / 16);
@@ -392,38 +392,38 @@ int DS18B20_ReadTemp(void)
     return temp;
 }
 
-//DS18B20çŠ¶æ€æœºå¤„ç†ï¼ˆåœ¨ä¸»å¾ªç¯ä¸­è°ƒç”¨ï¼‰
+//DS18B20×´Ì¬»ú´¦Àí£¨ÔÚÖ÷Ñ­»·ÖĞµ÷ÓÃ£©
 void DS18B20_Process(void)
 {
     switch(ds18b20_state)
     {
-        case 0: // ç©ºé—²çŠ¶æ€ï¼Œå®šæ—¶å¯åŠ¨è½¬æ¢
+        case 0: // ¿ÕÏĞ×´Ì¬£¬¶¨Ê±Æô¶¯×ª»»
             ds18b20_timer++;
-            if(ds18b20_timer >= 100) // çº¦5ç§’ï¼ˆ100*50msï¼‰é‡‡é›†ä¸€æ¬¡
+            if(ds18b20_timer >= 100) // Ô¼5Ãë£¨100*50ms£©²É¼¯Ò»´Î
             {
                 ds18b20_timer = 0;
                 DS18B20_StartConvert();
-                ds18b20_state = 1;   // è¿›å…¥è½¬æ¢ä¸­çŠ¶æ€
-                ds18b20_wait  = 15;  // ç­‰å¾…15æ¬¡ä¸»å¾ªç¯ï¼ˆçº¦750msï¼‰
+                ds18b20_state = 1;   // ½øÈë×ª»»ÖĞ×´Ì¬
+                ds18b20_wait  = 15;  // µÈ´ı15´ÎÖ÷Ñ­»·£¨Ô¼750ms£©
             }
             break;
 
-        case 1: // è½¬æ¢ä¸­ï¼Œç­‰å¾…è½¬æ¢å®Œæˆ
+        case 1: // ×ª»»ÖĞ£¬µÈ´ı×ª»»Íê³É
             if(ds18b20_wait > 0)
                 ds18b20_wait--;
             if(ds18b20_wait == 0)
-                ds18b20_state = 2;   // è½¬æ¢å®Œæˆï¼Œå‡†å¤‡è¯»å–
+                ds18b20_state = 2;   // ×ª»»Íê³É£¬×¼±¸¶ÁÈ¡
             break;
 
-        case 2: // è¯»å–æ¸©åº¦
+        case 2: // ¶ÁÈ¡ÎÂ¶È
             temperature = DS18B20_ReadTemp();
-            ds18b20_state = 0;       // å›åˆ°ç©ºé—²
+            ds18b20_state = 0;       // »Øµ½¿ÕÏĞ
             break;
     }
 }
 
-//====================éé˜»å¡æŒ‰é”®æ‰«æ====================
-//è¿”å›1~4è¡¨ç¤ºå¯¹åº”æŒ‰é”®æŒ‰ä¸‹ä¸€æ¬¡ï¼Œè¿”å›0è¡¨ç¤ºæ— æŒ‰é”®
+//====================·Ç×èÈû°´¼üÉ¨Ãè====================
+//·µ»Ø1~4±íÊ¾¶ÔÓ¦°´¼ü°´ÏÂÒ»´Î£¬·µ»Ø0±íÊ¾ÎŞ°´¼ü
 unsigned char KeyScan(void)
 {
     static unsigned char key_state = 0;
@@ -438,35 +438,35 @@ unsigned char KeyScan(void)
     {
         if(key_state == 0)
         {
-            key_state = 1;      //é”å®šï¼Œç›´åˆ°é‡Šæ”¾æ‰èƒ½å†æ¬¡è§¦å‘
-            DelayMs(10);        //æ¶ˆæŠ–
+            key_state = 1;      //Ëø¶¨£¬Ö±µ½ÊÍ·Å²ÅÄÜÔÙ´Î´¥·¢
+            DelayMs(10);        //Ïû¶¶
             return key_now;
         }
     }
     else
     {
-        key_state = 0;          //æŒ‰é”®å·²é‡Šæ”¾
+        key_state = 0;          //°´¼üÒÑÊÍ·Å
     }
     return 0;
 }
 
-//====================æŒ‰é”®å¤„ç†ä¸æ—¶é—´è°ƒæ•´====================
+//====================°´¼ü´¦ÀíÓëÊ±¼äµ÷Õû====================
 void TimeAdjust(signed char dir)
 {
     unsigned char maxd;
 
     switch(set_sel)
     {
-        case 0: //ç§’
+        case 0: //Ãë
             time_buf[0] = (time_buf[0] + dir + 60) % 60;
             break;
-        case 1: //åˆ†
+        case 1: //·Ö
             time_buf[1] = (time_buf[1] + dir + 60) % 60;
             break;
-        case 2: //æ—¶
+        case 2: //Ê±
             time_buf[2] = (time_buf[2] + dir + 24) % 24;
             break;
-        case 3: //æ—¥
+        case 3: //ÈÕ
             maxd = GetMaxDay(time_buf[4], time_buf[5]);
             if(dir == 1)
             {
@@ -479,7 +479,7 @@ void TimeAdjust(signed char dir)
                 else time_buf[3]--;
             }
             break;
-        case 4: //æœˆ
+        case 4: //ÔÂ
             if(dir == 1)
             {
                 time_buf[4]++;
@@ -490,11 +490,11 @@ void TimeAdjust(signed char dir)
                 if(time_buf[4] == 1) time_buf[4] = 12;
                 else time_buf[4]--;
             }
-            //æœˆæ”¹å˜åï¼Œä¿®æ­£æ—¥
+            //ÔÂ¸Ä±äºó£¬ĞŞÕıÈÕ
             maxd = GetMaxDay(time_buf[4], time_buf[5]);
             if(time_buf[3] > maxd) time_buf[3] = maxd;
             break;
-        case 5: //å¹´
+        case 5: //Äê
             if(dir == 1)
             {
                 time_buf[5]++;
@@ -505,7 +505,7 @@ void TimeAdjust(signed char dir)
                 if(time_buf[5] == 0) time_buf[5] = 99;
                 else time_buf[5]--;
             }
-            //å¹´æ”¹å˜åï¼Œä¿®æ­£æ—¥ï¼ˆå½±å“é—°å¹´2æœˆï¼‰
+            //Äê¸Ä±äºó£¬ĞŞÕıÈÕ£¨Ó°ÏìÈòÄê2ÔÂ£©
             maxd = GetMaxDay(time_buf[4], time_buf[5]);
             if(time_buf[3] > maxd) time_buf[3] = maxd;
             break;
@@ -514,43 +514,43 @@ void TimeAdjust(signed char dir)
 
 void KeyProcess(unsigned char key)
 {
-    if(key == 1) //K1 è¿›å…¥/é€€å‡ºè®¾ç½®
+    if(key == 1) //K1 ½øÈë/ÍË³öÉèÖÃ
     {
         set_mode = !set_mode;
         if(set_mode == 0)
         {
-            DS1302_SaveTime();   //é€€å‡ºè®¾ç½®æ—¶ä¿å­˜æ—¶é—´
+            DS1302_SaveTime();   //ÍË³öÉèÖÃÊ±±£´æÊ±¼ä
         }
         else
         {
-            set_sel = 0;         //è¿›å…¥è®¾ç½®é»˜è®¤é€‰ä¸­ç§’
+            set_sel = 0;         //½øÈëÉèÖÃÄ¬ÈÏÑ¡ÖĞÃë
         }
     }
 
-    if(set_mode == 1) //ä»…è®¾ç½®æ¨¡å¼ä¸‹K2/K3/K4æœ‰æ•ˆ
+    if(set_mode == 1) //½öÉèÖÃÄ£Ê½ÏÂK2/K3/K4ÓĞĞ§
     {
-        if(key == 2) //K2 åˆ‡æ¢é€‰é¡¹ï¼šç§’-åˆ†-æ—¶-æ—¥-æœˆ-å¹´å¾ªç¯
+        if(key == 2) //K2 ÇĞ»»Ñ¡Ïî£ºÃë-·Ö-Ê±-ÈÕ-ÔÂ-ÄêÑ­»·
         {
             set_sel++;
             if(set_sel >= 6) set_sel = 0;
         }
-        else if(key == 3) //K3 åŠ 
+        else if(key == 3) //K3 ¼Ó
         {
             TimeAdjust(1);
         }
-        else if(key == 4) //K4 å‡
+        else if(key == 4) //K4 ¼õ
         {
             TimeAdjust(-1);
         }
     }
 }
 
-//====================LCDåˆ·æ–°æ˜¾ç¤º====================
+//====================LCDË¢ĞÂÏÔÊ¾====================
 void ShowCalendar(void)
 {
     unsigned char weekday;
 
-    //ç¬¬ä¸€è¡Œï¼š20YY-MM-DD æ˜ŸæœŸ
+    //µÚÒ»ĞĞ£º20YY-MM-DD ĞÇÆÚ
     LCD1602_SetPos(1, 0);
     LCD1602_WriteData('2');
     LCD1602_WriteData('0');
@@ -562,7 +562,7 @@ void ShowCalendar(void)
     LCD1602_WriteData('-');
     LCD_ShowNum2(1, 8, time_buf[3]);
 
-    //æ˜ŸæœŸæ˜¾ç¤º
+    //ĞÇÆÚÏÔÊ¾
     weekday = GetWeekday(time_buf[5], time_buf[4], time_buf[3]);
     LCD1602_SetPos(1, 10);
     LCD1602_WriteData(' ');
@@ -578,7 +578,7 @@ void ShowCalendar(void)
         case 6: LCD1602_WriteData('S'); LCD1602_WriteData('a'); LCD1602_WriteData('t'); break;
     }
 
-    //ç¬¬äºŒè¡Œï¼šHH:MM:SS
+    //µÚ¶şĞĞ£ºHH:MM:SS
     LCD_ShowNum2(2, 0, time_buf[2]);
     LCD1602_SetPos(2, 2);
     LCD1602_WriteData(':');
@@ -587,17 +587,17 @@ void ShowCalendar(void)
     LCD1602_WriteData(':');
     LCD_ShowNum2(2, 6, time_buf[0]);
 
-    //ç¬¬äºŒè¡ŒååŠéƒ¨åˆ†ï¼šæ­£å¸¸æ¨¡å¼æ˜¾ç¤ºæ¸©åº¦ï¼Œè®¾ç½®æ¨¡å¼æ˜¾ç¤ºSET
+    //µÚ¶şĞĞºó°ë²¿·Ö£ºÕı³£Ä£Ê½ÏÔÊ¾ÎÂ¶È£¬ÉèÖÃÄ£Ê½ÏÔÊ¾SET
     if(set_mode == 0)
     {
-        // æ˜¾ç¤ºæ¸©åº¦ï¼Œæ ¼å¼ï¼šxx.xCï¼ˆä¾‹å¦‚ 25.5Cï¼‰
+        // ÏÔÊ¾ÎÂ¶È£¬¸ñÊ½£ºxx.xC£¨ÀıÈç 25.5C£©
         LCD1602_SetPos(2, 9);
         if(temperature < 0)
         {
             int abs_temp = -temperature;
             LCD1602_WriteData('-');
             if(abs_temp / 100 > 0)
-                LCD1602_WriteData(abs_temp / 100 + '0'); // ç™¾ä½ï¼ˆç†è®ºä¸ä¼šè¶…è¿‡ï¼‰
+                LCD1602_WriteData(abs_temp / 100 + '0'); // °ÙÎ»£¨ÀíÂÛ²»»á³¬¹ı£©
             else
                 LCD1602_WriteData(' ');
             LCD1602_WriteData((abs_temp / 10) % 10 + '0');
@@ -608,7 +608,7 @@ void ShowCalendar(void)
         else
         {
             if(temperature / 100 > 0)
-                LCD1602_WriteData(temperature / 100 + '0'); // ç™¾ä½
+                LCD1602_WriteData(temperature / 100 + '0'); // °ÙÎ»
             else
                 LCD1602_WriteData(' ');
             LCD1602_WriteData((temperature / 10) % 10 + '0');
@@ -616,11 +616,11 @@ void ShowCalendar(void)
             LCD1602_WriteData(temperature % 10 + '0');
             LCD1602_WriteData('C');
         }
-        LCD1602_WriteData(' '); // æ¸…é™¤æ®‹ç•™å­—ç¬¦
+        LCD1602_WriteData(' '); // Çå³ı²ĞÁô×Ö·û
     }
     else
     {
-        // è®¾ç½®æ¨¡å¼æ˜¾ç¤ºSET
+        // ÉèÖÃÄ£Ê½ÏÔÊ¾SET
         LCD1602_SetPos(2, 9);
         LCD1602_WriteData('S');
         LCD1602_WriteData('E');
@@ -630,7 +630,7 @@ void ShowCalendar(void)
         LCD1602_WriteData(' ');
     }
 
-    //è®¾ç½®æ¨¡å¼å…‰æ ‡é—ªçƒ
+    //ÉèÖÃÄ£Ê½¹â±êÉÁË¸
     if(set_mode == 1)
     {
         LCD1602_SetPos((set_sel <= 2) ? 2 : 1, pos_table[set_sel]);
@@ -638,32 +638,32 @@ void ShowCalendar(void)
     }
     else
     {
-        LCD1602_WriteCmd(0x0C); //å…³é—­å…‰æ ‡
+        LCD1602_WriteCmd(0x0C); //¹Ø±Õ¹â±ê
     }
 }
 
-//====================ä¸»å‡½æ•°====================
+//====================Ö÷º¯Êı====================
 void main(void)
 {
     unsigned char key_val;
 
     LCD1602_Init();
-    RTC_InitCheck();   //ä¸Šç”µæ£€æŸ¥DS1302æ—¶é’Ÿï¼Œå¿…è¦æ—¶åˆå§‹åŒ–
+    RTC_InitCheck();   //ÉÏµç¼ì²éDS1302Ê±ÖÓ£¬±ØÒªÊ±³õÊ¼»¯
 
     while(1)
     {
-        // æ­£å¸¸æ¨¡å¼ä¸‹è¯»å–DS1302æ—¶é—´ï¼Œè®¾ç½®æ¨¡å¼ä¸‹ä¿æŒç”¨æˆ·è°ƒæ•´å€¼
+        // Õı³£Ä£Ê½ÏÂ¶ÁÈ¡DS1302Ê±¼ä£¬ÉèÖÃÄ£Ê½ÏÂ±£³ÖÓÃ»§µ÷ÕûÖµ
         if(set_mode == 0)
         {
             DS1302_ReadTime();
         }
 
-        // DS18B20æ¸©åº¦é‡‡é›†çŠ¶æ€æœº
+        // DS18B20ÎÂ¶È²É¼¯×´Ì¬»ú
         DS18B20_Process();
 
-        ShowCalendar();          // åˆ·æ–°æ˜¾ç¤º
-        key_val = KeyScan();     // æŒ‰é”®æ‰«æï¼ˆéé˜»å¡ï¼‰
-        KeyProcess(key_val);     // æŒ‰é”®å¤„ç†
-        DelayMs(50);             // ä¸»å¾ªç¯å»¶æ—¶ï¼Œæ§åˆ¶åˆ·æ–°é€Ÿåº¦
+        ShowCalendar();          // Ë¢ĞÂÏÔÊ¾
+        key_val = KeyScan();     // °´¼üÉ¨Ãè£¨·Ç×èÈû£©
+        KeyProcess(key_val);     // °´¼ü´¦Àí
+        DelayMs(50);             // Ö÷Ñ­»·ÑÓÊ±£¬¿ØÖÆË¢ĞÂËÙ¶È
     }
 }

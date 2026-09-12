@@ -1,17 +1,17 @@
 /*
- * 51å•ç‰‡æœºå¤šæœºé€šä¿¡ï¼ˆä¸‰æœºé€šè®¯ï¼‰
- * åŠŸèƒ½ï¼š3ä¸ª51å•ç‰‡æœºé€šè¿‡ä¸²å£å¤šæœºé€šä¿¡æ¨¡å¼äº’è”
- * ç¡¬ä»¶ï¼šä¸»æœºTXDâ†’æ‰€æœ‰ä»æœºRXDï¼Œæ¯ä¸ªä»æœºTXDâ†’ä¸»æœºRXD
- *       P2.0-P2.2åˆ†åˆ«æ¥3ä¸ªä»æœºçš„ä½¿èƒ½ç«¯
- * è¯´æ˜ï¼š51å•ç‰‡æœºä¸²å£æ–¹å¼2/3æ”¯æŒå¤šæœºé€šä¿¡
- *       TB8=1è¡¨ç¤ºåœ°å€å¸§ï¼ŒTB8=0è¡¨ç¤ºæ•°æ®å¸§
- *       ä»æœºSM2=1æ—¶åªæ¥æ”¶åœ°å€å¸§ï¼ŒåŒ¹é…åæ¸…SM2æ¥æ”¶æ•°æ®
+ * 51µ¥Æ¬»ú¶à»úÍ¨ĞÅ£¨Èı»úÍ¨Ñ¶£©
+ * ¹¦ÄÜ£º3¸ö51µ¥Æ¬»úÍ¨¹ı´®¿Ú¶à»úÍ¨ĞÅÄ£Ê½»¥Áª
+ * Ó²¼ş£ºÖ÷»úTXD¡úËùÓĞ´Ó»úRXD£¬Ã¿¸ö´Ó»úTXD¡úÖ÷»úRXD
+ *       P2.0-P2.2·Ö±ğ½Ó3¸ö´Ó»úµÄÊ¹ÄÜ¶Ë
+ * ËµÃ÷£º51µ¥Æ¬»ú´®¿Ú·½Ê½2/3Ö§³Ö¶à»úÍ¨ĞÅ
+ *       TB8=1±íÊ¾µØÖ·Ö¡£¬TB8=0±íÊ¾Êı¾İÖ¡
+ *       ´Ó»úSM2=1Ê±Ö»½ÓÊÕµØÖ·Ö¡£¬Æ¥ÅäºóÇåSM2½ÓÊÕÊı¾İ
  */
 #include <reg51.h>
 
-#define SLAVE1  0x01  // ä»æœº1åœ°å€
-#define SLAVE2  0x02  // ä»æœº2åœ°å€
-#define SLAVE3  0x03  // ä»æœº3åœ°å€
+#define SLAVE1  0x01  // ´Ó»ú1µØÖ·
+#define SLAVE2  0x02  // ´Ó»ú2µØÖ·
+#define SLAVE3  0x03  // ´Ó»ú3µØÖ·
 
 sbit SLAVE1_EN = P2^0;
 sbit SLAVE2_EN = P2^1;
@@ -26,7 +26,7 @@ void delay_ms(unsigned int ms)
 
 void uart_init(void)
 {
-    SCON = 0xD0;  // æ–¹å¼3, å…è®¸æ¥æ”¶, TB8/RB8å¯ç”¨
+    SCON = 0xD0;  // ·½Ê½3, ÔÊĞí½ÓÊÕ, TB8/RB8¿ÉÓÃ
     TMOD |= 0x20;
     TH1 = 0xFD;   // 9600bps
     TL1 = 0xFD;
@@ -35,7 +35,7 @@ void uart_init(void)
 
 void uart_send_addr(unsigned char addr)
 {
-    TB8 = 1;  // åœ°å€å¸§æ ‡å¿—
+    TB8 = 1;  // µØÖ·Ö¡±êÖ¾
     SBUF = addr;
     while (!TI);
     TI = 0;
@@ -43,7 +43,7 @@ void uart_send_addr(unsigned char addr)
 
 void uart_send_data(unsigned char dat)
 {
-    TB8 = 0;  // æ•°æ®å¸§æ ‡å¿—
+    TB8 = 0;  // Êı¾İÖ¡±êÖ¾
     SBUF = dat;
     while (!TI);
     TI = 0;
@@ -57,23 +57,23 @@ unsigned char uart_recv(void)
 }
 
 /*
- * ä¸»æœºå‘é€æ•°æ®åˆ°æŒ‡å®šä»æœº
+ * Ö÷»ú·¢ËÍÊı¾İµ½Ö¸¶¨´Ó»ú
  */
 void master_send(unsigned char slave_addr, unsigned char dat)
 {
-    /* é€‰æ‹©ä»æœº */
+    /* Ñ¡Ôñ´Ó»ú */
     SLAVE1_EN = (slave_addr == SLAVE1) ? 0 : 1;
     SLAVE2_EN = (slave_addr == SLAVE2) ? 0 : 1;
     SLAVE3_EN = (slave_addr == SLAVE3) ? 0 : 1;
 
-    /* å‘é€åœ°å€å¸§ */
+    /* ·¢ËÍµØÖ·Ö¡ */
     uart_send_addr(slave_addr);
     delay_ms(10);
 
-    /* å‘é€æ•°æ®å¸§ */
+    /* ·¢ËÍÊı¾İÖ¡ */
     uart_send_data(dat);
 
-    /* å…³é—­æ‰€æœ‰ä»æœº */
+    /* ¹Ø±ÕËùÓĞ´Ó»ú */
     SLAVE1_EN = 1;
     SLAVE2_EN = 1;
     SLAVE3_EN = 1;
@@ -87,7 +87,7 @@ void main(void)
 
     while (1)
     {
-        /* ä¸»æœºè½®æµå‘3ä¸ªä»æœºå‘é€æ•°æ® */
+        /* Ö÷»úÂÖÁ÷Ïò3¸ö´Ó»ú·¢ËÍÊı¾İ */
         master_send(SLAVE1, 0x11);
         delay_ms(100);
         master_send(SLAVE2, 0x22);
@@ -95,7 +95,7 @@ void main(void)
         master_send(SLAVE3, 0x33);
         delay_ms(500);
 
-        /* æ¥æ”¶ä»æœºåº”ç­” */
+        /* ½ÓÊÕ´Ó»úÓ¦´ğ */
         recv = uart_recv();
         P0 = recv;
     }

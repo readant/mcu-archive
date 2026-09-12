@@ -1,9 +1,9 @@
 /*
- * çŸ©é˜µé”®ç›˜è®¡ç®—å™¨
- * åŠŸèƒ½ï¼š4x4çŸ©é˜µé”®ç›˜å®ç°ç®€æ˜“è®¡ç®—å™¨ï¼ˆ0-9åŠ å‡ä¹˜é™¤ï¼‰
- * ç¡¬ä»¶ï¼šP1å£æ¥4x4çŸ©é˜µé”®ç›˜ï¼ŒLCD1602æ˜¾ç¤ºç»“æœ
- * è¯´æ˜ï¼šçŸ©é˜µé”®ç›˜æ˜¯æŒ‰é”®è¾“å…¥çš„è¿›é˜¶åº”ç”¨
- *       æœ¬ä¾‹å®ç°ç®€å•çš„å››åˆ™è¿ç®—è®¡ç®—å™¨
+ * ¾ØÕó¼üÅÌ¼ÆËãÆ÷
+ * ¹¦ÄÜ£º4x4¾ØÕó¼üÅÌÊµÏÖ¼òÒ×¼ÆËãÆ÷£¨0-9¼Ó¼õ³Ë³ı£©
+ * Ó²¼ş£ºP1¿Ú½Ó4x4¾ØÕó¼üÅÌ£¬LCD1602ÏÔÊ¾½á¹û
+ * ËµÃ÷£º¾ØÕó¼üÅÌÊÇ°´¼üÊäÈëµÄ½ø½×Ó¦ÓÃ
+ *       ±¾ÀıÊµÏÖ¼òµ¥µÄËÄÔòÔËËã¼ÆËãÆ÷
  */
 #include <reg51.h>
 
@@ -12,7 +12,7 @@ sbit LCD_RW = P2^1;
 sbit LCD_EN = P2^2;
 
 unsigned char key_value = 0;
-unsigned char calc_state = 0;  // 0:è¾“å…¥ç¬¬ä¸€ä¸ªæ•°, 1:è¾“å…¥è¿ç®—ç¬¦, 2:è¾“å…¥ç¬¬äºŒä¸ªæ•°
+unsigned char calc_state = 0;  // 0:ÊäÈëµÚÒ»¸öÊı, 1:ÊäÈëÔËËã·û, 2:ÊäÈëµÚ¶ş¸öÊı
 unsigned char num1 = 0, num2 = 0;
 unsigned char operator = 0;
 
@@ -47,29 +47,29 @@ void lcd_init(void)
 }
 
 /*
- * æ‰«æ4x4çŸ©é˜µé”®ç›˜
- * è¿”å›æŒ‰é”®å€¼ï¼ˆ0-15ï¼‰ï¼Œæ— æŒ‰é”®è¿”å›16
+ * É¨Ãè4x4¾ØÕó¼üÅÌ
+ * ·µ»Ø°´¼üÖµ£¨0-15£©£¬ÎŞ°´¼ü·µ»Ø16
  */
 unsigned char key_scan(void)
 {
     unsigned char row, col;
     unsigned char key = 16;
 
-    P1 = 0xF0;  // è¡Œè¾“å‡ºä½ï¼Œåˆ—è¾“å…¥é«˜
+    P1 = 0xF0;  // ĞĞÊä³öµÍ£¬ÁĞÊäÈë¸ß
     if (P1 != 0xF0)
     {
-        delay_ms(10);  // æ¶ˆæŠ–
+        delay_ms(10);  // Ïû¶¶
         if (P1 != 0xF0)
         {
             for (row = 0; row < 4; row++)
             {
-                P1 = ~(0x01 << row);  // é€è¡Œæ‰«æ
+                P1 = ~(0x01 << row);  // ÖğĞĞÉ¨Ãè
                 for (col = 0; col < 4; col++)
                 {
                     if (!(P1 & (0x10 << col)))
                     {
                         key = row * 4 + col;
-                        while (!(P1 & (0x10 << col)));  // ç­‰å¾…é‡Šæ”¾
+                        while (!(P1 & (0x10 << col)));  // µÈ´ıÊÍ·Å
                     }
                 }
             }
@@ -90,18 +90,18 @@ void main(void)
         key = key_scan();
         if (key < 16)
         {
-            if (key < 10)  // æ•°å­—é”®
+            if (key < 10)  // Êı×Ö¼ü
             {
                 lcd_write_data('0' + key);
                 if (calc_state == 0) num1 = key;
                 else if (calc_state == 2) num2 = key;
             }
-            else if (key >= 10 && key < 14)  // è¿ç®—ç¬¦
+            else if (key >= 10 && key < 14)  // ÔËËã·û
             {
                 calc_state = 1;
                 operator = key - 10;  // 0:+, 1:-, 2:*, 3:/
             }
-            else if (key == 14)  // ç­‰å·
+            else if (key == 14)  // µÈºÅ
             {
                 switch (operator)
                 {
@@ -114,7 +114,7 @@ void main(void)
                 lcd_write_data('0' + result);
                 calc_state = 0;
             }
-            else if (key == 15)  // æ¸…é™¤
+            else if (key == 15)  // Çå³ı
             {
                 lcd_write_cmd(0x01);
                 num1 = num2 = 0;

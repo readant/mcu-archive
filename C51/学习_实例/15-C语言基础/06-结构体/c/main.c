@@ -1,16 +1,16 @@
 /*------------------------------------------------
-  åŠŸèƒ½ï¼šC51ç»“æ„ä½“æ¼”ç¤º
-  ç¡¬ä»¶ï¼šP0å£æ¥LED
-  è¯´æ˜ï¼šå±•ç¤ºç»“æ„ä½“çš„å®šä¹‰å’Œä½¿ç”¨
+  ¹¦ÄÜ£ºC51½á¹¹ÌåÑİÊ¾
+  Ó²¼ş£ºP0¿Ú½ÓLED
+  ËµÃ÷£ºÕ¹Ê¾½á¹¹ÌåµÄ¶¨ÒåºÍÊ¹ÓÃ
 ------------------------------------------------*/
 #include <reg51.h>
 
-/*--- å®šä¹‰ç»“æ„ä½“ ---*/
+/*--- ¶¨Òå½á¹¹Ìå ---*/
 struct LED_State
 {
-    unsigned char port;     // ç«¯å£
-    unsigned char pattern;  // èŠ±æ ·
-    unsigned char speed;    // é€Ÿåº¦
+    unsigned char port;     // ¶Ë¿Ú
+    unsigned char pattern;  // »¨Ñù
+    unsigned char speed;    // ËÙ¶È
 };
 
 void Delay(unsigned int t)
@@ -20,7 +20,7 @@ void Delay(unsigned int t)
 
 void main(void)
 {
-    /*--- ç»“æ„ä½“å˜é‡åˆå§‹åŒ– ---*/
+    /*--- ½á¹¹Ìå±äÁ¿³õÊ¼»¯ ---*/
     struct LED_State led1;
     led1.port = 0;
     led1.pattern = 0xFE;
@@ -28,7 +28,7 @@ void main(void)
 
     struct LED_State led2 = {1, 0xFD, 100};
 
-    /*--- ç»“æ„ä½“æ•°ç»„ ---*/
+    /*--- ½á¹¹ÌåÊı×é ---*/
     struct LED_State leds[3] = {
         {0, 0xFE, 50},
         {0, 0xFD, 100},
@@ -37,7 +37,7 @@ void main(void)
 
     unsigned char i;
 
-    /*--- è®¿é—®ç»“æ„ä½“æˆå‘˜ ---*/
+    /*--- ·ÃÎÊ½á¹¹Ìå³ÉÔ± ---*/
     while (1)
     {
         for (i = 0; i < 3; i++)

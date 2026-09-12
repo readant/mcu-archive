@@ -1,12 +1,12 @@
 /*------------------------------------------------
-  功能：8x8 LED点阵基础
-  硬件：P0口接行线，P1口接列线
-  说明：点亮8x8点阵上的单个LED
+  ���ܣ�8x8 LED�������
+  Ӳ����P0�ڽ����ߣ�P1�ڽ�����
+  ˵��������8x8�����ϵĵ���LED
 ------------------------------------------------*/
 #include <reg51.h>
 
-#define ROW_PORT P0   // 行线
-#define COL_PORT P1   // 列线
+#define ROW_PORT P0   // ����
+#define COL_PORT P1   // ����
 
 void Delay(unsigned int t)
 {
@@ -17,12 +17,12 @@ void main(void)
 {
     while (1)
     {
-        ROW_PORT = 0x01;   // 选中第一行
-        COL_PORT = 0xFE;   // 选中第一列（低电平有效）
+        ROW_PORT = 0x01;   // ѡ�е�һ��
+        COL_PORT = 0xFE;   // ѡ�е�һ�У��͵�ƽ��Ч��
         Delay(50000);
 
-        ROW_PORT = 0x02;   // 第二行
-        COL_PORT = 0xFD;   // 第二列
+        ROW_PORT = 0x02;   // �ڶ���
+        COL_PORT = 0xFD;   // �ڶ���
         Delay(50000);
     }
 }

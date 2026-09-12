@@ -1,10 +1,10 @@
 /*
- * SPIæ€»çº¿ X5045 è¯»å†™
- * åŠŸèƒ½ï¼šé€šè¿‡SPIæ€»çº¿è¯»å†™X5045èŠ¯ç‰‡ï¼ˆçœ‹é—¨ç‹—+EEPROM+ç”µå‹ç›‘æ§ï¼‰
- * ç¡¬ä»¶ï¼šP1.0-CS, P1.1-SCK, P1.2-SI, P1.3-SO
- * è¯´æ˜ï¼šX5045é›†æˆäº†4Kbit EEPROMã€çœ‹é—¨ç‹—å®šæ—¶å™¨ã€ç”µæºç›‘æ§
- *       SPIæ˜¯å…¨åŒå·¥åŒæ­¥ä¸²è¡Œæ€»çº¿ï¼Œé€Ÿç‡æ¯”I2Cå¿«
- *       æŒ‡ä»¤é›†ï¼šWREN(06H), WRDI(04H), RDSR(05H), WRSR(01H), READ(03H), WRITE(02H)
+ * SPI×ÜÏß X5045 ¶ÁĞ´
+ * ¹¦ÄÜ£ºÍ¨¹ıSPI×ÜÏß¶ÁĞ´X5045Ğ¾Æ¬£¨¿´ÃÅ¹·+EEPROM+µçÑ¹¼à¿Ø£©
+ * Ó²¼ş£ºP1.0-CS, P1.1-SCK, P1.2-SI, P1.3-SO
+ * ËµÃ÷£ºX5045¼¯³ÉÁË4Kbit EEPROM¡¢¿´ÃÅ¹·¶¨Ê±Æ÷¡¢µçÔ´¼à¿Ø
+ *       SPIÊÇÈ«Ë«¹¤Í¬²½´®ĞĞ×ÜÏß£¬ËÙÂÊ±ÈI2C¿ì
+ *       Ö¸Áî¼¯£ºWREN(06H), WRDI(04H), RDSR(05H), WRSR(01H), READ(03H), WRITE(02H)
  */
 #include <reg51.h>
 
@@ -13,12 +13,12 @@ sbit X5045_SCK = P1^1;
 sbit X5045_SI = P1^2;
 sbit X5045_SO = P1^3;
 
-#define WREN   0x06  // å†™ä½¿èƒ½
-#define WRDI   0x04  // å†™ç¦æ­¢
-#define RDSR   0x05  // è¯»çŠ¶æ€å¯„å­˜å™¨
-#define WRSR   0x01  // å†™çŠ¶æ€å¯„å­˜å™¨
-#define READ   0x03  // è¯»æ•°æ®
-#define WRITE  0x02  // å†™æ•°æ®
+#define WREN   0x06  // Ğ´Ê¹ÄÜ
+#define WRDI   0x04  // Ğ´½ûÖ¹
+#define RDSR   0x05  // ¶Á×´Ì¬¼Ä´æÆ÷
+#define WRSR   0x01  // Ğ´×´Ì¬¼Ä´æÆ÷
+#define READ   0x03  // ¶ÁÊı¾İ
+#define WRITE  0x02  // Ğ´Êı¾İ
 
 void delay_us(unsigned char us)
 {
@@ -65,7 +65,7 @@ void x5045_write_byte(unsigned int addr, unsigned char dat)
     spi_transfer((unsigned char)(addr & 0xFF));
     spi_transfer(dat);
     X5045_CS = 1;
-    while (x5045_read_status() & 0x01);  // ç­‰å¾…å†™å®Œ
+    while (x5045_read_status() & 0x01);  // µÈ´ıĞ´Íê
 }
 
 unsigned char x5045_read_byte(unsigned int addr)
@@ -95,7 +95,7 @@ void main(void)
     delay_ms(10);
 
     read_data = x5045_read_byte(0x0000);
-    P0 = read_data;  // 0xAAæ˜¾ç¤ºåœ¨LEDä¸Š
+    P0 = read_data;  // 0xAAÏÔÊ¾ÔÚLEDÉÏ
 
     while (1)
     {

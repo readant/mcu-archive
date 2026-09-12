@@ -1,7 +1,7 @@
 /*------------------------------------------------
-  åŠŸèƒ½ï¼šADC0832å¤šé€šé“é‡‡é›†
-  ç¡¬ä»¶ï¼šADC0832æ¥P1å£ï¼ŒæŒ‰é”®åˆ‡æ¢é€šé“
-  è¯´æ˜ï¼š4ä¸ªæŒ‰é”®åˆ†åˆ«é€‰æ‹©4ä¸ªé€šé“ï¼Œæ•°ç ç®¡æ˜¾ç¤º
+  ¹¦ÄÜ£ºADC0832¶àÍ¨µÀ²É¼¯
+  Ó²¼ş£ºADC0832½ÓP1¿Ú£¬°´¼üÇĞ»»Í¨µÀ
+  ËµÃ÷£º4¸ö°´¼ü·Ö±ğÑ¡Ôñ4¸öÍ¨µÀ£¬ÊıÂë¹ÜÏÔÊ¾
 ------------------------------------------------*/
 #include <reg51.h>
 
@@ -48,25 +48,25 @@ unsigned char Read_ADC0832(unsigned char channel)
 
 void Display(unsigned char ch, unsigned char dat)
 {
-    // æ˜¾ç¤ºé€šé“å·
+    // ÏÔÊ¾Í¨µÀºÅ
     P0 = 0x00; LATCH1 = 1; LATCH1 = 0;
     P0 = 0xFE; LATCH2 = 1; LATCH2 = 0;
     P0 = duanma[ch]; LATCH1 = 1; LATCH1 = 0;
     Delay(5);
 
-    // æ˜¾ç¤ºç™¾ä½
+    // ÏÔÊ¾°ÙÎ»
     P0 = 0x00; LATCH1 = 1; LATCH1 = 0;
     P0 = 0xFD; LATCH2 = 1; LATCH2 = 0;
     P0 = duanma[dat / 100]; LATCH1 = 1; LATCH1 = 0;
     Delay(5);
 
-    // æ˜¾ç¤ºåä½
+    // ÏÔÊ¾Ê®Î»
     P0 = 0x00; LATCH1 = 1; LATCH1 = 0;
     P0 = 0xFB; LATCH2 = 1; LATCH2 = 0;
     P0 = duanma[dat % 100 / 10]; LATCH1 = 1; LATCH1 = 0;
     Delay(5);
 
-    // æ˜¾ç¤ºä¸ªä½
+    // ÏÔÊ¾¸öÎ»
     P0 = 0x00; LATCH1 = 1; LATCH1 = 0;
     P0 = 0xF7; LATCH2 = 1; LATCH2 = 0;
     P0 = duanma[dat % 10]; LATCH1 = 1; LATCH1 = 0;
@@ -80,7 +80,7 @@ void main(void)
 
     while (1)
     {
-        // æ£€æµ‹æŒ‰é”®åˆ‡æ¢é€šé“
+        // ¼ì²â°´¼üÇĞ»»Í¨µÀ
         if (P2_0 == 0) { Delay(20); if (P2_0 == 0) { channel = 0; while (!P2_0); } }
         if (P2_1 == 0) { Delay(20); if (P2_1 == 0) { channel = 1; while (!P2_1); } }
         if (P2_2 == 0) { Delay(20); if (P2_2 == 0) { channel = 2; while (!P2_2); } }

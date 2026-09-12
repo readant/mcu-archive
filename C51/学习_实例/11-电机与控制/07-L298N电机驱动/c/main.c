@@ -1,18 +1,18 @@
 /*------------------------------------------------
-  åŠŸèƒ½ï¼šL298Nç”µæœºé©±åŠ¨ï¼ˆåŒè·¯ï¼‰
-  ç¡¬ä»¶ï¼šL298Næ¨¡å—
-        ENA=P1.0, IN1=P1.1, IN2=P1.2 (ç”µæœºA)
-        ENB=P1.3, IN3=P1.4, IN4=P1.5 (ç”µæœºB)
-  è¯´æ˜Žï¼šåŒæ—¶æŽ§åˆ¶ä¸¤ä¸ªç›´æµç”µæœº
+  ¹¦ÄÜ£ºL298Nµç»úÇý¶¯£¨Ë«Â·£©
+  Ó²¼þ£ºL298NÄ£¿é
+        ENA=P1.0, IN1=P1.1, IN2=P1.2 (µç»úA)
+        ENB=P1.3, IN3=P1.4, IN4=P1.5 (µç»úB)
+  ËµÃ÷£ºÍ¬Ê±¿ØÖÆÁ½¸öÖ±Á÷µç»ú
 ------------------------------------------------*/
 #include <reg51.h>
 
-// ç”µæœºA
+// µç»úA
 sbit ENA = P1^0;
 sbit IN1 = P1^1;
 sbit IN2 = P1^2;
 
-// ç”µæœºB
+// µç»úB
 sbit ENB = P1^3;
 sbit IN3 = P1^4;
 sbit IN4 = P1^5;
@@ -22,12 +22,12 @@ void Delay(unsigned int t)
     while (--t);
 }
 
-// ç”µæœºAæŽ§åˆ¶
+// µç»úA¿ØÖÆ
 void MotorA_Forward(void)  { IN1=1; IN2=0; ENA=1; }
 void MotorA_Reverse(void)  { IN1=0; IN2=1; ENA=1; }
 void MotorA_Stop(void)     { IN1=0; IN2=0; ENA=0; }
 
-// ç”µæœºBæŽ§åˆ¶
+// µç»úB¿ØÖÆ
 void MotorB_Forward(void)  { IN3=1; IN4=0; ENB=1; }
 void MotorB_Reverse(void)  { IN3=0; IN4=1; ENB=1; }
 void MotorB_Stop(void)     { IN3=0; IN4=0; ENB=0; }

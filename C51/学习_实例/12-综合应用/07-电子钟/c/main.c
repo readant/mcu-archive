@@ -1,7 +1,7 @@
 /*------------------------------------------------
-  åŠŸèƒ½ï¼šç”µå­é’Ÿï¼ˆDS1302+LCD1602ï¼‰
-  ç¡¬ä»¶ï¼šDS1302æ¥P3.4~P3.6ï¼ŒLCD1602æ˜¾ç¤ºï¼ŒæŒ‰é”®è°ƒæ—¶
-  è¯´æ˜ï¼šå®Œæ•´ç”µå­é’Ÿï¼Œæ˜¾ç¤ºå¹´æœˆæ—¥æ—¶åˆ†ç§’
+  ¹¦ÄÜ£ºµç×ÓÖÓ£¨DS1302+LCD1602£©
+  Ó²¼ş£ºDS1302½ÓP3.4~P3.6£¬LCD1602ÏÔÊ¾£¬°´¼üµ÷Ê±
+  ËµÃ÷£ºÍêÕûµç×ÓÖÓ£¬ÏÔÊ¾ÄêÔÂÈÕÊ±·ÖÃë
 ------------------------------------------------*/
 #include <reg51.h>
 
@@ -16,8 +16,8 @@ sbit E = P2^7;
 
 #define DataPort P0
 
-unsigned char set_field = 0;  // 0=ä¸è®¾ç½®ï¼Œ1=æ—¶ï¼Œ2=åˆ†ï¼Œ3=ç§’
-unsigned char time_buf[3];    // æ—¶ã€åˆ†ã€ç§’
+unsigned char set_field = 0;  // 0=²»ÉèÖÃ£¬1=Ê±£¬2=·Ö£¬3=Ãë
+unsigned char time_buf[3];    // Ê±¡¢·Ö¡¢Ãë
 
 void Delay(unsigned int t) { while (--t); }
 void DelayUs(unsigned char us) { while (us--); }
@@ -39,9 +39,9 @@ unsigned char DS1302_Read(unsigned char addr) { unsigned char dat; CE=0;SCLK=0;C
 
 void ReadTime(void)
 {
-    time_buf[2] = DS1302_Read(0x84);  // æ—¶
-    time_buf[1] = DS1302_Read(0x82);  // åˆ†
-    time_buf[0] = DS1302_Read(0x80);  // ç§’
+    time_buf[2] = DS1302_Read(0x84);  // Ê±
+    time_buf[1] = DS1302_Read(0x82);  // ·Ö
+    time_buf[0] = DS1302_Read(0x80);  // Ãë
 }
 
 void WriteTime(void)

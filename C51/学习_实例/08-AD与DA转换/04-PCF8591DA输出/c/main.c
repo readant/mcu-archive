@@ -1,7 +1,7 @@
 /*------------------------------------------------
-  åŠŸèƒ½ï¼šPCF8591 DAè¾“å‡º
-  ç¡¬ä»¶ï¼šPCF8591é€šè¿‡I2Cæ¥P2.0(SCL)/P2.1(SDA)
-  è¯´æ˜ï¼šé€šè¿‡DAè¾“å‡ºæ¨¡æ‹Ÿç”µå‹ï¼Œæ§åˆ¶LEDäº®åº¦
+  ¹¦ÄÜ£ºPCF8591 DAÊä³ö
+  Ó²¼ş£ºPCF8591Í¨¹ıI2C½ÓP2.0(SCL)/P2.1(SDA)
+  ËµÃ÷£ºÍ¨¹ıDAÊä³öÄ£ÄâµçÑ¹£¬¿ØÖÆLEDÁÁ¶È
 ------------------------------------------------*/
 #include <reg51.h>
 
@@ -55,13 +55,13 @@ void I2C_SendByte(unsigned char dat)
     SCL = 0;
 }
 
-// å†™PCF8591 DAè¾“å‡º
+// Ğ´PCF8591 DAÊä³ö
 void WritePCF8591_DA(unsigned char dat)
 {
     I2C_Start();
-    I2C_SendByte(PCF8591_ADDR);   // å†™åœ°å€
-    I2C_SendByte(0x40);           // æ§åˆ¶å­—ï¼šä½¿èƒ½DAè¾“å‡º
-    I2C_SendByte(dat);            // DAå€¼
+    I2C_SendByte(PCF8591_ADDR);   // Ğ´µØÖ·
+    I2C_SendByte(0x40);           // ¿ØÖÆ×Ö£ºÊ¹ÄÜDAÊä³ö
+    I2C_SendByte(dat);            // DAÖµ
     I2C_Stop();
 }
 

@@ -1,7 +1,7 @@
 /*------------------------------------------------
-  åŠŸèƒ½ï¼šDS18B20æ¸©åº¦é‡‡é›†
-  ç¡¬ä»¶ï¼šDS18B20æ•°æ®çº¿æ¥P3.7ï¼ŒP0å£æ¥æ•°ç ç®¡
-  è¯´æ˜ï¼šè¯»å–DS18B20æ¸©åº¦å€¼å¹¶æ˜¾ç¤º
+  ¹¦ÄÜ£ºDS18B20ÎÂ¶È²É¼¯
+  Ó²¼ş£ºDS18B20Êı¾İÏß½ÓP3.7£¬P0¿Ú½ÓÊıÂë¹Ü
+  ËµÃ÷£º¶ÁÈ¡DS18B20ÎÂ¶ÈÖµ²¢ÏÔÊ¾
 ------------------------------------------------*/
 #include <reg51.h>
 
@@ -24,7 +24,7 @@ void DelayUs(unsigned int us)
     while (us--);
 }
 
-// DS18B20åˆå§‹åŒ–
+// DS18B20³õÊ¼»¯
 bit Init_DS18B20(void)
 {
     bit presence;
@@ -39,7 +39,7 @@ bit Init_DS18B20(void)
     return presence;
 }
 
-// å†™ä¸€ä¸ªå­—èŠ‚
+// Ğ´Ò»¸ö×Ö½Ú
 void WriteByte(unsigned char dat)
 {
     unsigned char i;
@@ -54,7 +54,7 @@ void WriteByte(unsigned char dat)
     }
 }
 
-// è¯»ä¸€ä¸ªå­—èŠ‚
+// ¶ÁÒ»¸ö×Ö½Ú
 unsigned char ReadByte(void)
 {
     unsigned char i, dat = 0;
@@ -71,21 +71,21 @@ unsigned char ReadByte(void)
     return dat;
 }
 
-// è¯»å–æ¸©åº¦å€¼
+// ¶ÁÈ¡ÎÂ¶ÈÖµ
 int ReadTemp(void)
 {
     unsigned char low, high;
     int temp;
 
     Init_DS18B20();
-    WriteByte(0xCC);     // è·³è¿‡ROM
-    WriteByte(0x44);     // å¯åŠ¨æ¸©åº¦è½¬æ¢
+    WriteByte(0xCC);     // Ìø¹ıROM
+    WriteByte(0x44);     // Æô¶¯ÎÂ¶È×ª»»
 
     Delay(1000);
 
     Init_DS18B20();
     WriteByte(0xCC);
-    WriteByte(0xBE);     // è¯»å–å¯„å­˜å™¨
+    WriteByte(0xBE);     // ¶ÁÈ¡¼Ä´æÆ÷
 
     low = ReadByte();
     high = ReadByte();
@@ -106,19 +106,19 @@ void Display(int temp)
     shi = abs_temp % 100 / 10;
     ge = abs_temp % 10;
 
-    // åä½
+    // Ê®Î»
     P0 = 0x00; LATCH1 = 1; LATCH1 = 0;
     P0 = 0xFD; LATCH2 = 1; LATCH2 = 0;
     P0 = duanma[shi]; LATCH1 = 1; LATCH1 = 0;
     Delay(5);
 
-    // ä¸ªä½ï¼ˆå¸¦å°æ•°ç‚¹ï¼‰
+    // ¸öÎ»£¨´øĞ¡Êıµã£©
     P0 = 0x00; LATCH1 = 1; LATCH1 = 0;
     P0 = 0xFB; LATCH2 = 1; LATCH2 = 0;
     P0 = duanma[ge] | 0x80; LATCH1 = 1; LATCH1 = 0;
     Delay(5);
 
-    // å°æ•°ä½
+    // Ğ¡ÊıÎ»
     P0 = 0x00; LATCH1 = 1; LATCH1 = 0;
     P0 = 0xF7; LATCH2 = 1; LATCH2 = 0;
     P0 = duanma[abs_temp % 10]; LATCH1 = 1; LATCH1 = 0;

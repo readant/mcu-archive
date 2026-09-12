@@ -1,16 +1,16 @@
 /*------------------------------------------------
-  åŠŸèƒ½ï¼šDS1302å¯è°ƒæ—¶é’Ÿ
-  ç¡¬ä»¶ï¼šDS1302æŽ¥P3.4~P3.6ï¼ŒæŒ‰é”®æŽ¥P2.0~P2.2
-  è¯´æ˜Žï¼š3ä¸ªæŒ‰é”®åˆ†åˆ«ï¼šåˆ‡æ¢å­—æ®µã€åŠ 1ã€å‡1
+  ¹¦ÄÜ£ºDS1302¿Éµ÷Ê±ÖÓ
+  Ó²¼þ£ºDS1302½ÓP3.4~P3.6£¬°´¼ü½ÓP2.0~P2.2
+  ËµÃ÷£º3¸ö°´¼ü·Ö±ð£ºÇÐ»»×Ö¶Î¡¢¼Ó1¡¢¼õ1
 ------------------------------------------------*/
 #include <reg51.h>
 
 sbit SCLK = P3^4;
 sbit IO = P3^5;
 sbit CE = P3^6;
-sbit KEY_SET = P2^0;    // è®¾ç½®é”®
-sbit KEY_ADD = P2^1;    // åŠ 1é”®
-sbit KEY_DEC = P2^2;    // å‡1é”®
+sbit KEY_SET = P2^0;    // ÉèÖÃ¼ü
+sbit KEY_ADD = P2^1;    // ¼Ó1¼ü
+sbit KEY_DEC = P2^2;    // ¼õ1¼ü
 sbit LATCH1 = P2^3;
 sbit LATCH2 = P2^4;
 
@@ -21,8 +21,8 @@ unsigned char code duanma[] = {
 
 unsigned char code weima[] = {0xFE, 0xFD, 0xFB, 0xF7, 0xEF, 0xDF};
 
-unsigned char time_buf[3] = {0, 0, 12};  // ç§’ã€åˆ†ã€æ—¶
-unsigned char set_field = 0;  // 0=ä¸è®¾ç½®ï¼Œ1=æ—¶ï¼Œ2=åˆ†ï¼Œ3=ç§’
+unsigned char time_buf[3] = {0, 0, 12};  // Ãë¡¢·Ö¡¢Ê±
+unsigned char set_field = 0;  // 0=²»ÉèÖÃ£¬1=Ê±£¬2=·Ö£¬3=Ãë
 
 void Delay(unsigned int t) { while (--t); }
 
@@ -86,9 +86,9 @@ void Display(void)
         P0 = 0x00; LATCH1 = 1; LATCH1 = 0;
         P0 = weima[i]; LATCH2 = 1; LATCH2 = 0;
         P0 = duanma[disp[i]];
-        // è®¾ç½®å­—æ®µé—ªçƒ
+        // ÉèÖÃ×Ö¶ÎÉÁË¸
         if (set_field > 0 && (i/2 + 1) == set_field && (Delay(500), 1))
-            P0 = 0x00;  // ç†„ç­è¡¨ç¤ºé€‰ä¸­
+            P0 = 0x00;  // Ï¨Ãð±íÊ¾Ñ¡ÖÐ
         LATCH1 = 1; LATCH1 = 0;
         Delay(5);
     }
@@ -105,7 +105,7 @@ void KeyScan(void)
             if (set_field > 3)
             {
                 set_field = 0;
-                WriteTime();  // ä¿å­˜è®¾ç½®
+                WriteTime();  // ±£´æÉèÖÃ
             }
             while (!KEY_SET);
         }

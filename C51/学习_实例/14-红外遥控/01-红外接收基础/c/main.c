@@ -1,7 +1,7 @@
 /*------------------------------------------------
-  åŠŸèƒ½ï¼šçº¢å¤–æ¥æ”¶åŸºç¡€
-  ç¡¬ä»¶ï¼šçº¢å¤–æ¥æ”¶å¤´æ¥P3.2ï¼ŒP1å£æ¥LED
-  è¯´æ˜ï¼šæ¥æ”¶çº¢å¤–ä¿¡å·ï¼ŒLEDæ˜¾ç¤ºä½8ä½æ•°æ®
+  ¹¦ÄÜ£ººìÍâ½ÓÊÕ»ù´¡
+  Ó²¼ş£ººìÍâ½ÓÊÕÍ·½ÓP3.2£¬P1¿Ú½ÓLED
+  ËµÃ÷£º½ÓÊÕºìÍâĞÅºÅ£¬LEDÏÔÊ¾µÍ8Î»Êı¾İ
 ------------------------------------------------*/
 #include <reg51.h>
 
@@ -13,9 +13,9 @@ void DelayUs(unsigned char us) { while (us--); }
 unsigned int MeasurePulse(void)
 {
     unsigned int count = 0;
-    while (IR == 0 && count < 1000) count++;  // ç­‰å¾…é«˜ç”µå¹³
+    while (IR == 0 && count < 1000) count++;  // µÈ´ı¸ßµçÆ½
     count = 0;
-    while (IR == 1 && count < 1000) count++;  // æµ‹é‡é«˜ç”µå¹³æ—¶é—´
+    while (IR == 1 && count < 1000) count++;  // ²âÁ¿¸ßµçÆ½Ê±¼ä
     return count;
 }
 
@@ -24,8 +24,8 @@ unsigned long ReceiveIR(void)
     unsigned char i;
     unsigned long dat = 0;
 
-    while (IR == 0);     // ç­‰å¾…å¼•å¯¼ç ä½ç”µå¹³
-    MeasurePulse();       // è·³è¿‡å¼•å¯¼ç é«˜ç”µå¹³ï¼ˆ4.5msï¼‰
+    while (IR == 0);     // µÈ´ıÒıµ¼ÂëµÍµçÆ½
+    MeasurePulse();       // Ìø¹ıÒıµ¼Âë¸ßµçÆ½£¨4.5ms£©
 
     for (i = 0; i < 32; i++)
     {
@@ -46,7 +46,7 @@ void main(void)
         if (IR == 0)
         {
             ir_data = ReceiveIR();
-            P1 = ir_data & 0xFF;  // ä½8ä½æ˜¾ç¤ºåœ¨LEDä¸Š
+            P1 = ir_data & 0xFF;  // µÍ8Î»ÏÔÊ¾ÔÚLEDÉÏ
         }
     }
 }

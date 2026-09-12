@@ -1,10 +1,10 @@
 /*
- * FM1702 RFID 读写
- * 功能：通过FM1702模块读写Mifare IC卡
- * 硬件：SPI接口连接FM1702，天线线圈
- * 说明：FM1702是复旦微电子的13.56MHz RFID读写芯片
- *       支持Mifare Classic卡的读写操作
- *       ISO14443A协议，广泛用于门禁、公交卡等
+ * FM1702 RFID ��д
+ * ���ܣ�ͨ��FM1702ģ���дMifare IC��
+ * Ӳ����SPI�ӿ�����FM1702��������Ȧ
+ * ˵����FM1702�Ǹ���΢���ӵ�13.56MHz RFID��доƬ
+ *       ֧��Mifare Classic���Ķ�д����
+ *       ISO14443AЭ�飬�㷺�����Ž�����������
  */
 #include <reg51.h>
 
@@ -14,7 +14,7 @@ sbit FM1702_MOSI = P1^2;
 sbit FM1702_MISO = P1^3;
 sbit FM1702_RST  = P1^4;
 
-/* FM1702命令集 */
+/* FM1702��� */
 #define CMD_IDLE       0x00
 #define CMD_READ_EOF   0x01
 #define CMD_CALC_CRC   0x03
@@ -105,8 +105,8 @@ void main(void)
 
     while (1)
     {
-        /* 寻卡、防冲突、选卡、认证、读卡流程 */
-        P0 = fm1702_read_reg(0x07);  // 读取状态
+        /* Ѱ��������ͻ��ѡ������֤���������� */
+        P0 = fm1702_read_reg(0x07);  // ��ȡ״̬
         delay_ms(500);
     }
 }

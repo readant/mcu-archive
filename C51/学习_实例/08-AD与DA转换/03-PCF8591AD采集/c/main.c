@@ -1,7 +1,7 @@
 /*------------------------------------------------
-  åŠŸèƒ½ï¼šPCF8591 ADé‡‡é›†
-  ç¡¬ä»¶ï¼šPCF8591é€šè¿‡I2Cæ¥P2.0(SCL)/P2.1(SDA)
-  è¯´æ˜ï¼šè¯»å–4è·¯ADå€¼ï¼Œæ•°ç ç®¡æ˜¾ç¤º
+  ¹¦ÄÜ£ºPCF8591 AD²É¼¯
+  Ó²¼ş£ºPCF8591Í¨¹ıI2C½ÓP2.0(SCL)/P2.1(SDA)
+  ËµÃ÷£º¶ÁÈ¡4Â·ADÖµ£¬ÊıÂë¹ÜÏÔÊ¾
 ------------------------------------------------*/
 #include <reg51.h>
 
@@ -27,7 +27,7 @@ void DelayUs(unsigned char us)
     while (us--);
 }
 
-// I2Cèµ·å§‹ä¿¡å·
+// I2CÆğÊ¼ĞÅºÅ
 void I2C_Start(void)
 {
     SDA = 1; SCL = 1;
@@ -37,7 +37,7 @@ void I2C_Start(void)
     SCL = 0;
 }
 
-// I2Cåœæ­¢ä¿¡å·
+// I2CÍ£Ö¹ĞÅºÅ
 void I2C_Stop(void)
 {
     SDA = 0; SCL = 1;
@@ -46,7 +46,7 @@ void I2C_Stop(void)
     DelayUs(5);
 }
 
-// å‘é€ä¸€ä¸ªå­—èŠ‚
+// ·¢ËÍÒ»¸ö×Ö½Ú
 void I2C_SendByte(unsigned char dat)
 {
     unsigned char i;
@@ -59,18 +59,18 @@ void I2C_SendByte(unsigned char dat)
         SCL = 0;
         DelayUs(5);
     }
-    SDA = 1;  // é‡Šæ”¾æ•°æ®çº¿
+    SDA = 1;  // ÊÍ·ÅÊı¾İÏß
     SCL = 1;
     DelayUs(5);
     SCL = 0;
 }
 
-// è¯»å–ä¸€ä¸ªå­—èŠ‚
+// ¶ÁÈ¡Ò»¸ö×Ö½Ú
 unsigned char I2C_ReadByte(void)
 {
     unsigned char i, dat = 0;
 
-    SDA = 1;  // é‡Šæ”¾æ•°æ®çº¿
+    SDA = 1;  // ÊÍ·ÅÊı¾İÏß
     for (i = 0; i < 8; i++)
     {
         SCL = 1;
@@ -83,18 +83,18 @@ unsigned char I2C_ReadByte(void)
     return dat;
 }
 
-// è¯»å–PCF8591æŒ‡å®šé€šé“
+// ¶ÁÈ¡PCF8591Ö¸¶¨Í¨µÀ
 unsigned char ReadPCF8591(unsigned char channel)
 {
     unsigned char dat;
 
     I2C_Start();
-    I2C_SendByte(PCF8591_ADDR);  // å†™åœ°å€
-    I2C_SendByte(0x40 | channel); // æ§åˆ¶å­—ï¼šä½¿èƒ½+é€šé“
+    I2C_SendByte(PCF8591_ADDR);  // Ğ´µØÖ·
+    I2C_SendByte(0x40 | channel); // ¿ØÖÆ×Ö£ºÊ¹ÄÜ+Í¨µÀ
     I2C_Stop();
 
     I2C_Start();
-    I2C_SendByte(PCF8591_ADDR | 1);  // è¯»åœ°å€
+    I2C_SendByte(PCF8591_ADDR | 1);  // ¶ÁµØÖ·
     dat = I2C_ReadByte();
     I2C_Stop();
 
@@ -129,7 +129,7 @@ void main(void)
 
     while (1)
     {
-        ad_val = ReadPCF8591(0);  // è¯»å–é€šé“0
+        ad_val = ReadPCF8591(0);  // ¶ÁÈ¡Í¨µÀ0
         Display(ad_val);
     }
 }

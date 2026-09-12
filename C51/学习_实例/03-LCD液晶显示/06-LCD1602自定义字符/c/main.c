@@ -1,7 +1,7 @@
 /*------------------------------------------------
-  åŠŸèƒ½ï¼šLCD1602è‡ªå®šä¹‰å­—ç¬¦
-  ç¡¬ä»¶ï¼šP0å£æ¥æ•°æ®å£
-  è¯´æ˜ï¼šåœ¨CGRAMä¸­åˆ›å»ºè‡ªå®šä¹‰å­—ç¬¦å¹¶æ˜¾ç¤º
+  ¹¦ÄÜ£ºLCD1602×Ô¶¨Òå×Ö·û
+  Ó²¼ş£ºP0¿Ú½ÓÊı¾İ¿Ú
+  ËµÃ÷£ºÔÚCGRAMÖĞ´´½¨×Ô¶¨Òå×Ö·û²¢ÏÔÊ¾
 ------------------------------------------------*/
 #include <reg51.h>
 
@@ -42,12 +42,12 @@ void InitLCD1602(void)
     Delay(5000);
 }
 
-// è‡ªå®šä¹‰å­—ç¬¦ï¼šå¿ƒå½¢
+// ×Ô¶¨Òå×Ö·û£ºĞÄĞÎ
 unsigned char code Heart[] = {
     0x00, 0x0A, 0x1F, 0x1F, 0x0E, 0x04, 0x00, 0x00
 };
 
-// è‡ªå®šä¹‰å­—ç¬¦ï¼šç¬‘è„¸
+// ×Ô¶¨Òå×Ö·û£ºĞ¦Á³
 unsigned char code Smile[] = {
     0x00, 0x0A, 0x0A, 0x00, 0x11, 0x0E, 0x00, 0x00
 };
@@ -55,7 +55,7 @@ unsigned char code Smile[] = {
 void CreateChar(unsigned char addr, unsigned char *dat)
 {
     unsigned char i;
-    WriteCmd(0x40 + addr * 8);  // è®¾ç½®CGRAMåœ°å€
+    WriteCmd(0x40 + addr * 8);  // ÉèÖÃCGRAMµØÖ·
     for (i = 0; i < 8; i++)
     {
         WriteData(dat[i]);
@@ -66,15 +66,15 @@ void main(void)
 {
     InitLCD1602();
 
-    // åˆ›å»ºè‡ªå®šä¹‰å­—ç¬¦
-    CreateChar(0, Heart);   // å¿ƒå½¢ â†’ ä½ç½®0
-    CreateChar(1, Smile);   // ç¬‘è„¸ â†’ ä½ç½®1
+    // ´´½¨×Ô¶¨Òå×Ö·û
+    CreateChar(0, Heart);   // ĞÄĞÎ ¡ú Î»ÖÃ0
+    CreateChar(1, Smile);   // Ğ¦Á³ ¡ú Î»ÖÃ1
 
-    // æ˜¾ç¤ºè‡ªå®šä¹‰å­—ç¬¦
-    WriteCmd(0x80);         // ç¬¬ä¸€è¡Œå¼€å¤´
-    WriteData(0);           // æ˜¾ç¤ºå¿ƒå½¢
-    WriteData(1);           // æ˜¾ç¤ºç¬‘è„¸
-    WriteData(0);           // å†æ˜¾ç¤ºå¿ƒå½¢
+    // ÏÔÊ¾×Ô¶¨Òå×Ö·û
+    WriteCmd(0x80);         // µÚÒ»ĞĞ¿ªÍ·
+    WriteData(0);           // ÏÔÊ¾ĞÄĞÎ
+    WriteData(1);           // ÏÔÊ¾Ğ¦Á³
+    WriteData(0);           // ÔÙÏÔÊ¾ĞÄĞÎ
 
     while (1);
 }

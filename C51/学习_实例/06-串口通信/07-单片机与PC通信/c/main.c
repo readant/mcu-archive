@@ -1,10 +1,10 @@
 /*
- * 单片机与PC通信（含上位机）
- * 功能：通过串口与PC通信，接收命令控制LED
- * 硬件：P3.0-RXD, P3.1-TXD, MAX232电平转换
- * 说明：单片机与PC通信需要电平转换（TTL→RS232）
- *       MAX232是经典的电平转换芯片
- *       配合串口调试助手可实现完整通信
+ * ��Ƭ����PCͨ�ţ�����λ����
+ * ���ܣ�ͨ��������PCͨ�ţ������������LED
+ * Ӳ����P3.0-RXD, P3.1-TXD, MAX232��ƽת��
+ * ˵������Ƭ����PCͨ����Ҫ��ƽת����TTL��RS232��
+ *       MAX232�Ǿ���ĵ�ƽת��оƬ
+ *       ��ϴ��ڵ������ֿ�ʵ������ͨ��
  */
 #include <reg51.h>
 
@@ -21,12 +21,12 @@ void delay_ms(unsigned int ms)
 
 void uart_init(void)
 {
-    SCON = 0x50;  // 模式1, 允许接收
-    TMOD |= 0x20; // T1方式2
+    SCON = 0x50;  // ģʽ1, ��������
+    TMOD |= 0x20; // T1��ʽ2
     TH1 = 0xFD;   // 9600bps @11.0592MHz
     TL1 = 0xFD;
     TR1 = 1;
-    ES = 1;       // 使能串口中断
+    ES = 1;       // ʹ�ܴ����ж�
     EA = 1;
 }
 
@@ -46,7 +46,7 @@ void uart_send_string(unsigned char *str)
 }
 
 /*
- * 串口中断服务函数
+ * �����жϷ�����
  */
 void uart_isr(void) interrupt 4
 {

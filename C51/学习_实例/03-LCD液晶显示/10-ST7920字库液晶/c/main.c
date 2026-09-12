@@ -1,10 +1,10 @@
 /*
- * ST7920 字库液晶显示
- * 功能：通过ST7920字库芯片驱动LCD12864显示中文
- * 硬件：SPI接口连接ST7920
- * 说明：ST7920内置中文字库，可直接显示汉字
- *       不需要取模，简化中文显示方案
- *       与普通12864（无字库）形成对比
+ * ST7920 �ֿ�Һ����ʾ
+ * ���ܣ�ͨ��ST7920�ֿ�оƬ����LCD12864��ʾ����
+ * Ӳ����SPI�ӿ�����ST7920
+ * ˵����ST7920���������ֿ⣬��ֱ����ʾ����
+ *       ����Ҫȡģ����������ʾ����
+ *       ����ͨ12864�����ֿ⣩�γɶԱ�
  */
 #include <reg51.h>
 
@@ -38,7 +38,7 @@ void st7920_write_byte(unsigned char dat)
 void st7920_write_cmd(unsigned char cmd)
 {
     ST7920_CS = 1;
-    st7920_write_byte(0xF8);  // 控制字：命令
+    st7920_write_byte(0xF8);  // �����֣�����
     st7920_write_byte(cmd & 0xF0);
     st7920_write_byte((cmd << 4) & 0xF0);
     ST7920_CS = 0;
@@ -47,7 +47,7 @@ void st7920_write_cmd(unsigned char cmd)
 void st7920_write_data(unsigned char dat)
 {
     ST7920_CS = 1;
-    st7920_write_byte(0xFA);  // 控制字：数据
+    st7920_write_byte(0xFA);  // �����֣�����
     st7920_write_byte(dat & 0xF0);
     st7920_write_byte((dat << 4) & 0xF0);
     ST7920_CS = 0;
@@ -55,15 +55,15 @@ void st7920_write_data(unsigned char dat)
 
 void st7920_init(void)
 {
-    st7920_write_cmd(0x30);  // 基本指令集
-    st7920_write_cmd(0x0C);  // 显示开
-    st7920_write_cmd(0x01);  // 清屏
+    st7920_write_cmd(0x30);  // ����ָ�
+    st7920_write_cmd(0x0C);  // ��ʾ��
+    st7920_write_cmd(0x01);  // ����
     delay_ms(5);
-    st7920_write_cmd(0x36);  // 扩展指令集，开图形
+    st7920_write_cmd(0x36);  // ��չָ�����ͼ��
 }
 
 /*
- * 显示中文字符串（GB2312编码）
+ * ��ʾ�����ַ�����GB2312���룩
  */
 void st7920_display_string(unsigned char x, unsigned char y, unsigned char *str)
 {
@@ -81,9 +81,9 @@ void main(void)
 
     while (1)
     {
-        st7920_display_string(0, 0, "单片机学习");
-        st7920_display_string(0, 1, "ST7920字库");
-        st7920_display_string(0, 2, "中文显示测试");
+        st7920_display_string(0, 0, "��Ƭ��ѧϰ");
+        st7920_display_string(0, 1, "ST7920�ֿ�");
+        st7920_display_string(0, 2, "������ʾ����");
         delay_ms(1000);
     }
 }

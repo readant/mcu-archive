@@ -1,11 +1,11 @@
 /*
- * nRF905 æ— çº¿æ”¶å‘
- * åŠŸèƒ½ï¼šé€šè¿‡nRF905æ— çº¿æ¨¡å—å®ç°æ•°æ®æ”¶å‘
- * ç¡¬ä»¶ï¼šP1.0-TRX_CE, P1.1-PWR_UP, P1.2-TX_EN, P1.3-CSN
+ * nRF905 ÎŞÏßÊÕ·¢
+ * ¹¦ÄÜ£ºÍ¨¹ınRF905ÎŞÏßÄ£¿éÊµÏÖÊı¾İÊÕ·¢
+ * Ó²¼ş£ºP1.0-TRX_CE, P1.1-PWR_UP, P1.2-TX_EN, P1.3-CSN
  *       P1.4-SCK, P1.5-MOSI, P1.6-MISO, P1.7-DR
- * è¯´æ˜ï¼šnRF905æ˜¯Nordicå…¬å¸çš„433MHzæ— çº¿æ”¶å‘èŠ¯ç‰‡
- *       æ”¯æŒShockBurstæ¨¡å¼ï¼Œè‡ªåŠ¨å‰å¯¼ç å’ŒCRC
- *       æœ‰æ•ˆè·ç¦»100-200ç±³ï¼Œé€‚åˆç‰©è”ç½‘åº”ç”¨
+ * ËµÃ÷£ºnRF905ÊÇNordic¹«Ë¾µÄ433MHzÎŞÏßÊÕ·¢Ğ¾Æ¬
+ *       Ö§³ÖShockBurstÄ£Ê½£¬×Ô¶¯Ç°µ¼ÂëºÍCRC
+ *       ÓĞĞ§¾àÀë100-200Ã×£¬ÊÊºÏÎïÁªÍøÓ¦ÓÃ
  */
 #include <reg51.h>
 
@@ -18,7 +18,7 @@ sbit MOSI   = P1^5;
 sbit MISO   = P1^6;
 sbit DR     = P1^7;
 
-/* nRF905å¯„å­˜å™¨é…ç½® */
+/* nRF905¼Ä´æÆ÷ÅäÖÃ */
 #define NRF_CONFIG   0x00
 #define NRF_TX_ADDR  0x10
 #define NRF_TX_DATA  0x30
@@ -53,7 +53,7 @@ unsigned char spi_transfer(unsigned char dat)
 void nrf_write_reg(unsigned char reg, unsigned char dat)
 {
     CSN = 0;
-    spi_transfer(0x00 | reg);  // å†™å‘½ä»¤
+    spi_transfer(0x00 | reg);  // Ğ´ÃüÁî
     spi_transfer(dat);
     CSN = 1;
 }
@@ -74,11 +74,11 @@ void nrf_init(void)
     TRX_CE = 0;
     TX_EN = 0;
 
-    nrf_write_reg(NRF_CONFIG, 0x0C);  // 16ä½CRC, æ— é‡å‘
-    nrf_write_reg(0x01, 0x00);         // 4å­—èŠ‚åœ°å€å®½åº¦
-    nrf_write_reg(0x02, 0x00);         // 4å­—èŠ‚åœ°å€å®½åº¦
-    nrf_write_reg(0x03, 0x20);         // 4å­—èŠ‚æ¥æ”¶åœ°å€
-    nrf_write_reg(0x04, 0x00);         // 4å­—èŠ‚å‘é€åœ°å€
+    nrf_write_reg(NRF_CONFIG, 0x0C);  // 16Î»CRC, ÎŞÖØ·¢
+    nrf_write_reg(0x01, 0x00);         // 4×Ö½ÚµØÖ·¿í¶È
+    nrf_write_reg(0x02, 0x00);         // 4×Ö½ÚµØÖ·¿í¶È
+    nrf_write_reg(0x03, 0x20);         // 4×Ö½Ú½ÓÊÕµØÖ·
+    nrf_write_reg(0x04, 0x00);         // 4×Ö½Ú·¢ËÍµØÖ·
 }
 
 void nrf_send(unsigned char *dat, unsigned char len)
@@ -90,7 +90,7 @@ void nrf_send(unsigned char *dat, unsigned char len)
     delay_us(10);
     TRX_CE = 0;
 
-    while (DR == 0);  // ç­‰å¾…å‘é€å®Œæˆ
+    while (DR == 0);  // µÈ´ı·¢ËÍÍê³É
 }
 
 void main(void)

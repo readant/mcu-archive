@@ -1,17 +1,17 @@
 /*
- * 模拟串口（软件UART）
- * 功能：通过IO口软件模拟UART时序，实现串口通信
- * 硬件：P3.0-模拟RXD, P3.1-模拟TXD
- * 说明：当硬件串口不够用时，可用任意IO口模拟串口
- *       软件串口优点：可扩展多个串口
- *       软件串口缺点：占用CPU时间，波特率受限
+ * ģ�⴮�ڣ�����UART��
+ * ���ܣ�ͨ��IO������ģ��UARTʱ��ʵ�ִ���ͨ��
+ * Ӳ����P3.0-ģ��RXD, P3.1-ģ��TXD
+ * ˵������Ӳ�����ڲ�����ʱ����������IO��ģ�⴮��
+ *       ���������ŵ㣺����չ�������
+ *       ��������ȱ�㣺ռ��CPUʱ�䣬����������
  */
 #include <reg51.h>
 
-sbit SOFT_RXD = P3^0;  // 模拟接收脚
-sbit SOFT_TXD = P3^1;  // 模拟发送脚
+sbit SOFT_RXD = P3^0;  // ģ����ս�
+sbit SOFT_TXD = P3^1;  // ģ�ⷢ�ͽ�
 
-#define BAUD_9600  104   // 9600bps @11.0592MHz (1/9600 ≈ 104us)
+#define BAUD_9600  104   // 9600bps @11.0592MHz (1/9600 �� 104us)
 #define BAUD_4800  208   // 4800bps
 
 void delay_us(unsigned char us)
@@ -20,37 +20,37 @@ void delay_us(unsigned char us)
 }
 
 /*
- * 软件发送一个字节（起始位+8数据位+停止位）
+ * ��������һ���ֽڣ���ʼλ+8����λ+ֹͣλ��
  */
 void soft_uart_send(unsigned char dat)
 {
     unsigned char i;
 
-    SOFT_TXD = 0;           // 起始位
+    SOFT_TXD = 0;           // ��ʼλ
     delay_us(BAUD_9600);
 
     for (i = 0; i < 8; i++)
     {
-        SOFT_TXD = dat & 0x01;  // 先发低位
+        SOFT_TXD = dat & 0x01;  // �ȷ���λ
         dat >>= 1;
         delay_us(BAUD_9600);
     }
 
-    SOFT_TXD = 1;           // 停止位
+    SOFT_TXD = 1;           // ֹͣλ
     delay_us(BAUD_9600);
 }
 
 /*
- * 软件接收一个字节
- * 返回：接收到的数据，0表示无数据
+ * ��������һ���ֽ�
+ * ���أ����յ������ݣ�0��ʾ������
  */
 unsigned char soft_uart_recv(void)
 {
     unsigned char i, dat = 0;
 
-    /* 等待起始位 */
-    while (SOFT_RXD);  // 等待变为低电平
-    delay_us(BAUD_9600 / 2);  // 跳过起始位，在数据位中间采样
+    /* �ȴ���ʼλ */
+    while (SOFT_RXD);  // �ȴ���Ϊ�͵�ƽ
+    delay_us(BAUD_9600 / 2);  // ������ʼλ��������λ�м����
 
     for (i = 0; i < 8; i++)
     {
@@ -60,7 +60,7 @@ unsigned char soft_uart_recv(void)
             dat |= 0x80;
     }
 
-    delay_us(BAUD_9600);  // 等待停止位
+    delay_us(BAUD_9600);  // �ȴ�ֹͣλ
 
     return dat;
 }
@@ -76,14 +76,14 @@ void main(void)
 {
     unsigned char recv_data;
 
-    SOFT_TXD = 1;  // 初始高电平
+    SOFT_TXD = 1;  // ��ʼ�ߵ�ƽ
 
     while (1)
     {
-        /* 接收数据 */
+        /* �������� */
         recv_data = soft_uart_recv();
 
-        /* 回显并+1 */
+        /* ���Բ�+1 */
         if (recv_data != 0)
         {
             soft_uart_send(recv_data + 1);

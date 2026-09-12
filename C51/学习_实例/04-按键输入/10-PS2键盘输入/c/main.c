@@ -1,15 +1,15 @@
 /*
- * PS2é”®ç›˜è¾“å…¥
- * åŠŸèƒ½ï¼šé€šè¿‡PS/2æ¥å£è¯»å–æ ‡å‡†ç”µè„‘é”®ç›˜è¾“å…¥
- * ç¡¬ä»¶ï¼šP3.2-CLK(å¤–éƒ¨ä¸­æ–­0), P3.3-DATA
- * è¯´æ˜ï¼šPS/2é”®ç›˜ä½¿ç”¨åŒæ­¥ä¸²è¡Œåè®®
- *       11ä½æ•°æ®å¸§ï¼š1èµ·å§‹+8æ•°æ®+1æ ¡éªŒ+1åœæ­¢
- *       æ—¶é’Ÿç”±é”®ç›˜æä¾›ï¼Œå•ç‰‡æœºåœ¨æ—¶é’Ÿä¸‹é™æ²¿é‡‡æ ·
+ * PS2¼üÅÌÊäÈë
+ * ¹¦ÄÜ£ºÍ¨¹ıPS/2½Ó¿Ú¶ÁÈ¡±ê×¼µçÄÔ¼üÅÌÊäÈë
+ * Ó²¼ş£ºP3.2-CLK(Íâ²¿ÖĞ¶Ï0), P3.3-DATA
+ * ËµÃ÷£ºPS/2¼üÅÌÊ¹ÓÃÍ¬²½´®ĞĞĞ­Òé
+ *       11Î»Êı¾İÖ¡£º1ÆğÊ¼+8Êı¾İ+1Ğ£Ñé+1Í£Ö¹
+ *       Ê±ÖÓÓÉ¼üÅÌÌá¹©£¬µ¥Æ¬»úÔÚÊ±ÖÓÏÂ½µÑØ²ÉÑù
  */
 #include <reg51.h>
 
-sbit PS2_CLK  = P3^2;  // æ—¶é’Ÿï¼ˆæ¥å¤–éƒ¨ä¸­æ–­0ï¼‰
-sbit PS2_DATA = P3^3;  // æ•°æ®
+sbit PS2_CLK  = P3^2;  // Ê±ÖÓ£¨½ÓÍâ²¿ÖĞ¶Ï0£©
+sbit PS2_DATA = P3^3;  // Êı¾İ
 
 volatile unsigned char ps2_buf = 0;
 volatile unsigned char ps2_ready = 0;
@@ -22,7 +22,7 @@ void delay_ms(unsigned int ms)
 }
 
 /*
- * å¤–éƒ¨ä¸­æ–­0æ¥æ”¶PS/2æ•°æ®
+ * Íâ²¿ÖĞ¶Ï0½ÓÊÕPS/2Êı¾İ
  */
 void int0_isr(void) interrupt 0
 {
@@ -45,7 +45,7 @@ void int0_isr(void) interrupt 0
 }
 
 /*
- * PS/2æ‰«æç è½¬ASCII
+ * PS/2É¨ÃèÂë×ªASCII
  */
 unsigned char ps2_to_ascii(unsigned char scancode)
 {
@@ -66,7 +66,7 @@ void main(void)
     unsigned char ascii;
     unsigned char scan_code;
 
-    IT0 = 1;  // ä¸‹é™æ²¿è§¦å‘
+    IT0 = 1;  // ÏÂ½µÑØ´¥·¢
     EX0 = 1;
     EA = 1;
 
@@ -74,11 +74,11 @@ void main(void)
     {
         if (ps2_ready)
         {
-            scan_code = ps2_buf & 0x7F;  // å»æ‰æœ€é«˜ä½
+            scan_code = ps2_buf & 0x7F;  // È¥µô×î¸ßÎ»
             ascii = ps2_to_ascii(scan_code);
             if (ascii)
             {
-                P0 = ascii;  // è¾“å‡ºåˆ°LED
+                P0 = ascii;  // Êä³öµ½LED
             }
             ps2_ready = 0;
         }

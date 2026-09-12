@@ -1,7 +1,7 @@
 /*------------------------------------------------
-  鍔熻兘锛氱洿娴佺數鏈烘鍙嶈浆
-  纭欢锛歀298N IN1=P1.0, IN2=P1.1, ENA=P1.2
-  璇存槑锛氭杞啋鍋滄鈫掑弽杞啋鍋滄寰幆
+  功能：直流电机正反转
+  硬件：L298N IN1=P1.0, IN2=P1.1, ENA=P1.2
+  说明：正转→停止→反转→停止循环
 ------------------------------------------------*/
 #include <reg51.h>
 
@@ -16,17 +16,17 @@ void Delay(unsigned int t)
 
 void MotorForward(void)
 {
-    IN1 = 1; IN2 = 0; ENA = 1;  // 姝ｈ浆
+    IN1 = 1; IN2 = 0; ENA = 1;  // 正转
 }
 
 void MotorReverse(void)
 {
-    IN1 = 0; IN2 = 1; ENA = 1;  // 鍙嶈浆
+    IN1 = 0; IN2 = 1; ENA = 1;  // 反转
 }
 
 void MotorStop(void)
 {
-    IN1 = 0; IN2 = 0; ENA = 0;  // 鍋滄
+    IN1 = 0; IN2 = 0; ENA = 0;  // 停止
 }
 
 void main(void)

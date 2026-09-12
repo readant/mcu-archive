@@ -1,10 +1,10 @@
 /*
- * å¤šåŠŸèƒ½ä¸‡å¹´å†
- * åŠŸèƒ½ï¼šDS1302æ—¶é’Ÿ+DS18B20æ¸©åº¦+LCD1602æ˜¾ç¤º+é—¹é’Ÿ
- * ç¡¬ä»¶ï¼šLCD1602æ˜¾ç¤ºï¼ŒDS1302æ—¶é’Ÿï¼ŒDS18B20æ¸©åº¦ï¼ŒæŒ‰é”®è®¾ç½®
- * è¯´æ˜ï¼šç»¼åˆåº”ç”¨å¤šä¸ªæ¨¡å—ï¼Œå®ç°å®Œæ•´çš„ä¸‡å¹´å†ç³»ç»Ÿ
- *       æ˜¾ç¤ºï¼šå¹´-æœˆ-æ—¥ æ—¶:åˆ†:ç§’ æ¸©åº¦
- *       åŠŸèƒ½ï¼šé—¹é’Ÿè®¾ç½®ã€æ¸©åº¦æŠ¥è­¦
+ * ¶à¹¦ÄÜÍòÄêÀú
+ * ¹¦ÄÜ£ºDS1302Ê±ÖÓ+DS18B20ÎÂ¶È+LCD1602ÏÔÊ¾+ÄÖÖÓ
+ * Ó²¼ş£ºLCD1602ÏÔÊ¾£¬DS1302Ê±ÖÓ£¬DS18B20ÎÂ¶È£¬°´¼üÉèÖÃ
+ * ËµÃ÷£º×ÛºÏÓ¦ÓÃ¶à¸öÄ£¿é£¬ÊµÏÖÍêÕûµÄÍòÄêÀúÏµÍ³
+ *       ÏÔÊ¾£ºÄê-ÔÂ-ÈÕ Ê±:·Ö:Ãë ÎÂ¶È
+ *       ¹¦ÄÜ£ºÄÖÖÓÉèÖÃ¡¢ÎÂ¶È±¨¾¯
  */
 #include <reg51.h>
 
@@ -30,7 +30,7 @@ void delay_us(unsigned char us)
     while (us--);
 }
 
-/* DS1302æ“ä½œ */
+/* DS1302²Ù×÷ */
 void ds1302_write(unsigned char dat)
 {
     unsigned char i;
@@ -78,7 +78,7 @@ unsigned char ds1302_read_time(unsigned char addr)
     return dat;
 }
 
-/* DS18B20æ“ä½œ */
+/* DS18B20²Ù×÷ */
 bit ds18b20_reset(void)
 {
     bit presence;
@@ -136,7 +136,7 @@ unsigned char ds18b20_read_temp(void)
     return ((temp_h << 8) | temp_l) >> 4;
 }
 
-/* LCD1602æ“ä½œ */
+/* LCD1602²Ù×÷ */
 void lcd_write_cmd(unsigned char cmd)
 {
     LCD_RS = 0; LCD_RW = 0;
@@ -165,12 +165,12 @@ void main(void)
     unsigned char year, month, day, hour, min, sec, temp;
 
     lcd_init();
-    ds1302_set_time(0x80, 0x00);  // ç§’
-    ds1302_set_time(0x82, 0x30);  // åˆ†
-    ds1302_set_time(0x84, 0x12);  // æ—¶
-    ds1302_set_time(0x86, 0x04);  // æ—¥
-    ds1302_set_time(0x88, 0x09);  // æœˆ
-    ds1302_set_time(0x8C, 0x26);  // å¹´
+    ds1302_set_time(0x80, 0x00);  // Ãë
+    ds1302_set_time(0x82, 0x30);  // ·Ö
+    ds1302_set_time(0x84, 0x12);  // Ê±
+    ds1302_set_time(0x86, 0x04);  // ÈÕ
+    ds1302_set_time(0x88, 0x09);  // ÔÂ
+    ds1302_set_time(0x8C, 0x26);  // Äê
 
     while (1)
     {
@@ -183,7 +183,7 @@ void main(void)
 
         temp = ds18b20_read_temp();
 
-        /* ç¬¬ä¸€è¡Œï¼šæ—¥æœŸ */
+        /* µÚÒ»ĞĞ£ºÈÕÆÚ */
         lcd_write_cmd(0x80);
         lcd_write_data('2');
         lcd_write_data('0');
@@ -196,7 +196,7 @@ void main(void)
         lcd_write_data('0' + day / 16);
         lcd_write_data('0' + day % 16);
 
-        /* ç¬¬äºŒè¡Œï¼šæ—¶é—´+æ¸©åº¦ */
+        /* µÚ¶şĞĞ£ºÊ±¼ä+ÎÂ¶È */
         lcd_write_cmd(0xC0);
         lcd_write_data('0' + hour / 16);
         lcd_write_data('0' + hour % 16);

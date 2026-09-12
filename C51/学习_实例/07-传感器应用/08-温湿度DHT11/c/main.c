@@ -1,7 +1,7 @@
 /*------------------------------------------------
-  åŠŸèƒ½ï¼šæ¸©æ¹¿åº¦DHT11
-  ç¡¬ä»¶ï¼šDHT11æ•°æ®çº¿æ¥P2.2ï¼ŒP0å£æ¥æ•°ç ç®¡
-  è¯´æ˜ï¼šè¯»å–æ¸©æ¹¿åº¦å€¼å¹¶æ˜¾ç¤º
+  ¹¦ÄÜ£ºÎÂÊª¶ÈDHT11
+  Ó²¼ş£ºDHT11Êı¾İÏß½ÓP2.2£¬P0¿Ú½ÓÊıÂë¹Ü
+  ËµÃ÷£º¶ÁÈ¡ÎÂÊª¶ÈÖµ²¢ÏÔÊ¾
 ------------------------------------------------*/
 #include <reg51.h>
 
@@ -14,7 +14,7 @@ unsigned char code duanma[] = {
     0x6D, 0x7D, 0x07, 0x7F, 0x6F
 };
 
-unsigned char humidity, temperature;  // æ¹¿åº¦ã€æ¸©åº¦
+unsigned char humidity, temperature;  // Êª¶È¡¢ÎÂ¶È
 
 void Delay(unsigned int t)
 {
@@ -26,7 +26,7 @@ void DelayUs(unsigned char us)
     while (us--);
 }
 
-// DHT11èµ·å§‹ä¿¡å·
+// DHT11ÆğÊ¼ĞÅºÅ
 void DHT11_Start(void)
 {
     DHT11 = 1;
@@ -37,23 +37,23 @@ void DHT11_Start(void)
     DelayUs(30);
 }
 
-// è¯»å–ä¸€ä¸ªå­—èŠ‚
+// ¶ÁÈ¡Ò»¸ö×Ö½Ú
 unsigned char DHT11_ReadByte(void)
 {
     unsigned char i, dat = 0;
 
     for (i = 0; i < 8; i++)
     {
-        while (!DHT11);        // ç­‰å¾…é«˜ç”µå¹³
+        while (!DHT11);        // µÈ´ı¸ßµçÆ½
         DelayUs(30);
         dat <<= 1;
-        if (DHT11) dat |= 1;  // é«˜ç”µå¹³æ—¶é—´é•¿è¡¨ç¤º1
-        while (DHT11);        // ç­‰å¾…ä½ç”µå¹³
+        if (DHT11) dat |= 1;  // ¸ßµçÆ½Ê±¼ä³¤±íÊ¾1
+        while (DHT11);        // µÈ´ıµÍµçÆ½
     }
     return dat;
 }
 
-// è¯»å–æ¸©æ¹¿åº¦
+// ¶ÁÈ¡ÎÂÊª¶È
 bit DHT11_Read(void)
 {
     unsigned char buf[5];
@@ -61,48 +61,48 @@ bit DHT11_Read(void)
 
     DHT11_Start();
 
-    if (!DHT11)               // DHT11å“åº”
+    if (!DHT11)               // DHT11ÏìÓ¦
     {
-        while (!DHT11);       // ç­‰å¾…å“åº”ç»“æŸ
-        while (DHT11);        // ç­‰å¾…æ•°æ®å¼€å§‹
+        while (!DHT11);       // µÈ´ıÏìÓ¦½áÊø
+        while (DHT11);        // µÈ´ıÊı¾İ¿ªÊ¼
 
         for (i = 0; i < 5; i++)
             buf[i] = DHT11_ReadByte();
 
-        while (!DHT11);       // ç­‰å¾…ç»“æŸ
+        while (!DHT11);       // µÈ´ı½áÊø
 
-        // æ ¡éªŒ
+        // Ğ£Ñé
         if (buf[0] + buf[1] + buf[2] + buf[3] == buf[4])
         {
             humidity = buf[0];
             temperature = buf[2];
-            return 1;         // è¯»å–æˆåŠŸ
+            return 1;         // ¶ÁÈ¡³É¹¦
         }
     }
-    return 0;                 // è¯»å–å¤±è´¥
+    return 0;                 // ¶ÁÈ¡Ê§°Ü
 }
 
 void Display(unsigned char hum, unsigned char temp)
 {
-    // æ¹¿åº¦åä½
+    // Êª¶ÈÊ®Î»
     P0 = 0x00; LATCH1 = 1; LATCH1 = 0;
     P0 = 0xFE; LATCH2 = 1; LATCH2 = 0;
     P0 = duanma[hum / 10]; LATCH1 = 1; LATCH1 = 0;
     Delay(5);
 
-    // æ¹¿åº¦ä¸ªä½
+    // Êª¶È¸öÎ»
     P0 = 0x00; LATCH1 = 1; LATCH1 = 0;
     P0 = 0xFD; LATCH2 = 1; LATCH2 = 0;
     P0 = duanma[hum % 10]; LATCH1 = 1; LATCH1 = 0;
     Delay(5);
 
-    // æ¸©åº¦åä½
+    // ÎÂ¶ÈÊ®Î»
     P0 = 0x00; LATCH1 = 1; LATCH1 = 0;
     P0 = 0xFB; LATCH2 = 1; LATCH2 = 0;
     P0 = duanma[temp / 10]; LATCH1 = 1; LATCH1 = 0;
     Delay(5);
 
-    // æ¸©åº¦ä¸ªä½
+    // ÎÂ¶È¸öÎ»
     P0 = 0x00; LATCH1 = 1; LATCH1 = 0;
     P0 = 0xF7; LATCH2 = 1; LATCH2 = 0;
     P0 = duanma[temp % 10]; LATCH1 = 1; LATCH1 = 0;
@@ -117,6 +117,6 @@ void main(void)
         {
             Display(humidity, temperature);
         }
-        Delay(50000);  // DHT11é‡‡æ ·é—´éš”>1ç§’
+        Delay(50000);  // DHT11²ÉÑù¼ä¸ô>1Ãë
     }
 }

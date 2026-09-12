@@ -1,17 +1,17 @@
 /*
- * ADC0809 模数转换
- * 功能：通过ADC0809采集8路模拟信号
- * 硬件：P0口接ADC0809数据总线，P2.0-ALE, P2.1-START, P2.2-EOC, P2.3-OE
- * 说明：ADC0809是8位8通道逐次逼近型ADC
- *       与ADC0832（SPI接口）不同，ADC0809是并行接口
- *       转换时间约100us，适合多通道采集
+ * ADC0809 ģ��ת��
+ * ���ܣ�ͨ��ADC0809�ɼ�8·ģ���ź�
+ * Ӳ����P0�ڽ�ADC0809�������ߣ�P2.0-ALE, P2.1-START, P2.2-EOC, P2.3-OE
+ * ˵����ADC0809��8λ8ͨ����αƽ���ADC
+ *       ��ADC0832��SPI�ӿڣ���ͬ��ADC0809�ǲ��нӿ�
+ *       ת��ʱ��Լ100us���ʺ϶�ͨ���ɼ�
  */
 #include <reg51.h>
 
-sbit ADC_ALE  = P2^0;  // 地址锁存使能
-sbit ADC_START = P2^1; // 启动转换
-sbit ADC_EOC  = P2^2;  // 转换结束
-sbit ADC_OE   = P2^3;  // 输出使能
+sbit ADC_ALE  = P2^0;  // ��ַ����ʹ��
+sbit ADC_START = P2^1; // ����ת��
+sbit ADC_EOC  = P2^2;  // ת������
+sbit ADC_OE   = P2^3;  // ���ʹ��
 
 void delay_ms(unsigned int ms)
 {
@@ -21,22 +21,22 @@ void delay_ms(unsigned int ms)
 }
 
 /*
- * 读取ADC0809指定通道
+ * ��ȡADC0809ָ��ͨ��
  */
 unsigned char adc0809_read(unsigned char channel)
 {
     unsigned char dat;
 
-    P0 = channel;       // 选择通道0-7
-    ADC_ALE = 1;        // 锁存地址
-    ADC_START = 1;      // 启动转换
+    P0 = channel;       // ѡ��ͨ��0-7
+    ADC_ALE = 1;        // �����ַ
+    ADC_START = 1;      // ����ת��
     ADC_ALE = 0;
     ADC_START = 0;
 
-    while (ADC_EOC == 0);  // 等待转换完成
+    while (ADC_EOC == 0);  // �ȴ�ת�����
 
-    ADC_OE = 1;            // 使能输出
-    dat = P0;              // 读取数据
+    ADC_OE = 1;            // ʹ�����
+    dat = P0;              // ��ȡ����
     ADC_OE = 0;
 
     return dat;

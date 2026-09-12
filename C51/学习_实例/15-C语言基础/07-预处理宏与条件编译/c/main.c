@@ -1,36 +1,36 @@
 /*
- * 预处理宏与条件编译
- * 功能：演示C51预处理指令的实际应用
- * 硬件：无（纯软件示例）
- * 说明：宏定义可以简化代码、提高可移植性
- *       条件编译可以实现代码裁剪和调试
- *       这是工程化编程的基础技能
+ * Ԥ����������������
+ * ���ܣ���ʾC51Ԥ����ָ���ʵ��Ӧ��
+ * Ӳ�����ޣ�������ʾ����
+ * ˵�����궨����Լ򻯴��롢��߿���ֲ��
+ *       �����������ʵ�ִ���ü��͵���
+ *       ���ǹ��̻���̵Ļ�������
  */
 #include <reg51.h>
 
-/* 基础宏定义 */
+/* �����궨�� */
 #define LED_PORT P1
 #define LED_ALL_ON  0x00
 #define LED_ALL_OFF 0xFF
 
-/* 带参数的宏 */
+/* �������ĺ� */
 #define LED_ON(n)    (LED_PORT &= ~(0x01 << (n)))
 #define LED_OFF(n)   (LED_PORT |= (0x01 << (n)))
 #define LED_TOGGLE(n) (LED_PORT ^= (0x01 << (n)))
 
-/* 条件编译：调试模式 */
+/* �������룺����ģʽ */
 #define DEBUG_MODE 1
 
 #if DEBUG_MODE
-    #define DBG_PRINT(x) /* 串口打印调试信息 */
+    #define DBG_PRINT(x) /* ���ڴ�ӡ������Ϣ */
 #else
     #define DBG_PRINT(x)
 #endif
 
-/* 条件编译：功能裁剪 */
+/* �������룺���ܲü� */
 #define FEATURE_TIMER  1
 #define FEATURE_UART   1
-#define FEATURE_ADC    0  // 关闭ADC功能
+#define FEATURE_ADC    0  // �ر�ADC����
 
 void delay_ms(unsigned int ms)
 {
@@ -39,7 +39,7 @@ void delay_ms(unsigned int ms)
         for (j = 110; j > 0; j--);
 }
 
-/* 根据条件编译不同的函数 */
+/* �����������벻ͬ�ĺ��� */
 #if FEATURE_TIMER
 void timer_init(void)
 {
@@ -67,7 +67,7 @@ void main(void)
 
     LED_PORT = LED_ALL_OFF;
 
-    /* 使用宏操作LED */
+    /* ʹ�ú����LED */
     for (i = 0; i < 8; i++)
     {
         LED_ON(i);
@@ -75,7 +75,7 @@ void main(void)
         LED_OFF(i);
     }
 
-    /* 根据条件编译调用不同的初始化函数 */
+    /* ��������������ò�ͬ�ĳ�ʼ������ */
     #if FEATURE_TIMER
     timer_init();
     #endif

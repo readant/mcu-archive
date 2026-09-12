@@ -1,7 +1,7 @@
 /*------------------------------------------------
-  åŠŸèƒ½ï¼š24C02è¯»å†™
-  ç¡¬ä»¶ï¼š24C02é€šè¿‡I2Cæ¥P2.0(SCL)/P2.1(SDA)
-  è¯´æ˜ï¼šå‘24C02å†™å…¥ä¸€ä¸ªå­—èŠ‚ï¼Œå†è¯»å‡ºæ¥
+  ¹¦ÄÜ£º24C02¶ÁĞ´
+  Ó²¼ş£º24C02Í¨¹ıI2C½ÓP2.0(SCL)/P2.1(SDA)
+  ËµÃ÷£ºÏò24C02Ğ´ÈëÒ»¸ö×Ö½Ú£¬ÔÙ¶Á³öÀ´
 ------------------------------------------------*/
 #include <reg51.h>
 
@@ -67,7 +67,7 @@ unsigned char I2C_ReadByte(void)
     return dat;
 }
 
-// å†™ä¸€ä¸ªå­—èŠ‚
+// Ğ´Ò»¸ö×Ö½Ú
 void Write24C02(unsigned char addr, unsigned char dat)
 {
     I2C_Start();
@@ -75,10 +75,10 @@ void Write24C02(unsigned char addr, unsigned char dat)
     I2C_SendByte(addr);
     I2C_SendByte(dat);
     I2C_Stop();
-    Delay(100);  // ç­‰å¾…å†™å…¥å®Œæˆ
+    Delay(100);  // µÈ´ıĞ´ÈëÍê³É
 }
 
-// è¯»ä¸€ä¸ªå­—èŠ‚
+// ¶ÁÒ»¸ö×Ö½Ú
 unsigned char Read24C02(unsigned char addr)
 {
     unsigned char dat;
@@ -100,8 +100,8 @@ void main(void)
 {
     unsigned char read_val;
 
-    Write24C02(0x00, 0xAA);  // å†™å…¥0xAAåˆ°åœ°å€0x00
-    read_val = Read24C02(0x00);  // è¯»å‡ºæ¥
+    Write24C02(0x00, 0xAA);  // Ğ´Èë0xAAµ½µØÖ·0x00
+    read_val = Read24C02(0x00);  // ¶Á³öÀ´
 
     while (1);
 }

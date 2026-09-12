@@ -1,18 +1,18 @@
 /*
- * 多点温度测量（多个DS18B20）
- * 功能：在同一总线上挂载多个DS18B20，分别读取温度
- * 硬件：P3.7接多个DS18B20的数据线（并联）
- * 说明：每个DS18B20有唯一的64位ROM编码
- *       通过ROM搜索算法可以找到总线上所有设备
- *       通过ROM匹配命令可以与指定设备通信
+ * ����¶Ȳ��������DS18B20��
+ * ���ܣ���ͬһ�����Ϲ��ض��DS18B20���ֱ��ȡ�¶�
+ * Ӳ����P3.7�Ӷ��DS18B20�������ߣ�������
+ * ˵����ÿ��DS18B20��Ψһ��64λROM����
+ *       ͨ��ROM�����㷨�����ҵ������������豸
+ *       ͨ��ROMƥ�����������ָ���豸ͨ��
  */
 #include <reg51.h>
 
 sbit DS18B20_DQ = P3^7;
 
-#define MAX_DEVICES 3  // 最多挂载3个设备
+#define MAX_DEVICES 3  // ������3���豸
 
-/* 存储每个设备的ROM编码（实际需要ROM搜索算法获取） */
+/* �洢ÿ���豸��ROM���루ʵ����ҪROM�����㷨��ȡ�� */
 unsigned char rom_codes[MAX_DEVICES][8] = {
     {0x28, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01},
     {0x28, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02},
@@ -74,18 +74,18 @@ unsigned char ds18b20_read_byte(void)
 }
 
 /*
- * ROM匹配命令 - 与指定设备通信
+ * ROMƥ������ - ��ָ���豸ͨ��
  */
 void ds18b20_match_rom(unsigned char *rom)
 {
     unsigned char i;
-    ds18b20_write_byte(0x55);  // 匹配ROM命令
+    ds18b20_write_byte(0x55);  // ƥ��ROM����
     for (i = 0; i < 8; i++)
         ds18b20_write_byte(rom[i]);
 }
 
 /*
- * 跳过ROM - 对所有设备广播
+ * ����ROM - �������豸�㲥
  */
 void ds18b20_skip_rom(void)
 {
@@ -93,7 +93,7 @@ void ds18b20_skip_rom(void)
 }
 
 /*
- * 读取指定设备的温度
+ * ��ȡָ���豸���¶�
  */
 float ds18b20_read_temp(unsigned char *rom)
 {
@@ -102,14 +102,14 @@ float ds18b20_read_temp(unsigned char *rom)
     float temperature;
 
     ds18b20_reset();
-    ds18b20_match_rom(rom);  // 选择指定设备
-    ds18b20_write_byte(0x44); // 启动转换
+    ds18b20_match_rom(rom);  // ѡ��ָ���豸
+    ds18b20_write_byte(0x44); // ����ת��
 
     delay_ms(750);
 
     ds18b20_reset();
     ds18b20_match_rom(rom);
-    ds18b20_write_byte(0xBE); // 读暂存器
+    ds18b20_write_byte(0xBE); // ���ݴ���
     temp_l = ds18b20_read_byte();
     temp_h = ds18b20_read_byte();
 

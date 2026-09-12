@@ -1,7 +1,7 @@
 /*------------------------------------------------
-  åŠŸèƒ½ï¼šæ•°ç ç®¡æ—¶é’Ÿæ˜¾ç¤ºï¼ˆæ—¶:åˆ†ï¼‰
-  ç¡¬ä»¶ï¼š4ä½æ•°ç ç®¡ï¼ŒP0å£æ¥æ®µé€‰
-  è¯´æ˜ï¼šæ˜¾ç¤ºæ ¼å¼ HH:MMï¼Œä¸­é—´å†’å·é—ªçƒ
+  ¹¦ÄÜ£ºÊıÂë¹ÜÊ±ÖÓÏÔÊ¾£¨Ê±:·Ö£©
+  Ó²¼ş£º4Î»ÊıÂë¹Ü£¬P0¿Ú½Ó¶ÎÑ¡
+  ËµÃ÷£ºÏÔÊ¾¸ñÊ½ HH:MM£¬ÖĞ¼äÃ°ºÅÉÁË¸
 ------------------------------------------------*/
 #include <reg51.h>
 
@@ -15,9 +15,9 @@ unsigned char code duanma[] = {
 
 unsigned char code weima[] = {0xFE, 0xFD, 0xFB, 0xF7};
 
-unsigned char hour = 12;  // å°æ—¶
-unsigned char min = 0;    // åˆ†é’Ÿ
-bit colon_on = 1;         // å†’å·çŠ¶æ€
+unsigned char hour = 12;  // Ğ¡Ê±
+unsigned char min = 0;    // ·ÖÖÓ
+bit colon_on = 1;         // Ã°ºÅ×´Ì¬
 
 void Delay(unsigned int t)
 {
@@ -29,10 +29,10 @@ void Display(void)
     unsigned char buf[4];
     unsigned char i;
 
-    buf[0] = hour / 10;    // å°æ—¶åä½
-    buf[1] = hour % 10;    // å°æ—¶ä¸ªä½
-    buf[2] = min / 10;     // åˆ†é’Ÿåä½
-    buf[3] = min % 10;     // åˆ†é’Ÿä¸ªä½
+    buf[0] = hour / 10;    // Ğ¡Ê±Ê®Î»
+    buf[1] = hour % 10;    // Ğ¡Ê±¸öÎ»
+    buf[2] = min / 10;     // ·ÖÖÓÊ®Î»
+    buf[3] = min % 10;     // ·ÖÖÓ¸öÎ»
 
     for (i = 0; i < 4; i++)
     {
@@ -41,9 +41,9 @@ void Display(void)
         P0 = weima[i];
         LATCH2 = 1; LATCH2 = 0;
 
-        // ç¬¬2ä½ï¼ˆå°æ—¶ä¸ªä½ï¼‰åŠ å†’å·
+        // µÚ2Î»£¨Ğ¡Ê±¸öÎ»£©¼ÓÃ°ºÅ
         if (i == 1 && colon_on)
-            P0 = duanma[buf[i]] | 0x80;  // åŠ å°æ•°ç‚¹å½“å†’å·
+            P0 = duanma[buf[i]] | 0x80;  // ¼ÓĞ¡Êıµãµ±Ã°ºÅ
         else
             P0 = duanma[buf[i]];
 
@@ -64,14 +64,14 @@ void main(void)
         timer++;
         blink++;
 
-        // å†’å·é—ªçƒï¼ˆçº¦500msåˆ‡æ¢ä¸€æ¬¡ï¼‰
+        // Ã°ºÅÉÁË¸£¨Ô¼500msÇĞ»»Ò»´Î£©
         if (blink >= 2500)
         {
             blink = 0;
             colon_on = !colon_on;
         }
 
-        // æ¯ç§’åŠ 1åˆ†é’Ÿ
+        // Ã¿Ãë¼Ó1·ÖÖÓ
         if (timer >= 5000)
         {
             timer = 0;

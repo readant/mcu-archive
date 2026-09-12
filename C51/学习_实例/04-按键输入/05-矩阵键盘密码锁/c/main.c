@@ -1,7 +1,7 @@
 /*------------------------------------------------
-  åŠŸèƒ½ï¼šçŸ©é˜µé”®ç›˜å¯†ç é”
-  ç¡¬ä»¶ï¼šP1å£æ¥4x4çŸ©é˜µé”®ç›˜ï¼ŒP0.0æ¥LEDï¼ˆå¼€é”æŒ‡ç¤ºï¼‰
-  è¯´æ˜ï¼šè¾“å…¥4ä½å¯†ç ï¼Œæ­£ç¡®åˆ™LEDäº®
+  ¹¦ÄÜ£º¾ØÕó¼üÅÌÃÜÂëËø
+  Ó²¼ş£ºP1¿Ú½Ó4x4¾ØÕó¼üÅÌ£¬P0.0½ÓLED£¨¿ªËøÖ¸Ê¾£©
+  ËµÃ÷£ºÊäÈë4Î»ÃÜÂë£¬ÕıÈ·ÔòLEDÁÁ
 ------------------------------------------------*/
 #include <reg51.h>
 
@@ -11,12 +11,12 @@ unsigned char code keymap[] = {
     1, 2, 3, 10,     // 10=A
     4, 5, 6, 11,     // 11=B
     7, 8, 9, 12,     // 12=C
-    0, 0, 0, 13      // 13=Dï¼ˆç¡®è®¤ï¼‰
+    0, 0, 0, 13      // 13=D£¨È·ÈÏ£©
 };
 
-unsigned char password[] = {1, 2, 3, 4};  // æ­£ç¡®å¯†ç 
-unsigned char input[4];                     // è¾“å…¥ç¼“å†²
-unsigned char pos = 0;                      // å½“å‰è¾“å…¥ä½ç½®
+unsigned char password[] = {1, 2, 3, 4};  // ÕıÈ·ÃÜÂë
+unsigned char input[4];                     // ÊäÈë»º³å
+unsigned char pos = 0;                      // µ±Ç°ÊäÈëÎ»ÖÃ
 
 unsigned char KeyScan(void)
 {
@@ -52,17 +52,17 @@ void main(void)
     unsigned char i;
     bit correct;
 
-    LOCK = 1;  // åˆå§‹é”å®š
+    LOCK = 1;  // ³õÊ¼Ëø¶¨
 
     while (1)
     {
         key = KeyScan();
         if (key != 0xFF)
         {
-            Delay(20);  // æ¶ˆæŠ–
+            Delay(20);  // Ïû¶¶
             if (KeyScan() == key)
             {
-                if (key == 13)  // æŒ‰ä¸‹ç¡®è®¤é”®
+                if (key == 13)  // °´ÏÂÈ·ÈÏ¼ü
                 {
                     correct = 1;
                     for (i = 0; i < 4; i++)
@@ -73,7 +73,7 @@ void main(void)
                             break;
                         }
                     }
-                    LOCK = correct ? 0 : 1;  // å¯†ç æ­£ç¡®å¼€é”
+                    LOCK = correct ? 0 : 1;  // ÃÜÂëÕıÈ·¿ªËø
                     pos = 0;
                 }
                 else if (pos < 4)
@@ -81,7 +81,7 @@ void main(void)
                     input[pos] = key;
                     pos++;
                 }
-                while (KeyScan() != 0xFF);  // ç­‰å¾…æ¾æ‰‹
+                while (KeyScan() != 0xFF);  // µÈ´ıËÉÊÖ
             }
         }
     }

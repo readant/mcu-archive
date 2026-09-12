@@ -1,7 +1,7 @@
 /*------------------------------------------------
-  åŠŸèƒ½ï¼šçº¢å¤–å‘å°„
-  ç¡¬ä»¶ï¼šçº¢å¤–LEDæ¥P3.0
-  è¯´æ˜ï¼šå‘å°„NECæ ¼å¼çº¢å¤–ä¿¡å·
+  ¹¦ÄÜ£ººìÍâ·¢Éä
+  Ó²¼ş£ººìÍâLED½ÓP3.0
+  ËµÃ÷£º·¢ÉäNEC¸ñÊ½ºìÍâĞÅºÅ
 ------------------------------------------------*/
 #include <reg51.h>
 
@@ -12,20 +12,20 @@ void DelayUs(unsigned char us)
     while (us--);
 }
 
-// å‘å°„38KHzè½½æ³¢
+// ·¢Éä38KHzÔØ²¨
 void SendCarrier(unsigned int time)
 {
     unsigned int i;
     for (i = 0; i < time; i++)
     {
         IR_TX = 0;
-        DelayUs(13);    // çº¦38KHz
+        DelayUs(13);    // Ô¼38KHz
         IR_TX = 1;
         DelayUs(13);
     }
 }
 
-// å‘å°„ç©ºé—²ï¼ˆæ— è½½æ³¢ï¼‰
+// ·¢Éä¿ÕÏĞ£¨ÎŞÔØ²¨£©
 void SendIdle(unsigned int time)
 {
     unsigned int i;
@@ -35,36 +35,36 @@ void SendIdle(unsigned int time)
     }
 }
 
-// å‘å°„ä¸€ä½æ•°æ®
+// ·¢ÉäÒ»Î»Êı¾İ
 void SendBit(bit dat)
 {
-    SendCarrier(21);   // 9mså¼•å¯¼ç çš„è½½æ³¢éƒ¨åˆ†
-    SendIdle(21);      // 4.5msç©ºé—²
+    SendCarrier(21);   // 9msÒıµ¼ÂëµÄÔØ²¨²¿·Ö
+    SendIdle(21);      // 4.5ms¿ÕÏĞ
 
     if (dat)
-        SendIdle(56);  // 1ï¼š1.69msç©ºé—²
+        SendIdle(56);  // 1£º1.69ms¿ÕÏĞ
     else
-        SendIdle(17);  // 0ï¼š0.56msç©ºé—²
-    SendCarrier(21);   // 0.56msè½½æ³¢
+        SendIdle(17);  // 0£º0.56ms¿ÕÏĞ
+    SendCarrier(21);   // 0.56msÔØ²¨
 }
 
-// å‘å°„32ä½æ•°æ®
+// ·¢Éä32Î»Êı¾İ
 void SendIR(unsigned long dat)
 {
     unsigned char i;
 
-    // å¼•å¯¼ç 
+    // Òıµ¼Âë
     SendCarrier(90);   // 9ms
     SendIdle(45);      // 4.5ms
 
-    // æ•°æ®
+    // Êı¾İ
     for (i = 0; i < 32; i++)
     {
         SendBit(dat & 0x80000000);
         dat <<= 1;
     }
 
-    // ç»“æŸä½
+    // ½áÊøÎ»
     SendCarrier(21);
 }
 
@@ -72,7 +72,7 @@ void main(void)
 {
     while (1)
     {
-        SendIR(0x00FF00FF);  // ç¤ºä¾‹ï¼šåœ°å€00ï¼Œå‘½ä»¤FF
+        SendIR(0x00FF00FF);  // Ê¾Àı£ºµØÖ·00£¬ÃüÁîFF
         {
             unsigned int i;
             for (i = 0; i < 50000; i++);

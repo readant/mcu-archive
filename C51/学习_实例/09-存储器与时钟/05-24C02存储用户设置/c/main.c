@@ -1,7 +1,7 @@
 /*------------------------------------------------
-  功能：24C02存储用户设置
-  硬件：24C02接I2C，按键切换设置
-  说明：用户设置的亮度、音量等参数保存到24C02
+  ���ܣ�24C02�洢�û�����
+  Ӳ����24C02��I2C�������л�����
+  ˵�����û����õ����ȡ������Ȳ������浽24C02
 ------------------------------------------------*/
 #include <reg51.h>
 
@@ -12,7 +12,7 @@ sbit LED = P1^0;
 
 #define ADDR_WRITE 0xA0
 #define ADDR_READ  0xA1
-#define SET_ADDR   0x00  // 设置存储地址
+#define SET_ADDR   0x00  // ���ô洢��ַ
 
 void Delay(unsigned int t) { while (--t); }
 void DelayUs(unsigned char us) { while (us--); }
@@ -53,11 +53,11 @@ void main(void)
 {
     unsigned char brightness;
 
-    // 读取上次保存的亮度值
+    // ��ȡ�ϴα��������ֵ
     brightness = Read24C02(SET_ADDR);
-    if (brightness > 10) brightness = 5;  // 初始化检查
+    if (brightness > 10) brightness = 5;  // ��ʼ�����
 
-    LED = 0;  // 点亮LED
+    LED = 0;  // ����LED
 
     while (1)
     {
@@ -69,7 +69,7 @@ void main(void)
                 brightness++;
                 if (brightness > 10) brightness = 1;
 
-                // 保存到24C02
+                // ���浽24C02
                 Write24C02(SET_ADDR, brightness);
 
                 while (!KEY);

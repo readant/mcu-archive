@@ -1,16 +1,16 @@
 /*
- * 看门狗定时器
- * 功能：演示51单片机看门狗的使用方法
- * 硬件：P1.0接喂狗指示灯
- * 说明：看门狗（WDT）是防止程序跑飞的安全机制
- *       程序必须在规定时间内"喂狗"，否则WDT复位
- *       工业应用中必须使用看门狗
+ * ���Ź���ʱ��
+ * ���ܣ���ʾ51��Ƭ�����Ź���ʹ�÷���
+ * Ӳ����P1.0��ι��ָʾ��
+ * ˵�������Ź���WDT���Ƿ�ֹ�����ܷɵİ�ȫ����
+ *       ��������ڹ涨ʱ����"ι��"������WDT��λ
+ *       ��ҵӦ���б���ʹ�ÿ��Ź�
  */
 #include <reg51.h>
 
 sbit WDT_LED = P1^0;
 
-/* 宏晶STC单片机看门狗寄存器（不同型号地址不同） */
+/* �꾧STC��Ƭ�����Ź��Ĵ�������ͬ�ͺŵ�ַ��ͬ�� */
 /* #define WDT_CONTR 0x00E7 */
 
 void delay_ms(unsigned int ms)
@@ -21,8 +21,8 @@ void delay_ms(unsigned int ms)
 }
 
 /*
- * 软件看门狗实现
- * 使用定时器中断定期检查程序状态
+ * �������Ź�ʵ��
+ * ʹ�ö�ʱ���ж϶��ڼ�����״̬
  */
 volatile unsigned char wdt_counter = 0;
 volatile unsigned char wdt_timeout = 0;
@@ -43,15 +43,15 @@ void timer0_isr(void) interrupt 1
     TL0 = 0xB0;
 
     wdt_counter++;
-    if (wdt_counter >= 20)  // 1秒超时
+    if (wdt_counter >= 20)  // 1�볬ʱ
     {
         wdt_counter = 0;
-        wdt_timeout = 1;  // 标记超时
+        wdt_timeout = 1;  // ��ǳ�ʱ
     }
 }
 
 /*
- * 喂狗函数
+ * ι������
  */
 void wdt_feed(void)
 {
@@ -65,19 +65,19 @@ void main(void)
 
     while (1)
     {
-        /* 正常工作：定期喂狗 */
+        /* ��������������ι�� */
         wdt_feed();
         WDT_LED = ~WDT_LED;
 
-        /* 模拟程序正常运行 */
+        /* ģ������������� */
         delay_ms(500);
 
-        /* 检查是否超时 */
+        /* ����Ƿ�ʱ */
         if (wdt_timeout)
         {
-            /* 超时处理：可以复位或报警 */
-            WDT_LED = 0;  // 指示异常
-            /* 实际应用中这里应该复位系统 */
+            /* ��ʱ���������Ը�λ�򱨾� */
+            WDT_LED = 0;  // ָʾ�쳣
+            /* ʵ��Ӧ��������Ӧ�ø�λϵͳ */
         }
     }
 }

@@ -1,8 +1,8 @@
 /*------------------------------------------------
-  鍔熻兘锛歎ART鎺у埗LED
-  纭欢锛歅3.0=RXD锛孭3.1=TXD锛孭1鍙ｆ帴LED
-  璇存槑锛氱數鑴戝彂閫佸懡浠ゆ帶鍒跺崟鐗囨満LED
-        鍛戒护鏍煎紡锛歀0~L7鐐逛寒锛孒0~H7鐔勭伃
+  功能：UART控制LED
+  硬件：P3.0=RXD，P3.1=TXD，P1口接LED
+  说明：电脑发送命令控制单片机LED
+        命令格式：L0~L7点亮，H0~H7熄灭
 ------------------------------------------------*/
 #include <reg51.h>
 
@@ -61,7 +61,7 @@ void UART_isr(void) interrupt 4
 void main(void)
 {
     InitUART();
-    P1 = 0xFF;  // 鍒濆鍏ㄧ伃
+    P1 = 0xFF;  // 初始全灭
     SendString("UART LED Control Ready\r\n");
     SendString("A/B:LED0, C/D:LED1, E/F:LED2, G/H:LED3\r\n");
 

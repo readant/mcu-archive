@@ -1,13 +1,13 @@
 /*
- * 无线遥控应用
- * 功能：通过无线模块实现遥控LED和电机
- * 硬件：无线接收模块→P3.2中断脚，4路遥控按键
- * 说明：无线遥控是物联网和智能家居的基础
- *       本例使用简易无线模块，配合DS1302+DS18B20实现综合遥控系统
+ * ����ң��Ӧ��
+ * ���ܣ�ͨ������ģ��ʵ��ң��LED�͵��
+ * Ӳ�������߽���ģ���P3.2�жϽţ�4·ң�ذ���
+ * ˵��������ң���������������ܼҾӵĻ���
+ *       ����ʹ�ü�������ģ�飬���DS1302+DS18B20ʵ���ۺ�ң��ϵͳ
  */
 #include <reg51.h>
 
-sbit wireless_data = P3^2;  // 无线接收数据脚
+sbit wireless_data = P3^2;  // ���߽������ݽ�
 sbit LED1 = P2^0;
 sbit LED2 = P2^1;
 sbit MOTOR = P2^2;
@@ -22,13 +22,13 @@ void delay_ms(unsigned int ms)
 }
 
 /*
- * 外部中断0接收无线信号
+ * �ⲿ�ж�0���������ź�
  */
 void int0_isr(void) interrupt 0
 {
     unsigned char i, code_val = 0;
 
-    /* 简易协议：8位数据，每位1ms */
+    /* ����Э�飺8λ���ݣ�ÿλ1ms */
     for (i = 0; i < 8; i++)
     {
         delay_ms(1);
@@ -41,27 +41,27 @@ void int0_isr(void) interrupt 0
 
 void main(void)
 {
-    IT0 = 1;  // 下降沿触发
-    EX0 = 1;  // 使能外部中断0
-    EA = 1;   // 开总中断
+    IT0 = 1;  // �½��ش���
+    EX0 = 1;  // ʹ���ⲿ�ж�0
+    EA = 1;   // �����ж�
 
     while (1)
     {
         switch (recv_code)
         {
-            case 0x01:  // 按键1：LED1开关
+            case 0x01:  // ����1��LED1����
                 LED1 = ~LED1;
                 recv_code = 0;
                 break;
-            case 0x02:  // 按键2：LED2开关
+            case 0x02:  // ����2��LED2����
                 LED2 = ~LED2;
                 recv_code = 0;
                 break;
-            case 0x04:  // 按键3：电机开关
+            case 0x04:  // ����3���������
                 MOTOR = ~MOTOR;
                 recv_code = 0;
                 break;
-            case 0x08:  // 按键4：全开
+            case 0x08:  // ����4��ȫ��
                 LED1 = 0; LED2 = 0; MOTOR = 0;
                 recv_code = 0;
                 break;

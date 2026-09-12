@@ -1,7 +1,7 @@
 /*------------------------------------------------
-  åŠŸèƒ½ï¼šè¶…å£°æ³¢æµ‹è·ï¼ˆHC-SR04ï¼‰
-  ç¡¬ä»¶ï¼šTrigæ¥P1.0ï¼ŒEchoæ¥P1.1ï¼ŒP0å£æ¥æ•°ç ç®¡
-  è¯´æ˜ï¼šå‘é€è§¦å‘ä¿¡å·ï¼Œæµ‹é‡å›æ³¢æ—¶é—´ï¼Œè®¡ç®—è·ç¦»
+  ¹¦ÄÜ£º³¬Éù²¨²â¾à£¨HC-SR04£©
+  Ó²¼ş£ºTrig½ÓP1.0£¬Echo½ÓP1.1£¬P0¿Ú½ÓÊıÂë¹Ü
+  ËµÃ÷£º·¢ËÍ´¥·¢ĞÅºÅ£¬²âÁ¿»Ø²¨Ê±¼ä£¬¼ÆËã¾àÀë
 ------------------------------------------------*/
 #include <reg51.h>
 
@@ -20,13 +20,13 @@ void Delay(unsigned int t)
     while (--t);
 }
 
-// å¾®ç§’çº§å»¶æ—¶ï¼ˆ12MHzæ™¶æŒ¯ï¼‰
+// Î¢Ãë¼¶ÑÓÊ±£¨12MHz¾§Õñ£©
 void DelayUs(unsigned char us)
 {
     while (us--);
 }
 
-// å‘é€è§¦å‘ä¿¡å·
+// ·¢ËÍ´¥·¢ĞÅºÅ
 void SendTrig(void)
 {
     Trig = 1;
@@ -34,15 +34,15 @@ void SendTrig(void)
     Trig = 0;
 }
 
-// æµ‹é‡å›æ³¢é«˜ç”µå¹³æ—¶é—´ï¼ˆusï¼‰
+// ²âÁ¿»Ø²¨¸ßµçÆ½Ê±¼ä£¨us£©
 unsigned int MeasureEcho(void)
 {
     unsigned int timeout = 0;
 
-    while (!Echo && timeout < 1000) timeout++;  // ç­‰å¾…é«˜ç”µå¹³
+    while (!Echo && timeout < 1000) timeout++;  // µÈ´ı¸ßµçÆ½
     timeout = 0;
 
-    while (Echo && timeout < 30000) timeout++;  // è®¡æ—¶
+    while (Echo && timeout < 30000) timeout++;  // ¼ÆÊ±
 
     return timeout;
 }
@@ -78,9 +78,9 @@ void main(void)
         SendTrig();
         time = MeasureEcho();
 
-        // è·ç¦» = æ—¶é—´ * å£°é€Ÿ / 2
-        // å£°é€Ÿçº¦340m/s = 0.034cm/us
-        distance = (unsigned int)(time * 0.017);  // å•ä½ï¼šcm
+        // ¾àÀë = Ê±¼ä * ÉùËÙ / 2
+        // ÉùËÙÔ¼340m/s = 0.034cm/us
+        distance = (unsigned int)(time * 0.017);  // µ¥Î»£ºcm
 
         if (distance > 999) distance = 999;
 

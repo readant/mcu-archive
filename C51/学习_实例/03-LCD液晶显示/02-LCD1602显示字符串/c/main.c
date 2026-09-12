@@ -1,7 +1,7 @@
 /*------------------------------------------------
-  åŠŸèƒ½ï¼šLCD1602æ˜¾ç¤ºå­—ç¬¦ä¸²
-  ç¡¬ä»¶ï¼šP0å£æ¥æ•°æ®å£ï¼ŒP2.5=RSï¼ŒP2.6=RWï¼ŒP2.7=E
-  è¯´æ˜ï¼šåœ¨æŒ‡å®šä½ç½®æ˜¾ç¤ºå­—ç¬¦ä¸²
+  ¹¦ÄÜ£ºLCD1602ÏÔÊ¾×Ö·û´®
+  Ó²¼ş£ºP0¿Ú½ÓÊı¾İ¿Ú£¬P2.5=RS£¬P2.6=RW£¬P2.7=E
+  ËµÃ÷£ºÔÚÖ¸¶¨Î»ÖÃÏÔÊ¾×Ö·û´®
 ------------------------------------------------*/
 #include <reg51.h>
 
@@ -45,9 +45,9 @@ void InitLCD1602(void)
 void SetCursor(unsigned char row, unsigned char col)
 {
     if (row == 0)
-        WriteCmd(0x80 + col);       // ç¬¬ä¸€è¡Œ
+        WriteCmd(0x80 + col);       // µÚÒ»ĞĞ
     else
-        WriteCmd(0x80 + 0x40 + col); // ç¬¬äºŒè¡Œ
+        WriteCmd(0x80 + 0x40 + col); // µÚ¶şĞĞ
 }
 
 void ShowString(unsigned char row, unsigned char col, char *str)

@@ -1,4 +1,16 @@
 {
-    "files.encoding": "utf-8",
+    // ===== 仓库内 C 源码统一使用 GBK（中文 Windows 下等同 ANSI）=====
+    // 原因：老版本 Keil C51/uVision 在中文 Windows 下按 ANSI(GBK) 解析源文件，
+    // 若存成 UTF-8，中文注释和中文字符串字面量会显示为乱码（LCD 上也会花屏）。
+    // 因此 .c/.h 全部保存为 GBK，这里按语言单独声明，避免整体默认值影响其它文件。
+    "[c]": {
+        "files.encoding": "gbk"
+    },
+    "[cpp]": {
+        "files.encoding": "gbk"
+    },
+
+    // ===== 其它文件保持 UTF-8（README.md 等）=====
+    "files.encoding": "utf8",
     "files.autoGuessEncoding": false
 }

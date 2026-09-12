@@ -1,7 +1,7 @@
 /*------------------------------------------------
-  åŠŸèƒ½ï¼šçº¢å¤–æ¥æ”¶è§£ç ï¼ˆNECåè®®ï¼‰
-  ç¡¬ä»¶ï¼šçº¢å¤–æ¥æ”¶å¤´æ¥P3.2ï¼ŒP1å£æ¥LED
-  è¯´æ˜ï¼šæ¥æ”¶é¥æ§å™¨ä¿¡å·ï¼Œè§£ç åæ§åˆ¶LED
+  ¹¦ÄÜ£ººìÍâ½ÓÊÕ½âÂë£¨NECĞ­Òé£©
+  Ó²¼ş£ººìÍâ½ÓÊÕÍ·½ÓP3.2£¬P1¿Ú½ÓLED
+  ËµÃ÷£º½ÓÊÕÒ£¿ØÆ÷ĞÅºÅ£¬½âÂëºó¿ØÖÆLED
 ------------------------------------------------*/
 #include <reg51.h>
 
@@ -12,13 +12,13 @@ void Delay(unsigned int t)
     while (--t);
 }
 
-// å¾®ç§’çº§å»¶æ—¶
+// Î¢Ãë¼¶ÑÓÊ±
 void DelayUs(unsigned char us)
 {
     while (us--);
 }
 
-// æµ‹é‡é«˜ç”µå¹³æŒç»­æ—¶é—´
+// ²âÁ¿¸ßµçÆ½³ÖĞøÊ±¼ä
 unsigned int MeasureHigh(void)
 {
     unsigned int count = 0;
@@ -26,7 +26,7 @@ unsigned int MeasureHigh(void)
     return count;
 }
 
-// æµ‹é‡ä½ç”µå¹³æŒç»­æ—¶é—´
+// ²âÁ¿µÍµçÆ½³ÖĞøÊ±¼ä
 unsigned int MeasureLow(void)
 {
     unsigned int count = 0;
@@ -34,19 +34,19 @@ unsigned int MeasureLow(void)
     return count;
 }
 
-// æ¥æ”¶32ä½æ•°æ®
+// ½ÓÊÕ32Î»Êı¾İ
 unsigned long ReceiveIR(void)
 {
     unsigned char i;
     unsigned long dat = 0;
     unsigned int high_time, low_time;
 
-    // ç­‰å¾…å¼•å¯¼ç ï¼ˆ9msä½ + 4.5msé«˜ï¼‰
-    while (!IR);            // ç­‰å¾…ä½ç”µå¹³
-    MeasureHigh();          // æµ‹é‡9msä½ç”µå¹³
-    MeasureLow();           // æµ‹é‡4.5msé«˜ç”µå¹³
+    // µÈ´ıÒıµ¼Âë£¨9msµÍ + 4.5ms¸ß£©
+    while (!IR);            // µÈ´ıµÍµçÆ½
+    MeasureHigh();          // ²âÁ¿9msµÍµçÆ½
+    MeasureLow();           // ²âÁ¿4.5ms¸ßµçÆ½
 
-    // æ¥æ”¶32ä½æ•°æ®
+    // ½ÓÊÕ32Î»Êı¾İ
     for (i = 0; i < 32; i++)
     {
         high_time = MeasureHigh();
@@ -54,7 +54,7 @@ unsigned long ReceiveIR(void)
 
         dat <<= 1;
         if (high_time > low_time)
-            dat |= 1;      // é«˜ç”µå¹³æ—¶é—´é•¿è¡¨ç¤º1
+            dat |= 1;      // ¸ßµçÆ½Ê±¼ä³¤±íÊ¾1
     }
 
     return dat;
@@ -67,20 +67,20 @@ void main(void)
 
     while (1)
     {
-        if (!IR)  // æ£€æµ‹åˆ°ä¿¡å·
+        if (!IR)  // ¼ì²âµ½ĞÅºÅ
         {
             ir_data = ReceiveIR();
 
-            addr = (ir_data >> 24) & 0xFF;  // åœ°å€ç 
-            cmd = ir_data & 0xFF;           // å‘½ä»¤ç 
+            addr = (ir_data >> 24) & 0xFF;  // µØÖ·Âë
+            cmd = ir_data & 0xFF;           // ÃüÁîÂë
 
             switch (cmd)
             {
-                case 0x0C: P1 = 0xFE; break;  // æŒ‰é”®1
-                case 0x18: P1 = 0xFD; break;  // æŒ‰é”®2
-                case 0x5E: P1 = 0xFB; break;  // æŒ‰é”®3
-                case 0x08: P1 = 0xF7; break;  // æŒ‰é”®4
-                case 0x1C: P1 = 0xFF; break;  // å…³é—­
+                case 0x0C: P1 = 0xFE; break;  // °´¼ü1
+                case 0x18: P1 = 0xFD; break;  // °´¼ü2
+                case 0x5E: P1 = 0xFB; break;  // °´¼ü3
+                case 0x08: P1 = 0xF7; break;  // °´¼ü4
+                case 0x1C: P1 = 0xFF; break;  // ¹Ø±Õ
             }
         }
     }

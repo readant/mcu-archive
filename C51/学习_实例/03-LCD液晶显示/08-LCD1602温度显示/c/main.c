@@ -1,7 +1,7 @@
 /*------------------------------------------------
-  功能：LCD1602显示温度（模拟）
-  硬件：P0口接LCD数据口
-  说明：模拟温度值显示，实际项目替换为DS18B20
+  ���ܣ�LCD1602��ʾ�¶ȣ�ģ�⣩
+  Ӳ����P0�ڽ�LCD���ݿ�
+  ˵����ģ���¶�ֵ��ʾ��ʵ����Ŀ�滻ΪDS18B20
 ------------------------------------------------*/
 #include <reg51.h>
 
@@ -11,8 +11,8 @@ sbit E = P2^7;
 
 #define DataPort P0
 
-// 模拟温度值
-int temperature = 256;  // 25.6°C（放大10倍）
+// ģ���¶�ֵ
+int temperature = 256;  // 25.6��C���Ŵ�10����
 
 void Delay(unsigned int t)
 {
@@ -88,7 +88,7 @@ void main(void)
     {
         ShowTemp(temperature);
 
-        // 模拟温度变化
+        // ģ���¶ȱ仯
         temperature++;
         if (temperature > 300) temperature = 200;
 

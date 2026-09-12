@@ -1,11 +1,11 @@
 /*
- * çƒ­æ•ç”µé˜»æ¸©åº¦æ£€æµ‹
- * åŠŸèƒ½ï¼šé€šè¿‡NTCçƒ­æ•ç”µé˜»+ADCé‡‡é›†æ¸©åº¦
- * ç¡¬ä»¶ï¼šçƒ­æ•ç”µé˜»åˆ†å‹ç”µè·¯æ¥ADC0832é€šé“0, æ•°ç ç®¡æ˜¾ç¤ºæ¸©åº¦
- * è¯´æ˜ï¼šNTCçƒ­æ•ç”µé˜»é˜»å€¼éšæ¸©åº¦å‡é«˜è€Œé™ä½
- *       é€šè¿‡åˆ†å‹ç”µè·¯å°†é˜»å€¼å˜åŒ–è½¬æ¢ä¸ºç”µå‹å˜åŒ–
- *       ADCé‡‡é›†åæŸ¥è¡¨æˆ–è®¡ç®—å¾—åˆ°æ¸©åº¦å€¼
- *       ä¸DS18B20æ•°å­—ä¼ æ„Ÿå™¨å½¢æˆå¯¹æ¯”
+ * ÈÈÃôµç×èÎÂ¶È¼ì²â
+ * ¹¦ÄÜ£ºÍ¨¹ıNTCÈÈÃôµç×è+ADC²É¼¯ÎÂ¶È
+ * Ó²¼ş£ºÈÈÃôµç×è·ÖÑ¹µçÂ·½ÓADC0832Í¨µÀ0, ÊıÂë¹ÜÏÔÊ¾ÎÂ¶È
+ * ËµÃ÷£ºNTCÈÈÃôµç×è×èÖµËæÎÂ¶ÈÉı¸ß¶ø½µµÍ
+ *       Í¨¹ı·ÖÑ¹µçÂ·½«×èÖµ±ä»¯×ª»»ÎªµçÑ¹±ä»¯
+ *       ADC²É¼¯ºó²é±í»ò¼ÆËãµÃµ½ÎÂ¶ÈÖµ
+ *       ÓëDS18B20Êı×Ö´«¸ĞÆ÷ĞÎ³É¶Ô±È
  */
 #include <reg51.h>
 
@@ -18,14 +18,14 @@ unsigned char code SEG_TABLE[] = {
     0x6D, 0x7D, 0x07, 0x7F, 0x6F
 };
 
-/* æ¸©åº¦-ADCå€¼å¯¹ç…§è¡¨ï¼ˆç®€åŒ–ï¼Œå®é™…éœ€è¦æ ¹æ®çƒ­æ•ç”µé˜»å‚æ•°æ ‡å®šï¼‰ */
+/* ÎÂ¶È-ADCÖµ¶ÔÕÕ±í£¨¼ò»¯£¬Êµ¼ÊĞèÒª¸ù¾İÈÈÃôµç×è²ÎÊı±ê¶¨£© */
 unsigned char code TEMP_TABLE[] = {
-    250, 240, 230, 220, 210,  // 0-4â„ƒ
-    200, 190, 180, 170, 160,  // 5-9â„ƒ
-    150, 142, 134, 126, 118,  // 10-14â„ƒ
-    110, 103, 96,  89,  82,   // 15-19â„ƒ
-    76,  70,  64,  58,  53,   // 20-24â„ƒ
-    48,  43,  38,  34,  30    // 25-29â„ƒ
+    250, 240, 230, 220, 210,  // 0-4¡æ
+    200, 190, 180, 170, 160,  // 5-9¡æ
+    150, 142, 134, 126, 118,  // 10-14¡æ
+    110, 103, 96,  89,  82,   // 15-19¡æ
+    76,  70,  64,  58,  53,   // 20-24¡æ
+    48,  43,  38,  34,  30    // 25-29¡æ
 };
 
 void delay_us(unsigned char us)
@@ -41,8 +41,8 @@ void delay_ms(unsigned int ms)
 }
 
 /*
- * ADC0832è¯»å–æŒ‡å®šé€šé“çš„ADCå€¼
- * channel: 0æˆ–1
+ * ADC0832¶ÁÈ¡Ö¸¶¨Í¨µÀµÄADCÖµ
+ * channel: 0»ò1
  */
 unsigned char adc0832_read(unsigned char channel)
 {
@@ -52,15 +52,15 @@ unsigned char adc0832_read(unsigned char channel)
     ADC_CLK = 0;
     ADC_DIO = 1; delay_us(2);
 
-    /* èµ·å§‹ä½ + å•ç«¯/å·®åˆ† + é€šé“é€‰æ‹© */
-    ADC_CLK = 1; delay_us(2); ADC_CLK = 0;  // èµ·å§‹ä½
-    ADC_DIO = 1; delay_us(2);                // SGL=1 å•ç«¯
+    /* ÆğÊ¼Î» + µ¥¶Ë/²î·Ö + Í¨µÀÑ¡Ôñ */
+    ADC_CLK = 1; delay_us(2); ADC_CLK = 0;  // ÆğÊ¼Î»
+    ADC_DIO = 1; delay_us(2);                // SGL=1 µ¥¶Ë
     ADC_CLK = 1; delay_us(2); ADC_CLK = 0;
-    ADC_DIO = channel; delay_us(2);          // ODD/SIGNé€šé“é€‰æ‹©
+    ADC_DIO = channel; delay_us(2);          // ODD/SIGNÍ¨µÀÑ¡Ôñ
     ADC_CLK = 1; delay_us(2); ADC_CLK = 0;
     ADC_DIO = 1; delay_us(2);
 
-    /* è¯»å–8ä½æ•°æ® */
+    /* ¶ÁÈ¡8Î»Êı¾İ */
     for (i = 0; i < 8; i++)
     {
         ADC_CLK = 1; delay_us(2);
@@ -74,7 +74,7 @@ unsigned char adc0832_read(unsigned char channel)
 }
 
 /*
- * ADCå€¼è½¬æ¢ä¸ºæ¸©åº¦ï¼ˆæŸ¥è¡¨æ³•ï¼‰
+ * ADCÖµ×ª»»ÎªÎÂ¶È£¨²é±í·¨£©
  */
 unsigned char adc_to_temp(unsigned char adc_val)
 {
@@ -84,7 +84,7 @@ unsigned char adc_to_temp(unsigned char adc_val)
         if (adc_val >= TEMP_TABLE[i])
             return i;
     }
-    return 30;  // è¶…å‡ºèŒƒå›´
+    return 30;  // ³¬³ö·¶Î§
 }
 
 void display_temp(unsigned char temp)
@@ -95,7 +95,7 @@ void display_temp(unsigned char temp)
 
     P2 = 0xFE; P0 = SEG_TABLE[ten]; delay_ms(2);
     P2 = 0xFD; P0 = SEG_TABLE[one]; delay_ms(2);
-    P2 = 0xFB; P0 = 0x39; delay_ms(2);  // æ˜¾ç¤º'C'
+    P2 = 0xFB; P0 = 0x39; delay_ms(2);  // ÏÔÊ¾'C'
 }
 
 void main(void)
@@ -108,7 +108,7 @@ void main(void)
         temperature = adc_to_temp(adc_val);
 
         display_temp(temperature);
-        P0 = adc_val;  // ADCå€¼è¾“å‡ºåˆ°P0
+        P0 = adc_val;  // ADCÖµÊä³öµ½P0
         delay_ms(500);
     }
 }

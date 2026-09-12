@@ -1,7 +1,7 @@
 /*------------------------------------------------
-  功能：光敏电阻检测（ADC0832）
-  硬件：ADC0832接P1口，P0口接数码管
-  说明：读取光照强度，数码管显示AD值
+  ���ܣ����������⣨ADC0832��
+  Ӳ����ADC0832��P1�ڣ�P0�ڽ������
+  ˵������ȡ����ǿ�ȣ��������ʾADֵ
 ------------------------------------------------*/
 #include <reg51.h>
 
@@ -22,22 +22,22 @@ void Delay(unsigned int t)
     while (--t);
 }
 
-// 读取ADC0832
+// ��ȡADC0832
 unsigned char Read_ADC0832(unsigned char channel)
 {
     unsigned char i, dat = 0;
 
     CS = 0;
-    CLK = 0; DIO = 1;  // 起始位
+    CLK = 0; DIO = 1;  // ��ʼλ
     CLK = 1; CLK = 0;
 
-    DIO = channel;      // 通道选择
+    DIO = channel;      // ͨ��ѡ��
     CLK = 1; CLK = 0;
 
-    DIO = 1;            // 释放数据线
+    DIO = 1;            // �ͷ�������
     CLK = 1; CLK = 0;
 
-    // 读取8位数据（MSB先）
+    // ��ȡ8λ���ݣ�MSB�ȣ�
     for (i = 0; i < 8; i++)
     {
         CLK = 1; CLK = 0;
@@ -55,19 +55,19 @@ void Display(unsigned char dat)
     unsigned char shi = dat % 100 / 10;
     unsigned char ge = dat % 10;
 
-    // 百位
+    // ��λ
     P0 = 0x00; LATCH1 = 1; LATCH1 = 0;
     P0 = 0xFB; LATCH2 = 1; LATCH2 = 0;
     P0 = duanma[bai]; LATCH1 = 1; LATCH1 = 0;
     Delay(5);
 
-    // 十位
+    // ʮλ
     P0 = 0x00; LATCH1 = 1; LATCH1 = 0;
     P0 = 0xF7; LATCH2 = 1; LATCH2 = 0;
     P0 = duanma[shi]; LATCH1 = 1; LATCH1 = 0;
     Delay(5);
 
-    // 个位
+    // ��λ
     P0 = 0x00; LATCH1 = 1; LATCH1 = 0;
     P0 = 0xEF; LATCH2 = 1; LATCH2 = 0;
     P0 = duanma[ge]; LATCH1 = 1; LATCH1 = 0;
@@ -80,7 +80,7 @@ void main(void)
 
     while (1)
     {
-        ad_val = Read_ADC0832(0);  // 读取通道0
+        ad_val = Read_ADC0832(0);  // ��ȡͨ��0
         Display(ad_val);
     }
 }

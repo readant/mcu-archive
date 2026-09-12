@@ -1,7 +1,7 @@
 /*------------------------------------------------
-  åŠŸèƒ½ï¼šDS1302å®æ—¶æ—¶é’Ÿ
-  ç¡¬ä»¶ï¼šDS1302æ¥P3.4(SCLK)/P3.5(IO)/P3.6(CE)
-  è¯´æ˜ï¼šè¯»å–DS1302æ—¶é—´å¹¶åœ¨æ•°ç ç®¡æ˜¾ç¤º
+  ¹¦ÄÜ£ºDS1302ÊµÊ±Ê±ÖÓ
+  Ó²¼ş£ºDS1302½ÓP3.4(SCLK)/P3.5(IO)/P3.6(CE)
+  ËµÃ÷£º¶ÁÈ¡DS1302Ê±¼ä²¢ÔÚÊıÂë¹ÜÏÔÊ¾
 ------------------------------------------------*/
 #include <reg51.h>
 
@@ -18,11 +18,11 @@ unsigned char code duanma[] = {
 
 unsigned char code weima[] = {0xFE, 0xFD, 0xFB, 0xF7, 0xEF, 0xDF};
 
-unsigned char time_buf[6];  // ç§’ã€åˆ†ã€æ—¶ã€æ—¥ã€æœˆã€å¹´
+unsigned char time_buf[6];  // Ãë¡¢·Ö¡¢Ê±¡¢ÈÕ¡¢ÔÂ¡¢Äê
 
 void Delay(unsigned int t) { while (--t); }
 
-// DS1302å†™ä¸€ä¸ªå­—èŠ‚
+// DS1302Ğ´Ò»¸ö×Ö½Ú
 void DS1302_WriteByte(unsigned char dat)
 {
     unsigned char i;
@@ -35,7 +35,7 @@ void DS1302_WriteByte(unsigned char dat)
     }
 }
 
-// DS1302è¯»ä¸€ä¸ªå­—èŠ‚
+// DS1302¶ÁÒ»¸ö×Ö½Ú
 unsigned char DS1302_ReadByte(void)
 {
     unsigned char i, dat = 0;
@@ -49,7 +49,7 @@ unsigned char DS1302_ReadByte(void)
     return dat;
 }
 
-// å†™å¯„å­˜å™¨
+// Ğ´¼Ä´æÆ÷
 void DS1302_Write(unsigned char addr, unsigned char dat)
 {
     CE = 0; SCLK = 0; CE = 1;
@@ -58,7 +58,7 @@ void DS1302_Write(unsigned char addr, unsigned char dat)
     CE = 0;
 }
 
-// è¯»å¯„å­˜å™¨
+// ¶Á¼Ä´æÆ÷
 unsigned char DS1302_Read(unsigned char addr)
 {
     unsigned char dat;
@@ -69,15 +69,15 @@ unsigned char DS1302_Read(unsigned char addr)
     return dat;
 }
 
-// è¯»å–æ—¶é—´
+// ¶ÁÈ¡Ê±¼ä
 void ReadTime(void)
 {
-    time_buf[0] = DS1302_Read(0x80);  // ç§’
-    time_buf[1] = DS1302_Read(0x82);  // åˆ†
-    time_buf[2] = DS1302_Read(0x84);  // æ—¶
-    time_buf[3] = DS1302_Read(0x86);  // æ—¥
-    time_buf[4] = DS1302_Read(0x88);  // æœˆ
-    time_buf[5] = DS1302_Read(0x8C);  // å¹´
+    time_buf[0] = DS1302_Read(0x80);  // Ãë
+    time_buf[1] = DS1302_Read(0x82);  // ·Ö
+    time_buf[2] = DS1302_Read(0x84);  // Ê±
+    time_buf[3] = DS1302_Read(0x86);  // ÈÕ
+    time_buf[4] = DS1302_Read(0x88);  // ÔÂ
+    time_buf[5] = DS1302_Read(0x8C);  // Äê
 }
 
 void Display(void)
@@ -85,19 +85,19 @@ void Display(void)
     unsigned char i;
     unsigned char disp[6];
 
-    disp[0] = time_buf[2] / 16;   // æ—¶åä½
-    disp[1] = time_buf[2] % 16;   // æ—¶ä¸ªä½
-    disp[2] = time_buf[1] / 16;   // åˆ†åä½
-    disp[3] = time_buf[1] % 16;   // åˆ†ä¸ªä½
-    disp[4] = time_buf[0] / 16;   // ç§’åä½
-    disp[5] = time_buf[0] % 16;   // ç§’ä¸ªä½
+    disp[0] = time_buf[2] / 16;   // Ê±Ê®Î»
+    disp[1] = time_buf[2] % 16;   // Ê±¸öÎ»
+    disp[2] = time_buf[1] / 16;   // ·ÖÊ®Î»
+    disp[3] = time_buf[1] % 16;   // ·Ö¸öÎ»
+    disp[4] = time_buf[0] / 16;   // ÃëÊ®Î»
+    disp[5] = time_buf[0] % 16;   // Ãë¸öÎ»
 
     for (i = 0; i < 6; i++)
     {
         P0 = 0x00; LATCH1 = 1; LATCH1 = 0;
         P0 = weima[i]; LATCH2 = 1; LATCH2 = 0;
         P0 = duanma[disp[i]];
-        if (i == 1 || i == 3) P0 |= 0x80;  // åŠ å†’å·
+        if (i == 1 || i == 3) P0 |= 0x80;  // ¼ÓÃ°ºÅ
         LATCH1 = 1; LATCH1 = 0;
         Delay(5);
     }
@@ -105,7 +105,7 @@ void Display(void)
 
 void main(void)
 {
-    // åˆå§‹åŒ–DS1302ï¼ˆå–æ¶ˆå†™ä¿æŠ¤ï¼‰
+    // ³õÊ¼»¯DS1302£¨È¡ÏûĞ´±£»¤£©
     DS1302_Write(0x8E, 0x00);
 
     while (1)
