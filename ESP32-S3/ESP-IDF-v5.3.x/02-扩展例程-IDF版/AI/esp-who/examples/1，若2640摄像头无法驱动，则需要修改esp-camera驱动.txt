@@ -1,0 +1,4 @@
+
+
+屏蔽：在espressif__esp32-camera/sensors/ov2640.c文件下
+	// WRITE_REG_OR_RETURN(BANK_SENSOR, CLKRC, c.clk);  注销改行代码
