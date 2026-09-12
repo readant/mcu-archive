@@ -1,0 +1,17 @@
+{
+    "C_Cpp.intelliSenseEngine": "default",
+    "idf.espIdfPathWin": "d:\\Soft_APP\\ESP_IDF\\master\\esp-idf",
+    "idf.openOcdConfigs": [
+        "board/esp32s3-builtin.cfg"
+    ],
+    "idf.toolsPathWin": "d:\\Soft_APP\\ESP_IDF\\tools",
+    "files.autoGuessEncoding": true,
+    "idf.portWin": "COM33",
+    "idf.flashType": "UART",
+    "idf.port": "/dev/ttyUSB0",
+    "idf.espIdfPath": "/root/esp/v5.4/esp-idf",
+    "idf.toolsPath": "/root/.espressif",
+    "files.associations": {
+        "freertos_demo.h": "c"
+    }
+}

@@ -1,0 +1,11 @@
+{
+    "C_Cpp.intelliSenseEngine": "default",
+    "idf.espIdfPathWin": "c:\\Espressif\\frameworks\\esp-idf-v5.3.2",
+    "idf.toolsPathWin": "c:\\Espressif\\tools",
+    "files.associations": {
+        "lvgl_demo.h": "c",
+        "lvgl.h": "c"
+    },
+    "idf.port": "/dev/ttyUSB0",
+    "idf.flashType": "UART"
+}

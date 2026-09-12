@@ -1,0 +1,16 @@
+{
+    "C_Cpp.intelliSenseEngine": "default",
+    "idf.espIdfPathWin": "d:\\official_software\\esp-idf\\Espressif\\frameworks\\esp-idf-v5.4.1",
+    "idf.openOcdConfigs": [
+        "board/esp32s3-builtin.cfg"
+    ],
+    "idf.toolsPathWin": "d:\\official_software\\esp-idf\\Espressif\\tools",
+    "files.autoGuessEncoding": true,
+    "idf.portWin": "COM129",
+    "idf.flashType": "UART",
+    "idf.espIdfPath": "/root/esp/v5.4/esp-idf",
+    "idf.toolsPath": "/root/.espressif",
+    "idf.port": "/dev/ttyUSB0",
+    "idf.pythonInstallPath": "d:\\official_software\\esp-idf\\Espressif\\tools\\tools\\idf-python\\3.11.2\\python.exe",
+    "idf.currentSetup": "G:/360Downloads/ESP-IDF/Espressif/frameworks/esp-idf-v5.5/"
+}
