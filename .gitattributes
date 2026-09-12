@@ -1,0 +1,55 @@
+# ============================================================
+# 换行符与二进制策略
+# ------------------------------------------------------------
+# 此前仓库没有任何 .gitattributes，换行符完全依赖「本机配置」core.autocrlf，
+# 结果：同一文件在不同机器上检出结果不一致，且每次 git add 都会刷一大片
+# "LF will be replaced by CRLF" 警告。本文件把策略固定下来，与机器无关。
+# ============================================================
+
+# 默认：自动识别文本类型，仓库内统一存 LF
+* text=auto
+
+# ---- Keil 源码：检出为 CRLF（uVision 在 Windows 下对 CRLF 最稳）----
+*.c     text eol=crlf
+*.h     text eol=crlf
+*.asm   text eol=crlf
+*.s     text eol=crlf
+*.A51   text eol=crlf
+
+# ---- 文档与配置：统一 LF ----
+*.md    text eol=lf
+*.txt   text eol=lf
+*.html  text eol=lf
+*.json  text eol=lf
+
+# Git 自身的配置文件也用 LF，避免每次操作都提示换行符将被替换
+.gitattributes text eol=lf
+.gitignore     text eol=lf
+
+# ---- Proteus / Keil 工程与设计文件：二进制，禁止任何换行符或编码转换 ----
+*.DSN       binary
+*.SEC       binary
+*.pdsprj    binary
+*.DBK       binary
+*.PWI       binary
+*.SDF       binary
+*.workspace binary
+*.uvproj    binary
+*.uvopt     binary
+*.uvgui.*   binary
+
+# ---- 图片 / 压缩包 / Office 文档：二进制 ----
+*.png   binary
+*.jpg   binary
+*.jpeg  binary
+*.gif   binary
+*.bmp   binary
+*.ico   binary
+*.zip   binary
+*.rar   binary
+*.7z    binary
+*.doc   binary
+*.docx  binary
+*.ppt   binary
+*.pptx  binary
+*.pdf   binary
