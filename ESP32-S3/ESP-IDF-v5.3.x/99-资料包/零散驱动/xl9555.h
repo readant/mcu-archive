@@ -29,7 +29,7 @@
 
 
 /* 引脚与相关参数定义 */
-#define XL9555_INT_IO               GPIO_NUM_40                     /* XL9555_INT引脚 */
+#define XL9555_INT_IO               GPIO_NUM_0                      /* XL9555_INT引脚（P5 IIC_INT 跳线帽接 GPIO0） */
 
 /* XL9555寄存器宏 */
 #define XL9555_INPUT_PORT0_REG      0                               /* 输入寄存器0地址 */

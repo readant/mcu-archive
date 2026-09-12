@@ -15,8 +15,27 @@
 
 - 硬件平台：正点原子 ESP32-S3 开发板
 - 主工具链：ESP-IDF v5.3.x（兼容 v5.4，见 [99-资料包/支持5.3,5.4编译.txt](ESP-IDF-v5.3.x/99-资料包/支持5.3,5.4编译.txt)）
-- 辅助工具链：Arduino IDE（`ESP32S3 Dev Module`，板载 LED = GPIO48）
+- 辅助工具链：Arduino IDE（`ESP32S3 Dev Module`，板载 LED = **GPIO1**）
 - 工程总数：**31 个**（28 个 IDF 工程 + 3 个 Arduino 工程）
+
+---
+
+## 📌 板载资源与引脚
+
+完整引脚速查表见 [`pins.md`](pins.md)。
+
+常用资源一句话版：
+
+| 资源 | 关键 GPIO / 扩展 IO | 备注 |
+| :--- | :--- | :--- |
+| 用户 LED | **GPIO 1** | — |
+| BOOT 按键 | **GPIO 0** | Arduino `02_key` 的 `KEY_PIN` 就是它 |
+| I2C0（XL9555 / ES8388） | SDA=GPIO41，SCL=GPIO42 | — |
+| I2C1（摄像头 SCCB / 触摸） | SDA=GPIO39，SCL=GPIO38 | — |
+| SPI2（SD + SPILCD） | SCK=12 / MOSI=11 / MISO=13；SD_CS=2；LCD_CS=21 / DC=40 | P5 跳线帽短接 `IO_SET↔LCD_DC` |
+| 摄像头 DVP | D0~D7=4,5,6,7,15,16,17,18；VSYNC=47；HREF=48；PCLK=45 | PWDN/RESET 由 XL9555 P0_4/P0_5 控制 |
+| 音频 ES8388 | I2C0；I2S BCK=46 / WS=9 / DO=10 / DI=14 / MCLK=3 | — |
+| XL9555 INT | **GPIO 0**（需 P5 跳线帽短接 `IIC_INT`） | 旧代码错写为 GPIO40，已修正；GPIO40 是 LCD_DC/触摸 INT |
 
 ---
 
