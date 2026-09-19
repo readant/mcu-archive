@@ -27,12 +27,10 @@
 
 ```
 实验X/
-├── 实验X报告.docx        ← 实验报告（含个人信息，未提交）
-├── c/                     ← Keil工程
+├── c/                     ← 源码目录（用 Keil4 新建工程并加入）
 │   ├── main.c             ← 源代码
-│   ├── *.uvproj           ← Keil工程文件
 │   └── STARTUP.A51        ← 启动文件
-└── proteus/               ← Proteus仿真
+└── proteus/               ← Proteus 仿真电路
     └── *.DSN              ← 仿真电路图
 ```
 

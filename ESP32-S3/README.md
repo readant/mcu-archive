@@ -14,7 +14,7 @@
 正点原子 ESP32-S3 开发板（DNESP32S3）的配套学习仓库，**ESP-IDF v5.3.x 为主，Arduino 为辅**。
 
 - 硬件平台：正点原子 ESP32-S3 开发板
-- 主工具链：ESP-IDF v5.3.x（兼容 v5.4，见 [99-资料包/支持5.3,5.4编译.txt](ESP-IDF-v5.3.x/99-资料包/支持5.3,5.4编译.txt)）
+- 主工具链：ESP-IDF v5.3.x（兼容 v5.4）
 - 辅助工具链：Arduino IDE（`ESP32S3 Dev Module`，板载 LED = **GPIO1**）
 - 工程总数：**31 个**（28 个 IDF 工程 + 3 个 Arduino 工程）
 
@@ -60,11 +60,10 @@ ESP32-S3/
     ├── 02-扩展例程-IDF版/
     │   ├── FreeRTOS/               18 个 RTOS 实验（见下表）
     │   ├── WiFi/                   9 个网络实验（见下表）
-    │   ├── AI/esp-who/             Espressif 人脸/AI 框架（已解压，待深入学习）
+    │   ├── AI/esp-who/             Espressif 人脸/AI 框架（待深入学习）
     │   └── LVGL/                   1 个 GUI 实验
     ├── 03-xiaozhi-ai/
-    │   └── xiaozhi-esp32/          小智 AI 语音助手固件（已解压，待深入学习）
-    └── 99-资料包/                  原始压缩包 + 零散驱动 + 本地固件产物（不进 git）
+    │   └── xiaozhi-esp32/          小智 AI 语音助手固件（待深入学习）
 ```
 
 ---
@@ -141,8 +140,7 @@ idf.py -p COMx flash monitor      # COMx 换成实际串口
 
 工程自带 `.vscode/` 与 `.devcontainer/`，VS Code 打开即用。
 
-**关于 `sdkconfig`**：仓库根目录 `.gitignore` 忽略了 `sdkconfig`（保留 `sdkconfig.defaults`），
-所以 clone 下来需要 `idf.py build` 重新生成一次配置。分区表用 `partitions-16MiB.csv`（16MB Flash）。
+**关于 `sdkconfig`**：仓库只保留 `sdkconfig.defaults`；clone 后请先执行一次 `idf.py build` 生成本机配置。分区表用 `partitions-16MiB.csv`（16MB Flash）。
 
 ### Arduino 工程
 
@@ -182,32 +180,13 @@ idf.py -p COMx flash monitor      # COMx 换成实际串口
 - [x] LVGL 移植
 
 ### 进行中
-- [ ] esp-who 人脸识别（源码在 `02-扩展例程-IDF版/AI/esp-who/`，已解压，待学习）
-- [ ] 小智 AI 语音助手（源码在 `03-xiaozhi-ai/xiaozhi-esp32/`，已解压，待学习）
+- [ ] esp-who 人脸识别（见 `02-扩展例程-IDF版/AI/esp-who/`）
+- [ ] 小智 AI 语音助手（见 `03-xiaozhi-ai/xiaozhi-esp32/`）
 
 ### 想做的项目
 - [ ] 智能环境监测（温湿度 + 气压 + 光照，数据上云）
 - [ ] 远程灯控（手机 APP 控制 LED / 继电器）
 - [ ] 数据可视化看板
-
----
-
-## ⚠️ 关于 `99-资料包/`（约 500 MB）
-
-这个目录放的是**厂商原始压缩包**，占仓库体积的 98%，但**不会进 git**（根目录 `.gitignore` 已排除 `*.zip` / `*.rar`）。
-
-| 文件 | 大小 | 说明 |
-|:---|:---|:---|
-| `4，扩展例程-IDF版.zip` | 170.8 MB | 与已解压的 `02-扩展例程-IDF版/` 内容重复，**可安全删除** |
-| `esp-who.zip` | 168.7 MB | Espressif 官方 AI 框架，对应 `02-扩展例程-IDF版/AI/esp-who/` |
-| `xiaozhi-esp32.rar` | 124.5 MB | 小智 AI 语音助手源码，对应 `03-xiaozhi-ai/xiaozhi-esp32/` |
-| `1，标准例程-IDF(v5.3.x).zip` | 36.1 MB | 标准例程原始包（尚未解压学习） |
-| `零散驱动/` | — | `myiic` / `xl9555` 驱动副本（各工程 `components/BSP/` 里都有） |
-| `v2.2.4_atk-dnesp32s3/` + `.zip` | ~23 MB | 正点原子出厂/合并固件产物（本地烧录用，不进 git） |
-
-> 💡 **想给仓库瘦身**：删掉 `4，扩展例程-IDF版.zip`（170.8 MB，内容已解压）就能省下三分之一。
-> `esp-who.zip` / `xiaozhi-esp32.rar` 的源码已解压到对应工程目录，压缩包可留作备份或删除以省空间。
-> `1，标准例程-IDF(v5.3.x).zip` 尚未展开，建议保留到学完为止。
 
 ---
 
