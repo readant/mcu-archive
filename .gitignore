@@ -125,6 +125,11 @@ Desktop.ini
 *.bak
 *.old
 
+# ===== Python 缓存 =====
+.mypy_cache/
+__pycache__/
+*.pyc
+
 # ===== 临时文件（Office） =====
 ~$*
 
