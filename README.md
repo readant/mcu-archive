@@ -1,4 +1,4 @@
-<div align="center">
+﻿<div align="center">
 
 # 🌱 我的嵌入式学习档案
 
@@ -201,6 +201,7 @@
 | [摄像头与显示](./ESP32-S3/ESP-IDF-v5.3.x/01-基础例程-camera) | OV 摄像头采集 + SPI LCD 显示 | 📚 跟着例程跑过 |
 | [LVGL](./ESP32-S3/ESP-IDF-v5.3.x/02-扩展例程-IDF版/LVGL) | RGB 屏驱动 + LVGL 移植 + 触摸 | 📚 跟着例程跑过 |
 | [Arduino 入门](./ESP32-S3/Arduino) | 串口 / LED / 按键 → OLED → TFT 彩屏（11 个 sketch） | ✅ 已跑通（TFT 彩屏自己调通） |
+| [TFT 坦克大战](./ESP32-S3/Arduino/alientek-dnesp32s3/03-tft/TFT_TankBattle) | 红外遥控器 + TFT 像素游戏：坦克移动/开火、敌方 AI、砖墙、爆炸特效 | ✅ 自己写的第一个游戏 |
 | [AI 应用](./ESP32-S3/ESP-IDF-v5.3.x/02-扩展例程-IDF版/AI) · [小智 AI](./ESP32-S3/ESP-IDF-v5.3.x/03-xiaozhi-ai) | esp-who 人脸识别、小智 AI 语音助手 | 🚧 学习中 |
 | 物联网项目 | 智能环境监测、远程控制、数据看板 | 📋 计划中 |
 
