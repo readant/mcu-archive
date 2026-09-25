@@ -66,6 +66,12 @@ TFT 上就会开始播放视频了。
 
 ## 效果图
 
+上电连接 WiFi 并获取 IP：
+
+<img src="images/效果图_WiFi连接中.jpg" width="300" alt="WiFi 连接中">
+
+<img src="images/效果图_WiFi连接成功.jpg" width="300" alt="连接成功显示 IP">
+
 电脑推流视频到 TFT 彩屏实时播放：
 
 <img src="images/效果图_大爱仙尊.jpg" width="400" alt="TFT 播放视频画面 1">
