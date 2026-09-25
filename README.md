@@ -49,7 +49,7 @@
 | :--- | :--- | :--- | :--- | :--- |
 | [一阶 · 仿真](./C51) | AT89C51 | Proteus 7.8 虚拟仿真 · Keil4 | ✅ 已归档 | 刚入门，想理解底层原理 |
 | [二阶 · 实物](./C52) | STC89C52 | 普中开发板（真机） | 🚧 进行中 | 有51基础，想上手实物 |
-| [三阶 · 物联网](./ESP32-S3) | ESP32-S3 | 正点原子开发板 | 🚧 进行中（31 个工程） | 想做IoT项目，连接云平台 |
+| [三阶 · 物联网](./ESP32-S3) | ESP32-S3 | 正点原子开发板 | 🚧 进行中（39 个工程） | 想做IoT项目，连接云平台 |
 
 ---
 
@@ -59,7 +59,7 @@
 
 **我学过51，想动手做实物** → [C52/](./C52) — 普中开发板，真实硬件体验，从 Hello World 到万年历
 
-**我想学物联网/WiFi/MQTT** → [ESP32-S3/](./ESP32-S3) — **31 个工程**：18 个 FreeRTOS 实验 + 9 个 WiFi/网络实验（MQTT 上云、网络摄像头）+ 摄像头采集 + LVGL 移植
+**我想学物联网/WiFi/MQTT** → [ESP32-S3/](./ESP32-S3) — **39 个工程**：18 个 FreeRTOS 实验 + 9 个 WiFi/网络实验（MQTT 上云、网络摄像头）+ 摄像头采集 + LVGL 移植 + 11 个 Arduino sketch（LED / OLED / TFT 彩屏）
 
 ---
 
@@ -197,7 +197,7 @@
 | [WiFi 与网络](./ESP32-S3/ESP-IDF-v5.3.x/02-扩展例程-IDF版/WiFi) | STA / AP / SmartConfig / TCP / UDP / MQTT 上云 / 网络摄像头（9 个实验） | ✅ 已完成 |
 | [摄像头与显示](./ESP32-S3/ESP-IDF-v5.3.x/01-基础例程-camera) | OV 摄像头采集 + SPI LCD 显示 | ✅ 已完成 |
 | [LVGL](./ESP32-S3/ESP-IDF-v5.3.x/02-扩展例程-IDF版/LVGL) | RGB 屏驱动 + LVGL 移植 + 触摸 | ✅ 已完成 |
-| [Arduino 入门](./ESP32-S3/Arduino) | 串口 / LED / 按键（3 个工程） | ✅ 已完成 |
+| [Arduino 入门](./ESP32-S3/Arduino) | 串口 / LED / 按键 → OLED → TFT 彩屏（11 个 sketch） | ✅ 已完成 |
 | [AI 应用](./ESP32-S3/ESP-IDF-v5.3.x/02-扩展例程-IDF版/AI) · [小智 AI](./ESP32-S3/ESP-IDF-v5.3.x/03-xiaozhi-ai) | esp-who 人脸识别、小智 AI 语音助手 | 🚧 学习中 |
 | 物联网项目 | 智能环境监测、远程控制、数据看板 | 📋 计划中 |
 

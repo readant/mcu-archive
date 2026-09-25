@@ -16,7 +16,7 @@
 - 硬件平台：正点原子 ESP32-S3 开发板
 - 主工具链：ESP-IDF v5.3.x（兼容 v5.4）
 - 辅助工具链：Arduino IDE（`ESP32S3 Dev Module`，板载 LED = **GPIO1**）
-- 工程总数：**31 个**（28 个 IDF 工程 + 3 个 Arduino 工程）
+- 工程总数：**39 个**（28 个 IDF 工程 + 11 个 Arduino sketch）
 
 ---
 
@@ -29,7 +29,7 @@
 | 资源 | 关键 GPIO / 扩展 IO | 备注 |
 | :--- | :--- | :--- |
 | 用户 LED | **GPIO 1** | — |
-| BOOT 按键 | **GPIO 0** | Arduino `02_key` 的 `KEY_PIN` 就是它 |
+| BOOT 按键 | **GPIO 0** | Arduino `01-basic/02_key` 的 `KEY_PIN` 就是它 |
 | I2C0（XL9555 / ES8388） | SDA=GPIO41，SCL=GPIO42 | — |
 | I2C1（摄像头 SCCB / 触摸） | SDA=GPIO39，SCL=GPIO38 | — |
 | SPI2（SD + SPILCD） | SCK=12 / MOSI=11 / MISO=13；SD_CS=2；LCD_CS=21 / DC=40 | P5 跳线帽短接 `IO_SET↔LCD_DC` |
@@ -47,9 +47,12 @@ ESP32-S3/
 ├── pins.md                         ← 板载引脚速查
 │
 ├── Arduino/                        ← Arduino 框架（快速原型）
-│   ├── 00_hello_world/             串口打印 hello world
-│   ├── 01_led/                     GPIO 输出：LED 闪烁（led.cpp / led.h）
-│   └── 02_key/                     GPIO 输入：按键检测 + LED（key.cpp / key.h）
+│   ├── README.md                   ← 板卡命名规范 / 公共库说明
+│   ├── libraries/                  ← 公共库（不入库，自行安装，见 Arduino/README.md）
+│   └── alientek-dnesp32s3/         ← 正点原子 DNESP32-S3
+│       ├── 01-basic/               串口 / LED / 按键（3 个 sketch）
+│       ├── 02-oled/                OLED 屏：I2C 扫描 + 学习实验 + 成品（5 个 sketch）
+│       └── 03-tft/                 TFT 彩屏：动画 / 音画同步 / WiFi 视频流（3 个 sketch）
 │
 ├── tools/                          ← PC 端辅助工具（非固件工程）
 │   ├── mcp-calculator/             MCP 协议示例（计算器等）
@@ -125,6 +128,27 @@ ESP32-S3/
 
 ---
 
+## 🔌 Arduino 例程（11 个 sketch）
+
+目录：`Arduino/alientek-dnesp32s3/`（板卡与命名规范见 [`Arduino/README.md`](./Arduino/README.md)）
+
+| 分组 | sketch | 内容 |
+|:--|:---|:---|
+| 01-basic | `00_hello_world` | 串口打印 |
+| 01-basic | `01_led` | LED 闪烁（`led.cpp` / `led.h`） |
+| 01-basic | `02_key` | 按键输入 + LED（`key.cpp` / `key.h`） |
+| 02-oled | `i2c_scanner` | I2C 地址扫描调试工具 |
+| 02-oled | `oled_final` | OLED 成品显示 |
+| 02-oled | `oled_learning`（3 个 case） | 中文显示 / 波形 / 格言，配套[入门教学文档](./Arduino/alientek-dnesp32s3/02-oled/oled_learning/ESP32S3-OLED入门教学文档.md) |
+| 03-tft | `TFT1` | ST7789 粒子动画 demo |
+| 03-tft | `TFT_Audio_Demo` | TFT 显示 + I2S 音画同步 |
+| 03-tft | `TFT_WiFi_Stream` ⭐ | WiFi 实时推流到屏幕（配 `send_video/image/gif.py`） |
+
+> 依赖库 `TFT_eSPI` / `TJpg_Decoder` / `U8g2` 放在 `Arduino/libraries/`，**不随仓库收录**，需自行安装；
+> TFT_eSPI 的 `User_Setup.h` 关键配置已抄录在 [alientek-dnesp32s3/README.md](./Arduino/alientek-dnesp32s3/README.md)，照着改即可。
+
+---
+
 ## 🛠️ 怎么用
 
 ### ESP-IDF 工程（推荐 VS Code + ESP-IDF 插件）
@@ -149,7 +173,7 @@ idf.py -p COMx flash monitor      # COMx 换成实际串口
    https://espressif.github.io/arduino-esp32/package_esp32_index.json
    ```
 2. 开发板管理器搜 `esp32` 并安装，选择 **ESP32S3 Dev Module**
-3. 打开 `Arduino/01_led/01_led.ino` 上传（Arduino 要求 `.ino` 文件名与所在目录同名，改名时记得同步）
+3. 打开 `Arduino/alientek-dnesp32s3/01-basic/01_led/01_led.ino` 上传（Arduino 要求 `.ino` 文件名与所在目录同名，改名时记得同步）
 
 ---
 
@@ -172,6 +196,8 @@ idf.py -p COMx flash monitor      # COMx 换成实际串口
 ### 已完成
 - [x] 环境搭建（Arduino IDE + ESP-IDF 双环境）
 - [x] GPIO 输入输出（LED / 按键）
+- [x] OLED 显示（I2C 扫描 → 中文/波形实验 → 成品）
+- [x] TFT 彩屏（ST7789 驱动 → 音画同步 → WiFi 视频流）
 - [x] FreeRTOS 全套机制（任务 / 队列 / 信号量 / 事件组 / 任务通知）
 - [x] WiFi STA / AP / SmartConfig 配网
 - [x] TCP / UDP socket 编程
