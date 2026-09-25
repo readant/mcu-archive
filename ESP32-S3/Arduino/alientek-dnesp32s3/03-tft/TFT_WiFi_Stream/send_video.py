@@ -9,7 +9,7 @@ import time
 
 # ====== 设置 ======
 VIDEO_PATH = r"E:\Users\lu\Videos\2.mp4"
-ESP_IP = "192.168.137.187"
+ESP_IP = "192.168.137.81"
 # ==================
 
 

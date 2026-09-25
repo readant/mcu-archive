@@ -9,7 +9,7 @@ import time
 
 # ====== 设置 ======
 IMAGE_PATH = r"D:\Users\lu\Pictures\1.png"  # ← 改成你的图片路径
-ESP_IP = "192.168.137.145"
+ESP_IP = "192.168.137.81"
 # ==================
 
 
